@@ -9,6 +9,7 @@ import ErrorPage from "../pages/ErrorPage";
 import UpdatePlant from "../pages/UpdatePlant";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
+import PrivateRoute from "../auth/PrivateRoute";
 
 export const router = createBrowserRouter([
   {
@@ -21,11 +22,19 @@ export const router = createBrowserRouter([
       },
       {
         path: "/my-plants",
-        element: <MyPlants></MyPlants>,
+        element: (
+          <PrivateRoute>
+            <MyPlants></MyPlants>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/add-plant",
-        element: <AddPlant></AddPlant>,
+        element: (
+          <PrivateRoute>
+            <AddPlant></AddPlant>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/all-plants",

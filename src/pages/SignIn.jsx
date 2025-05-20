@@ -1,14 +1,126 @@
-import React from "react";
+import React, { useContext } from "react";
 import { AuthContext } from "../auth/AuthProvider";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const SignIn = () => {
+  const { logIn, logInWithGoogle, setUser, user } = useContext(AuthContext);
+  console.log(user);
+  const navigate = useNavigate();
+  const location = useLocation();
+  console.log(location);
+  const handleGoogleLogin = () => {
+    logInWithGoogle()
+      .then((res) => {
+        const user = res.user;
+        setUser(user);
+        toast.success("🦄 Log In Success !!", {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+
+        setTimeout(() => {
+          navigate(`${location.state ? location.state : "/"}`);
+        }, 2000);
+
+        //  navigate(`${location.state ? location.state : "/"}`);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("🦄 Log In Failed !!", {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
+      });
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
     console.log(email, password);
+
+    if (password.length < 7) {
+      toast.error("Password must be at least 7 characters long", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Please enter a valid email address", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      return;
+    }
+
+    if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$/.test(
+        password
+      )
+    ) {
+      toast.error(
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        }
+      );
+      return;
+    }
+
+    logIn(email, password).then((res) => {
+      const user = res.user;
+      console.log(user);
+      toast.success("🦄 Log In Success !!", {
+        position: "top-center",
+        autoClose: 4000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+    });
   };
   return (
     <div className="w-full h-screen max-w-md mx-auto p-4 rounded-md shadow sm:p-8 dark:bg-gray-50 dark:text-gray-800">
@@ -27,6 +139,7 @@ const SignIn = () => {
       </p>
       <div className="my-6 space-y-4">
         <button
+          onClick={handleGoogleLogin}
           aria-label="Login with Google"
           type="button"
           className="flex items-center justify-center w-full p-4 space-x-4 border rounded-md focus:ring-2 focus:ring-offset-1 dark:border-gray-600 focus:dark:ring-violet-600"
@@ -122,6 +235,7 @@ const SignIn = () => {
           Sign in
         </button>
       </form>
+      <ToastContainer></ToastContainer>
     </div>
   );
 };
