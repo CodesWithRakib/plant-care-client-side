@@ -4,7 +4,7 @@ import { AuthContext } from "../auth/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 
 const SignUp = () => {
-  const { createUser, updateUser } = useContext(AuthContext);
+  const { createUser, updateUser, setUser } = useContext(AuthContext);
   const handleSignUp = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -17,6 +17,7 @@ const SignUp = () => {
       .then((res) => {
         const user = res.user;
         console.log(user);
+        setUser(user);
         toast.success("🦄 Sign Up Success !!", {
           position: "top-center",
           autoClose: 4000,
