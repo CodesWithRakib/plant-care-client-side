@@ -97,6 +97,7 @@ const AddPlant = () => {
             </label>
             <input
               type="date"
+              value="2025-05-20"
               name="lastWateringDate"
               id="lastWateringDate"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
@@ -108,6 +109,7 @@ const AddPlant = () => {
             </label>
             <input
               type="date"
+              value="2025-05-20"
               name="nextWateringDate"
               id="nextWateringDate"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"

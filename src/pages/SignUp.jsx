@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { AuthContext } from "../auth/AuthProvider";
-import { toast, ToastContainer } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const SignUp = () => {
   const { createUser, updateUser, setUser } = useContext(AuthContext);
+  const navigate = useNavigate();
+  const location = useLocation();
   const handleSignUp = (e) => {
     e.preventDefault();
     const form = e.target;
@@ -12,6 +14,58 @@ const SignUp = () => {
     const email = form.email.value;
     const password = form.password.value;
     const photoURL = form.photoURL.value;
+
+    if (password.length < 7) {
+      toast.error("Password must be at least 7 characters long", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      toast.error("Please enter a valid email address", {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: false,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+        transition: Bounce,
+      });
+      return;
+    }
+
+    if (
+      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$/.test(
+        password
+      )
+    ) {
+      toast.error(
+        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
+        {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        }
+      );
+      return;
+    }
 
     createUser(email, password)
       .then((res) => {
@@ -38,13 +92,17 @@ const SignUp = () => {
           .catch((error) => {
             console.error("Error updating user:", error);
           });
+
+        setTimeout(() => {
+          navigate(`${location.state ? location.state : "/"}`);
+        }, 2000);
       })
       .catch((error) => {
         console.error(error);
       });
   };
   return (
-    <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-50 dark:text-gray-800 mx-auto my-10 h-screen">
+    <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-50 dark:text-gray-800 mx-auto my-10 ">
       <div className="mb-8 text-center">
         <h1 className="my-3 text-4xl font-bold">Register Account</h1>
         <p className="text-sm dark:text-gray-600">

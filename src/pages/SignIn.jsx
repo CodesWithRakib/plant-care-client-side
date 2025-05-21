@@ -54,46 +54,13 @@ const SignIn = () => {
     const password = form.password.value;
     console.log(email, password);
 
-    if (password.length < 7) {
-      toast.error("Password must be at least 7 characters long", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
-      return;
-    }
-
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      toast.error("Please enter a valid email address", {
-        position: "top-center",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
-      });
-      return;
-    }
-
-    if (
-      !/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_])[a-zA-Z\d\W_]{6,}$/.test(
-        password
-      )
-    ) {
-      toast.error(
-        "Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character",
-        {
+    logIn(email, password)
+      .then((res) => {
+        const user = res.user;
+        console.log(user);
+        toast.success("🦄 Log In Success !!", {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 4000,
           hideProgressBar: false,
           closeOnClick: false,
           pauseOnHover: true,
@@ -101,26 +68,26 @@ const SignIn = () => {
           progress: undefined,
           theme: "colored",
           transition: Bounce,
-        }
-      );
-      return;
-    }
+        });
 
-    logIn(email, password).then((res) => {
-      const user = res.user;
-      console.log(user);
-      toast.success("🦄 Log In Success !!", {
-        position: "top-center",
-        autoClose: 4000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-        transition: Bounce,
+        setTimeout(() => {
+          navigate(`${location.state ? location.state : "/"}`);
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.error("🦄 Log In Failed !!", {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       });
-    });
   };
   return (
     <div className="w-full h-screen max-w-md mx-auto p-4 rounded-md shadow sm:p-8 dark:bg-gray-50 dark:text-gray-800">
