@@ -1,13 +1,69 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { AuthContext } from "../auth/AuthProvider";
-import { ToastContainer } from "react-toastify";
+import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-datepicker/dist/react-datepicker.css";
+import DatePicker from "react-datepicker";
 
 const AddPlant = () => {
+  const { user } = useContext(AuthContext);
+  const [lastWateredDate, setLastWateredDate] = useState(new Date());
+  const [nextWateringDate, setNextWateringDate] = useState(new Date());
   const handleAddPlant = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const plantData = Object.fromEntries(formData);
-    console.log(plantData);
+
+    const plantData = {
+      image: formData.get("image"),
+      plantName: formData.get("plantName"),
+      category: formData.get("category"),
+      description: formData.get("description"),
+      careLevel: formData.get("careLevel"),
+      lastWateredDate: lastWateredDate.toISOString().split("T")[0],
+      nextWateringDate: nextWateringDate.toISOString().split("T")[0],
+      healthStatus: formData.get("healthStatus"),
+      wateringFrequency: formData.get("wateringFrequency"),
+      userName: formData.get("userName"),
+      userEmail: formData.get("userEmail"),
+    };
+
+    fetch("http://localhost:5000/api/plants", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(plantData),
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log(response);
+          toast.success("Plant added successfully!", {
+            position: "top-center",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+            transition: Bounce,
+          });
+          // event.target.reset();
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        toast.error("Error adding plant", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      });
   };
   return (
     <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-50 dark:text-gray-800 mx-auto my-10 ">
@@ -42,7 +98,7 @@ const AddPlant = () => {
             </label>
             <input
               type="text"
-              name="name"
+              name="plantName"
               id="name"
               placeholder="Leroy Jenkins"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
@@ -60,7 +116,7 @@ const AddPlant = () => {
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
             >
               <option value="succulent">Succulent</option>
-              <option value="cactus">Cactus</option>
+              <option value="flowering">Flowering</option>
               <option value="fern">Fern</option>
             </select>
           </div>
@@ -78,12 +134,12 @@ const AddPlant = () => {
             />
           </div>
           <div>
-            <label htmlFor="care" className="block mb-2 text-sm">
+            <label htmlFor="careLevel" className="block mb-2 text-sm">
               Care Instructions
             </label>
             <select
-              name="care"
-              id="care"
+              name="careLevel"
+              id="careLevel"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
             >
               <option value="easy">easy</option>
@@ -95,35 +151,59 @@ const AddPlant = () => {
             <label htmlFor="lastWateringDate" className="block mb-2 text-sm">
               Last Watering Date
             </label>
-            <input
-              type="date"
-              value="2025-05-20"
-              name="lastWateringDate"
-              id="lastWateringDate"
+
+            <DatePicker
+              selected={lastWateredDate}
+              onChange={(date) => setLastWateredDate(date)}
+              dateFormat="yyyy/MM/dd"
+              name="lastWateredDate"
+              id="lastWateredDate"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+              wrapperClassName="w-full"
+              placeholderText="Select a date"
             />
           </div>
+
           <div>
             <label htmlFor="nextWateringDate" className="block mb-2 text-sm">
               Next Watering Date
             </label>
-            <input
-              type="date"
-              value="2025-05-20"
+            <DatePicker
+              selected={nextWateringDate}
+              onChange={(date) => setNextWateringDate(date)}
+              dateFormat="yyyy/MM/dd"
               name="nextWateringDate"
               id="nextWateringDate"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+              wrapperClassName="w-full"
+              placeholderText="Select a date"
             />
           </div>
+
           <div>
             <label htmlFor="healthStatus" className="block mb-2 text-sm">
               Health Status
             </label>
-            <input
-              type="text"
+            <select
               name="healthStatus"
               id="healthStatus"
-              placeholder="Healthy"
+              className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+            >
+              <option value="healthy">Healthy</option>
+              <option value="average">Average</option>
+              <option value="needs attention">Needs Attention</option>
+              <option value="dying">Dying</option>
+            </select>
+          </div>
+          <div>
+            <label htmlFor="wateringFrequency" className="block mb-2 text-sm">
+              Watering Frequency
+            </label>
+            <input
+              type="text"
+              name="wateringFrequency"
+              id="wateringFrequency"
+              placeholder="Every 2 weeks"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
             />
           </div>
@@ -134,6 +214,8 @@ const AddPlant = () => {
             <input
               type="text"
               name="userName"
+              defaultValue={user?.displayName || ""}
+              readOnly
               id="userName"
               placeholder="Enter your name"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
@@ -146,6 +228,8 @@ const AddPlant = () => {
             <input
               type="email"
               name="userEmail"
+              defaultValue={user?.email || ""}
+              readOnly
               id="userEmail"
               placeholder="Enter your email"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
