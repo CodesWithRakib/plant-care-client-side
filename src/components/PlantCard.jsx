@@ -9,8 +9,12 @@ const PlantCard = ({ plant }) => {
     <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
       <td className="p-4">
         <img
-          src={image || noImage}
-          className="w-full h-20 max-h-full"
+          src={image ? image : noImage}
+          onError={(e) => {
+            e.target.onerror = null; // prevents looping
+            e.target.src = noImage;
+          }}
+          className="w-full h-20 max-h-full bg-cover rounded-lg"
           alt={plantName}
         />
       </td>
