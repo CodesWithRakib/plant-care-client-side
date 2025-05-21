@@ -16,7 +16,7 @@ const Hero = () => {
             Get Started
           </button>
           <button className="btn text-white bg-black rounded-full">
-            Learn More
+            Explore More
           </button>
         </div>
       </div>
