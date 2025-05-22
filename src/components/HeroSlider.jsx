@@ -7,7 +7,7 @@ const HeroSlider = ({ banner }) => {
       <div
         style={{
           backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),url(${image})`,
-
+          height: "calc(100vh - 100px)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}

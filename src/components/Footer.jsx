@@ -18,7 +18,7 @@ const Footer = () => {
           <NavLink to="/add-plant">Add Plant</NavLink>
         </li>
       </ul>
-      <div className="flex justify-around items-center gap-4 p-10  ">
+      <div className="flex flex-col md:flex-row  justify-center items-start gap-4 p-10  ">
         <div className="flex flex-col gap-2 items-start max-w-[400px]">
           <figure>
             <img

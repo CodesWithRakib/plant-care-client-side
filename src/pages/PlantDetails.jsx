@@ -18,7 +18,7 @@ const PlantDetails = () => {
   return (
     <div>
       <div className="">
-        <div className="flex gap-5 items-start justify-center py-10 px-5">
+        <div className="flex gap-5 items-start justify-center py-10 px-5 bg-white dark:bg-zinc-900 dark:text-white">
           <figure className="w-[40%]">
             <img
               src={image ? image : noImage}
