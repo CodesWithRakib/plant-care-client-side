@@ -51,7 +51,7 @@ const MyPlantCard = ({ plant }) => {
             <FaEdit size={20} />
           </Link>
           <Link
-            href="#"
+            to={`/delete-plant/${plant._id}`}
             class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
           >
             <MdDelete size={20} />

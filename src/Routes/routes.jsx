@@ -10,6 +10,7 @@ import UpdatePlant from "../pages/UpdatePlant";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import PrivateRoute from "../auth/PrivateRoute";
+import DeletedConfirmation from "../pages/DeletedConfirmation";
 
 export const router = createBrowserRouter([
   {
@@ -46,6 +47,10 @@ export const router = createBrowserRouter([
         element: <UpdatePlant></UpdatePlant>,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/api/plants/${params.id}`),
+      },
+      {
+        path: `/delete-plant/:id`,
+        element: <DeletedConfirmation></DeletedConfirmation>,
       },
       {
         path: "plant-details/:id",

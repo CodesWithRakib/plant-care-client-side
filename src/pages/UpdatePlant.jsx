@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useLoaderData } from "react-router";
 import { AuthContext } from "../auth/AuthProvider";
@@ -10,7 +10,6 @@ const UpdatePlant = () => {
   const [nextWateringDate, setNextWateringDate] = useState(
     data?.nextWateringDate
   );
-  const { user } = useContext(AuthContext);
 
   const {
     image,
@@ -86,9 +85,9 @@ const UpdatePlant = () => {
   return (
     <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-50 dark:text-gray-800 mx-auto my-10 ">
       <div className="mb-8 text-center">
-        <h1 className="my-3 text-4xl font-bold">Add Your Plant</h1>
+        <h1 className="my-3 text-4xl font-bold">Update Your Plant</h1>
         <p className="text-sm dark:text-gray-600">
-          Fill in the details below to add a new plant.
+          Fill in the details below to update your plant.
         </p>
       </div>
       <form

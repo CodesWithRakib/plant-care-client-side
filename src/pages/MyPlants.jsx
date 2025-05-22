@@ -12,7 +12,7 @@ const MyPlants = () => {
         <p>List of my plants goes here </p>
       </div>
 
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
         {data.map((plant) => (
           <MyPlantCard key={plant._id} plant={plant} />
         ))}
