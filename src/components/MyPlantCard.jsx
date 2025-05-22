@@ -1,13 +1,13 @@
 import React from "react";
 import noImage from "/No_Image.jpg";
-import { Link, useNavigate } from "react-router";
+import { Link } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
 import { toast, ToastContainer } from "react-toastify";
+import Swal from "sweetalert2";
 
 const MyPlantCard = ({ plant }) => {
-  const navigate = useNavigate();
   const {
     image,
     plantName,
@@ -18,42 +18,56 @@ const MyPlantCard = ({ plant }) => {
   } = plant;
 
   const handleDelete = () => {
-    fetch(`http://localhost:5000/api/plants/${plant._id}`, {
-      method: "DELETE",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (data.message) {
-          toast.success(data.message, {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      console.log(result.isConfirmed);
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/api/plants/${plant._id}`, {
+          method: "DELETE",
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data);
+            if (data.message) {
+              toast.success(data.message, {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+              });
+            }
+          })
+          .catch((error) => {
+            console.error("Error deleting plant:", error);
+            toast.error("Error deleting plant", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+            });
           });
-        }
-
-        setTimeout(() => {
-          navigate(`/delete-plant/${plant._id}`);
-        }, 2000);
-      })
-      .catch((error) => {
-        console.error("Error deleting plant:", error);
-        toast.error("Error deleting plant", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-        });
-      });
+        // Swal.fire({
+        //   title: "Deleted!",
+        //   text: "Your file has been deleted.",
+        //   icon: "success",
+        // });
+      }
+    });
   };
   return (
     <div

@@ -6,7 +6,7 @@ import logo from "/logo.jpg";
 const Footer = () => {
   return (
     <div className="bg-white  dark:bg-zinc-800 text-base-content dark:text-white py-10  poppins">
-      <ul className="flex gap-5 items-center text-lg font-light justify-center">
+      <ul className="flex gap-5 items-center  text-base sm:text-lg font-light justify-center ">
         <li>
           <NavLink to="/">Home</NavLink>
         </li>
@@ -20,7 +20,7 @@ const Footer = () => {
           <NavLink to="/add-plant">Add Plant</NavLink>
         </li>
       </ul>
-      <div className="flex flex-col md:flex-row  justify-center items-start gap-4 p-10  ">
+      <div className="flex flex-col md:flex-row  justify-center items-start md:items-center md:justify-between gap-4 p-10  ">
         <div className="flex flex-col gap-2 items-start max-w-[400px]">
           <figure>
             <img src={logo} alt="" className="w-12 h-12 rounded-full" />

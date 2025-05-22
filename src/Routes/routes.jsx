@@ -10,7 +10,6 @@ import UpdatePlant from "../pages/UpdatePlant";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import PrivateRoute from "../auth/PrivateRoute";
-import DeletedConfirmation from "../pages/DeletedConfirmation";
 import Loading from "../pages/Loading";
 
 export const router = createBrowserRouter([
@@ -51,10 +50,7 @@ export const router = createBrowserRouter([
           fetch(`http://localhost:5000/api/plants/${params.id}`),
         hydrateFallbackElement: <Loading></Loading>,
       },
-      {
-        path: `/delete-plant/:id`,
-        element: <DeletedConfirmation></DeletedConfirmation>,
-      },
+
       {
         path: "plant-details/:id",
         element: (
