@@ -81,18 +81,6 @@ const AddPlant = () => {
       >
         <div className="space-y-4">
           <div>
-            <label htmlFor="image" className="block mb-2 text-sm">
-              Image URL
-            </label>
-            <input
-              type="text"
-              name="image"
-              id="image"
-              placeholder="https://example.com/image.jpg"
-              className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
-            />
-          </div>
-          <div>
             <label htmlFor="name" className="block mb-2 text-sm">
               Plant Name
             </label>
@@ -101,6 +89,18 @@ const AddPlant = () => {
               name="plantName"
               id="name"
               placeholder="Leroy Jenkins"
+              className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+            />
+          </div>
+          <div>
+            <label htmlFor="image" className="block mb-2 text-sm">
+              Image URL
+            </label>
+            <input
+              type="text"
+              name="image"
+              id="image"
+              placeholder="https://example.com/image.jpg"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
             />
           </div>

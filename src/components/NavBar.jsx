@@ -1,10 +1,21 @@
-import React, { use } from "react";
+import React, { use, useState } from "react";
 import { NavLink } from "react-router";
 import logo from "/logo.jpg";
 import { AuthContext } from "../auth/AuthProvider";
+import { IoSunnySharp } from "react-icons/io5";
+import { BsFillMoonStarsFill } from "react-icons/bs";
 
 const NavBar = () => {
   const { user, logOut } = use(AuthContext);
+  const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  const toggleTheme = () => {
+    setTheme(theme === "dark" ? "light" : "dark");
+  };
+
+  React.useEffect(() => {
+    localStorage.setItem("theme", theme);
+    document.querySelector("html").setAttribute("data-theme", theme);
+  }, [theme]);
   const handleLogout = () => {
     logOut()
       .then(() => {
@@ -63,43 +74,62 @@ const NavBar = () => {
         </li>
       </ul>
 
-      {user ? (
-        <div className="relative group inline-block text-left">
-          <img
-            src={user?.photoURL}
-            alt={user?.displayName}
-            className="w-10 h-10 rounded-full cursor-pointer border border-gray-300"
-          />
-
-          {/* Hover box */}
-          <div className="absolute right-0 hidden group-hover:flex flex-col items-center justify-center bg-white border shadow-lg z-10 rounded-md w-40 py-5">
-            <span className="font-semibold text-zinc-900">
-              {user?.displayName || "User"}
-            </span>
+      <div className="flex gap-5 items-center">
+        <div>
+          {theme === "dark" ? (
             <button
-              onClick={handleLogout}
-              className="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+              onClick={toggleTheme}
+              className="p-2 rounded-full bg-gray-800 text-white  hover:bg-gray-700"
             >
-              Log Out
+              <IoSunnySharp />
             </button>
+          ) : (
+            <button
+              onClick={toggleTheme}
+              className="p-2 rounded-full bg-gray-200 text-gray-800  hover:bg-gray-300"
+            >
+              <BsFillMoonStarsFill />
+            </button>
+          )}
+        </div>
+        {user ? (
+          <div className="relative group inline-block text-left">
+            <img
+              src={user?.photoURL}
+              alt={user?.displayName}
+              className="w-10 h-10 rounded-full cursor-pointer border border-gray-300"
+            />
+
+            {/* Hover box */}
+            <div className="absolute right-0 hidden group-hover:flex flex-col items-center justify-center bg-white border shadow-lg z-10 rounded-md w-40 py-5">
+              <span className="font-semibold text-zinc-900">
+                {user?.displayName || "User"}
+              </span>
+              <button
+                onClick={handleLogout}
+                className="mt-2 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 text-sm"
+              >
+                Log Out
+              </button>
+            </div>
           </div>
-        </div>
-      ) : (
-        <div className="flex gap-5 text-sm">
-          <NavLink
-            className="px-5 py-1 bg-green-500 text-white rounded-full hover:bg-green-600"
-            to="/login"
-          >
-            Login
-          </NavLink>
-          <NavLink
-            className="px-5 py-1 bg-green-500 text-white rounded-full hover:bg-green-600"
-            to="/register"
-          >
-            Register
-          </NavLink>
-        </div>
-      )}
+        ) : (
+          <div className="flex gap-5 text-sm">
+            <NavLink
+              className="px-5 py-1 bg-green-500 text-white rounded-full hover:bg-green-600"
+              to="/login"
+            >
+              Login
+            </NavLink>
+            <NavLink
+              className="px-5 py-1 bg-green-500 text-white rounded-full hover:bg-green-600"
+              to="/register"
+            >
+              Register
+            </NavLink>
+          </div>
+        )}
+      </div>
       {/* User Profile */}
     </div>
   );

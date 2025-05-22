@@ -27,6 +27,7 @@ export const router = createBrowserRouter([
             <MyPlants></MyPlants>
           </PrivateRoute>
         ),
+        loader: () => fetch("http://localhost:5000/api/plants"),
       },
       {
         path: "/add-plant",
@@ -43,6 +44,8 @@ export const router = createBrowserRouter([
       {
         path: "/update-plant/:id",
         element: <UpdatePlant></UpdatePlant>,
+        loader: ({ params }) =>
+          fetch(`http://localhost:5000/api/plants/${params.id}`),
       },
       {
         path: "plant-details/:id",
