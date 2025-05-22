@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import PlantCard from "../components/PlantCard";
+import { Link } from "react-router";
 
 const AllPlants = () => {
   const [plants, setPlants] = useState([]);
@@ -28,7 +29,18 @@ const AllPlants = () => {
 
   console.log("Sorted Plants:", sortedPlants);
 
-  return (
+  return plants.length === 0 ? (
+    <div className="flex flex-col gap-2 items-center justify-center">
+      <h1 className="text-2xl font-bold">No Plants Found</h1>
+      <p className="text-lg">You haven't added any plants yet.</p>
+      <Link
+        to={"/add-plant"}
+        className="btn px-5 text-white bg-green-600 hover:bg-green-700 rounded-full"
+      >
+        Add Plants
+      </Link>
+    </div>
+  ) : (
     <div className="max-w-7xl mx-auto px-4 py-8 bg-green-50 text-zinc-900">
       <h1 className="text-3xl font-bold mb-6 text-center">All Plants</h1>
 

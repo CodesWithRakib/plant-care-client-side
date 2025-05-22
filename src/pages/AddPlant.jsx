@@ -85,6 +85,7 @@ const AddPlant = () => {
               Plant Name
             </label>
             <input
+              required
               type="text"
               name="plantName"
               id="name"
@@ -97,6 +98,7 @@ const AddPlant = () => {
               Image URL
             </label>
             <input
+              required
               type="text"
               name="image"
               id="image"
@@ -111,6 +113,7 @@ const AddPlant = () => {
               </label>
             </div>
             <select
+              required
               name="category"
               id="category"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
@@ -126,6 +129,7 @@ const AddPlant = () => {
               Description
             </label>
             <input
+              required
               type="text"
               name="description"
               id="description"
@@ -138,6 +142,7 @@ const AddPlant = () => {
               Care Instructions
             </label>
             <select
+              required
               name="careLevel"
               id="careLevel"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
@@ -153,6 +158,7 @@ const AddPlant = () => {
             </label>
 
             <DatePicker
+              required
               selected={lastWateredDate}
               onChange={(date) => setLastWateredDate(date)}
               dateFormat="yyyy/MM/dd"
@@ -169,6 +175,7 @@ const AddPlant = () => {
               Next Watering Date
             </label>
             <DatePicker
+              required
               selected={nextWateringDate}
               onChange={(date) => setNextWateringDate(date)}
               dateFormat="yyyy/MM/dd"
@@ -185,6 +192,7 @@ const AddPlant = () => {
               Health Status
             </label>
             <select
+              required
               name="healthStatus"
               id="healthStatus"
               className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
@@ -200,6 +208,7 @@ const AddPlant = () => {
               Watering Frequency
             </label>
             <input
+              required
               type="text"
               name="wateringFrequency"
               id="wateringFrequency"
@@ -212,6 +221,7 @@ const AddPlant = () => {
               User Name
             </label>
             <input
+              required
               type="text"
               name="userName"
               defaultValue={user?.displayName || ""}
@@ -226,6 +236,7 @@ const AddPlant = () => {
               User Email
             </label>
             <input
+              required
               type="email"
               name="userEmail"
               defaultValue={user?.email || ""}

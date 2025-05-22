@@ -8,9 +8,9 @@ const Root = () => {
   const { user } = use(AuthContext);
   console.log(user);
   return (
-    <div>
+    <div className="">
       <NavBar></NavBar>
-      <div>
+      <div className="max-w-screen-2xl mx-auto bg-green-50">
         <Outlet></Outlet>
       </div>
       <Footer></Footer>

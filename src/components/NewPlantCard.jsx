@@ -1,19 +1,31 @@
 import React from "react";
-import mangoImage from "/mango-2.webp";
+import noImage from "/No_Image.jpg";
+import { Link } from "react-router";
 
-const NewPlantCard = () => {
+const NewPlantCard = ({ plant }) => {
   return (
     <div className="flex gap-5 items-center justify-around py-10 px-10 bg-white text-zinc-900">
       <figure className="w-[40%]">
-        <img src={mangoImage} alt="" className="w-full" />
+        <img
+          src={plant.image ? plant.image : noImage}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = noImage;
+          }}
+          alt=""
+          className="w-full"
+        />
       </figure>
       <div className="w-[60%] flex flex-col gap-2 ">
-        <h3 className="text-xl font-semibold">Plant Name</h3>
-        <p className="text-sm">Category: Plant Category</p>
-        <p className="text-sm">Price: $XX.XX</p>
-        <button className="btn   text-white bg-black rounded-full">
+        <h3 className="text-xl font-semibold">{plant.name}</h3>
+        <p className="text-sm">Category: {plant.category}</p>
+        <p className="text-sm">{plant.description}</p>
+        <Link
+          to={`/plant-details/${plant._id}`}
+          className="btn   text-white bg-black rounded-full"
+        >
           View Details
-        </button>
+        </Link>
       </div>
     </div>
   );

@@ -1,20 +1,29 @@
 import React from "react";
-import { useLoaderData } from "react-router";
+import { Link, useLoaderData } from "react-router";
 import MyPlantCard from "../components/MyPlantCard";
 
 const MyPlants = () => {
   const { data } = useLoaderData();
   console.log(data);
-  return (
+  return data.length === 0 ? (
+    <div className="flex flex-col gap-2 items-center justify-center p-5 ">
+      <h1 className="text-2xl font-bold">No Plants Found</h1>
+      <p className="text-lg">You haven't added any plants yet.</p>
+      <Link
+        to={"/add-plant"}
+        className="btn px-5 text-white bg-green-600 hover:bg-green-700 rounded-full"
+      >
+        Add Plants
+      </Link>
+    </div>
+  ) : (
     <div>
-      <div>
-        <h1>My Plants</h1>
-        <p>List of my plants goes here </p>
+      <div className="flex flex-col gap-2 items-center justify-center">
+        <h1 className="text-2xl font-bold">My Plants</h1>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-5">
         {data.map((plant) => (
-          <MyPlantCard key={plant._id} plant={plant} />
+          <MyPlantCard key={plant._id} plant={plant}></MyPlantCard>
         ))}
       </div>
     </div>
