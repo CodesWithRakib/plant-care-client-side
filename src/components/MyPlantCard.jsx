@@ -1,11 +1,13 @@
 import React from "react";
 import noImage from "/No_Image.jpg";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
+import { toast, ToastContainer } from "react-toastify";
 
 const MyPlantCard = ({ plant }) => {
+  const navigate = useNavigate();
   const {
     image,
     plantName,
@@ -14,6 +16,45 @@ const MyPlantCard = ({ plant }) => {
     wateringFrequency,
     lastWateredDate,
   } = plant;
+
+  const handleDelete = () => {
+    fetch(`http://localhost:5000/api/plants/${plant._id}`, {
+      method: "DELETE",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (data.message) {
+          toast.success(data.message, {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        }
+
+        setTimeout(() => {
+          navigate(`/delete-plant/${plant._id}`);
+        }, 2000);
+      })
+      .catch((error) => {
+        console.error("Error deleting plant:", error);
+        toast.error("Error deleting plant", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        });
+      });
+  };
   return (
     <div
       class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm 
@@ -50,13 +91,15 @@ const MyPlantCard = ({ plant }) => {
           >
             <FaEdit size={20} />
           </Link>
-          <Link
-            to={`/delete-plant/${plant._id}`}
+          <button
+            onClick={handleDelete}
+            // to={`/delete-plant/${plant._id}`}
             class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
           >
             <MdDelete size={20} />
-          </Link>
+          </button>
         </div>
+        <ToastContainer></ToastContainer>
       </div>
     </div>
   );
