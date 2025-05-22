@@ -63,7 +63,7 @@ const MyPlantCard = ({ plant }) => {
     >
       <a href="#">
         <img
-          class="p-8 rounded-t-lg"
+          class="p-8 w-full h-80 rounded-t-lg"
           src={image ? image : noImage}
           onError={(e) => {
             e.target.onerror = null; // prevents looping

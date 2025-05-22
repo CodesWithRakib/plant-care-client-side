@@ -21,7 +21,7 @@ const PlantCard = ({ plant }) => {
             e.target.onerror = null; // prevents looping
             e.target.src = noImage;
           }}
-          className="w-full h-20 max-h-full bg-cover rounded-lg"
+          className="w-full h-40 max-h-full bg-cover rounded-lg"
           alt={plantName}
         />
       </td>

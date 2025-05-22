@@ -17,7 +17,7 @@ const NewPlantCard = ({ plant }) => {
         />
       </figure>
       <div className="w-[60%] flex flex-col gap-2 ">
-        <h3 className="text-xl font-semibold">{plant.name}</h3>
+        <h3 className="text-xl font-semibold">{plant.plantName}</h3>
         <p className="text-sm">Category: {plant.category}</p>
         <p className="text-sm">{plant.description}</p>
         <Link
