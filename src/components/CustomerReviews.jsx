@@ -33,13 +33,16 @@ const CustomerReviews = () => {
   ];
 
   return (
-    <section className="bg-white py-12 px-4">
-      <h2 className="text-3xl font-bold text-center text-green-800 mb-8">
+    <section className="bg-white dark:bg-zinc-800 py-12 px-4">
+      <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-8">
         🌟 What Our Customers Say
       </h2>
       <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
         {customerReviews.map((review) => (
-          <div key={review.id} className="bg-green-50 rounded-xl p-6 shadow-md">
+          <div
+            key={review.id}
+            className="bg-green-50 dark:bg-zinc-900 rounded-xl p-6 shadow-md"
+          >
             <div className="flex items-center gap-4 mb-4">
               <img
                 src={review.avatarUrl}
@@ -47,11 +50,17 @@ const CustomerReviews = () => {
                 className="w-12 h-12 rounded-full"
               />
               <div>
-                <h4 className="font-semibold text-green-900">{review.name}</h4>
-                <p className="text-sm text-gray-500">{review.location}</p>
+                <h4 className="font-semibold text-green-700 dark:text-green-500">
+                  {review.name}
+                </h4>
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {review.location}
+                </p>
               </div>
             </div>
-            <p className="text-gray-700 italic">“{review.review}”</p>
+            <p className="text-gray-700 dark:text-gray-400 italic">
+              “{review.review}”
+            </p>
             <div className="mt-4 text-yellow-500">
               {"⭐".repeat(review.rating)}
               {"☆".repeat(5 - review.rating)}

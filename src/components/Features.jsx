@@ -58,21 +58,23 @@ const Features = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-green-50">
-      <h2 className="text-4xl font-bold text-center text-green-800 mb-10">
+    <section className="py-16 px-4 bg-green-50 dark:bg-zinc-800 ">
+      <h2 className="text-4xl font-bold text-center text-green-700 dark:text-green-500 mb-10">
         🌟 Amazing Features
       </h2>
       <div className="grid md:grid-cols-4 sm:grid-cols-2 gap-6 max-w-6xl mx-auto">
         {features.map((feature) => (
           <div
             key={feature.id}
-            className="bg-white p-6 rounded-xl shadow text-center"
+            className="bg-white dark:bg-zinc-900 p-6 rounded-xl shadow text-center"
           >
             <div className="text-4xl mb-4">{feature?.icon}</div>
-            <h3 className="text-xl font-semibold text-green-700">
+            <h3 className="text-xl font-semibold text-green-700 dark:text-green-500">
               {feature?.title}
             </h3>
-            <p className="text-gray-600 text-sm mt-2">{feature?.description}</p>
+            <p className="text-gray-600 dark:text-gray-400 text-sm mt-2">
+              {feature?.description}
+            </p>
           </div>
         ))}
       </div>

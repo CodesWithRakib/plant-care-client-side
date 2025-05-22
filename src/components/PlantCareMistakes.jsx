@@ -33,20 +33,22 @@ const plantMistakes = [
 
 const PlantCareMistakes = () => {
   return (
-    <section className="py-12 px-4 bg-green-50">
-      <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
+    <section className="py-12 px-4 bg-green-50 dark:bg-zinc-800">
+      <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-6">
         🌿 Top Plant Care Mistakes
       </h2>
       <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
         {plantMistakes.map((mistake, index) => (
           <div
             key={index}
-            className="bg-white shadow-md rounded-lg p-5 border-l-4 border-red-400"
+            className="bg-white dark:bg-zinc-900 shadow-md rounded-lg p-5 border-l-4 border-red-400"
           >
-            <h3 className="text-xl font-semibold text-red-600">
+            <h3 className="text-xl font-semibold text-red-600 dark:text-red-700">
               {mistake.title}
             </h3>
-            <p className="mt-2 text-gray-700">{mistake.description}</p>
+            <p className="mt-2 text-gray-700 dark:text-gray-400">
+              {mistake.description}
+            </p>
           </div>
         ))}
       </div>

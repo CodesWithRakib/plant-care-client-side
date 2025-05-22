@@ -8,7 +8,7 @@ import Features from "../components/Features";
 
 const Home = () => {
   return (
-    <div>
+    <div className="dark:bg-gray-900">
       <Hero></Hero>
       <NewPlants></NewPlants>
       <Features></Features>

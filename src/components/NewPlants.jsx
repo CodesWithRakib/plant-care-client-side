@@ -242,7 +242,7 @@ const NewPlants = () => {
       });
   }, []);
   return (
-    <div className="bg-green-50 text-zinc-900">
+    <div className="bg-green-50 dark:bg-zinc-800 dark:text-white text-zinc-900">
       <div className="text-center py-10 px-10">
         <h1 className="text-5xl font-bold">New Plants</h1>
 

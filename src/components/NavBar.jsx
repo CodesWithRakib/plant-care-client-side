@@ -26,17 +26,21 @@ const NavBar = () => {
       });
   };
   return (
-    <div className="flex justify-between items-center bg-white text-zinc-800 p-4">
+    <div className="flex justify-between items-center bg-white dark:bg-zinc-800 dark:text-white text-zinc-800 p-4">
       <div className="flex gap-2 items-center">
         <figure>
-          <img src={logo} alt="" className="w-12 h-12 rounded-full" />
+          <img
+            src={logo}
+            alt=""
+            className="sm:w-12 w-16 sm:h-12 rounded-full"
+          />
         </figure>
-        <div className="flex flex-col">
+        <div className="hidden sm:flex flex-col">
           <h3 className="text-xl ">Green Nest</h3>
           <p className="text-sm font-thin">Care Your Plants</p>
         </div>
       </div>
-      <ul className="flex gap-5 items-center text-lg font-light">
+      <ul className="hidden sm:flex gap-5 items-center text-sm md:text-lg font-light">
         <li>
           {" "}
           <NavLink
@@ -81,14 +85,14 @@ const NavBar = () => {
               onClick={toggleTheme}
               className="p-2 rounded-full bg-gray-800 text-white  hover:bg-gray-700"
             >
-              <IoSunnySharp />
+              <BsFillMoonStarsFill />
             </button>
           ) : (
             <button
               onClick={toggleTheme}
               className="p-2 rounded-full bg-gray-200 text-gray-800  hover:bg-gray-300"
             >
-              <BsFillMoonStarsFill />
+              <IoSunnySharp />
             </button>
           )}
         </div>
