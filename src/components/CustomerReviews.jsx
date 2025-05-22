@@ -34,7 +34,7 @@ const CustomerReviews = () => {
 
   return (
     <section className="bg-white dark:bg-zinc-800 py-12 px-4">
-      <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-8">
+      <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-8 poppins">
         🌟 What Our Customers Say
       </h2>
       <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
@@ -50,7 +50,7 @@ const CustomerReviews = () => {
                 className="w-12 h-12 rounded-full"
               />
               <div>
-                <h4 className="font-semibold text-green-700 dark:text-green-500">
+                <h4 className="font-semibold text-green-700 dark:text-green-500 poppins">
                   {review.name}
                 </h4>
                 <p className="text-sm text-gray-500 dark:text-gray-400">

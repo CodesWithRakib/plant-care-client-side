@@ -66,7 +66,7 @@ const AddPlant = () => {
       });
   };
   return (
-    <div className="flex flex-col max-w-md p-6 rounded-md sm:p-10 dark:bg-gray-50 dark:text-gray-800 mx-auto my-10 ">
+    <div className="flex flex-col  w-full p-6 rounded-md sm:p-10 dark:bg-zinc-900 dark:text-white mx-auto  ">
       <div className="mb-8 text-center">
         <h1 className="my-3 text-4xl font-bold">Add Your Plant</h1>
         <p className="text-sm dark:text-gray-600">
@@ -251,7 +251,8 @@ const AddPlant = () => {
           <div>
             <button
               type="submit"
-              className="w-full px-8 py-3 font-semibold rounded-md dark:bg-violet-600 dark:text-gray-50"
+              className="w-full px-8 py-3 font-semibold rounded-md 
+              bg-green-700 text-white hover:bg-green-800 transition dark:bg-green-500 dark:text-gray-50"
             >
               Add Plant
             </button>

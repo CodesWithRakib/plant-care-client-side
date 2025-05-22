@@ -8,7 +8,7 @@ const Root = () => {
   const { user } = use(AuthContext);
   console.log(user);
   return (
-    <div className="">
+    <div className="open-sans">
       <NavBar></NavBar>
       <div className="max-w-screen-2xl mx-auto bg-green-50 dark:bg-zinc-800">
         <Outlet></Outlet>

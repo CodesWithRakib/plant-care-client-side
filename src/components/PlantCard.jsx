@@ -13,7 +13,7 @@ const PlantCard = ({ plant }) => {
     category,
   } = plant;
   return (
-    <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
+    <tr className="bg-white border-b dark:bg-zinc-900 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
       <td className="p-4">
         <img
           src={image ? image : noImage}

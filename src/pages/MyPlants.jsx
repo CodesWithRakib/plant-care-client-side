@@ -2,6 +2,7 @@ import React, { use } from "react";
 import { Link, useLoaderData } from "react-router";
 import MyPlantCard from "../components/MyPlantCard";
 import { AuthContext } from "../auth/AuthProvider";
+import NoPlants from "../components/NoPlants";
 
 const MyPlants = () => {
   const { data } = useLoaderData();
@@ -11,16 +12,7 @@ const MyPlants = () => {
   );
 
   return userAddedPlants.length === 0 ? (
-    <div className="flex flex-col gap-2 items-center justify-center p-5 ">
-      <h1 className="text-2xl font-bold">No Plants Found</h1>
-      <p className="text-lg">You haven't added any plants yet.</p>
-      <Link
-        to={"/add-plant"}
-        className="btn px-5 text-white bg-green-600 hover:bg-green-700 rounded-full"
-      >
-        Add Plants
-      </Link>
-    </div>
+    <NoPlants></NoPlants>
   ) : (
     <div>
       <div className="flex flex-col gap-2 items-center justify-center">

@@ -13,7 +13,8 @@ const HeroSlider = ({ banner }) => {
         }}
         className="flex gap-5 items-center justify-between  text-white py-10"
       >
-        <div className="flex flex-col gap-1 tracking-tight w-full md:max-w-[50vw]  p-10 justify-center ">
+        <div className="flex flex-col gap-1 tracking-tight w-full md:max-w-[50vw]  p-10 justify-center poppins ">
+          <h1 className="text-3xl md:text-4xl">{heading}</h1>
           <h3 className="text-lg md:text-2xl">{subHeading}</h3>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold">
             {title}

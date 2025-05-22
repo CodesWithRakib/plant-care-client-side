@@ -34,7 +34,7 @@ const plantMistakes = [
 const PlantCareMistakes = () => {
   return (
     <section className="py-12 px-4 bg-green-50 dark:bg-zinc-800">
-      <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-6">
+      <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-6 poppins">
         🌿 Top Plant Care Mistakes
       </h2>
       <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">

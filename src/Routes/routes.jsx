@@ -11,6 +11,7 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import PrivateRoute from "../auth/PrivateRoute";
 import DeletedConfirmation from "../pages/DeletedConfirmation";
+import Loading from "../pages/Loading";
 
 export const router = createBrowserRouter([
   {
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: () => fetch("http://localhost:5000/api/plants"),
+        hydrateFallbackElement: <Loading></Loading>,
       },
       {
         path: "/add-plant",
@@ -47,6 +49,7 @@ export const router = createBrowserRouter([
         element: <UpdatePlant></UpdatePlant>,
         loader: ({ params }) =>
           fetch(`http://localhost:5000/api/plants/${params.id}`),
+        hydrateFallbackElement: <Loading></Loading>,
       },
       {
         path: `/delete-plant/:id`,
@@ -61,6 +64,7 @@ export const router = createBrowserRouter([
         ),
         loader: ({ params }) =>
           fetch(`http://localhost:5000/api/plants/${params.id}`),
+        hydrateFallbackElement: <Loading></Loading>,
       },
     ],
   },

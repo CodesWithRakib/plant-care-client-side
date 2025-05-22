@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from "react";
 import PlantCard from "../components/PlantCard";
-import { Link } from "react-router";
+import { Link, useNavigation } from "react-router";
+import NoPlants from "../components/NoPlants";
 
 const AllPlants = () => {
   const [plants, setPlants] = useState([]);
   const [sortOption, setSortOption] = useState("");
-
+  const { state } = useNavigation();
+  console.log(state === "idle");
   useEffect(() => {
     fetch("http://localhost:5000/api/plants")
       .then((res) => res.json())
@@ -29,30 +31,21 @@ const AllPlants = () => {
 
   console.log("Sorted Plants:", sortedPlants);
 
-  return plants.length === 0 ? (
-    <div className="flex flex-col gap-2 items-center justify-center">
-      <h1 className="text-2xl font-bold">No Plants Found</h1>
-      <p className="text-lg">You haven't added any plants yet.</p>
-      <Link
-        to={"/add-plant"}
-        className="btn px-5 text-white bg-green-600 hover:bg-green-700 rounded-full"
-      >
-        Add Plants
-      </Link>
-    </div>
+  return plants?.length === 0 ? (
+    <NoPlants></NoPlants>
   ) : (
-    <div className="max-w-7xl mx-auto px-4 py-8 bg-green-50 text-zinc-900">
+    <div className="max-w-7xl mx-auto px-4 py-8 bg-green-50 dark:bg-zinc-800 dark:text-white text-zinc-900">
       <h1 className="text-3xl font-bold mb-6 text-center">All Plants</h1>
 
       <div className="mb-6 text-zinc-800 text-right">
-        <label htmlFor="sort" className="mr-2 font-medium">
+        <label htmlFor="sort" className="mr-2 font-medium dark:text-white">
           Sort by:
         </label>
         <select
           id="sort"
           value={sortOption}
           onChange={(e) => setSortOption(e.target.value)}
-          className="border px-3 py-2 rounded-md"
+          className="border px-3 py-2 rounded-md dark:bg-zinc-900 dark:text-white"
         >
           <option value="">None</option>
           <option value="nextWateringDate">Next Watering Date</option>
@@ -62,7 +55,7 @@ const AllPlants = () => {
 
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg bg-white">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-green-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs text-gray-700 uppercase bg-green-50 dark:bg-zinc-900 dark:text-white">
             <tr>
               <th scope="col" className="px-16 py-3">
                 Plant Image

@@ -26,7 +26,7 @@ const NavBar = () => {
       });
   };
   return (
-    <div className="flex justify-between items-center bg-white dark:bg-zinc-800 dark:text-white text-zinc-800 p-4">
+    <div className="flex justify-between items-center bg-white dark:bg-zinc-800 dark:text-white text-zinc-800 p-4 poppins">
       <div className="flex gap-2 items-center">
         <figure>
           <img
@@ -35,7 +35,7 @@ const NavBar = () => {
             className="sm:w-12 w-16 sm:h-12 rounded-full"
           />
         </figure>
-        <div className="hidden sm:flex flex-col">
+        <div className="hidden sm:flex flex-col pacifico">
           <h3 className="text-xl ">Green Nest</h3>
           <p className="text-sm font-thin">Care Your Plants</p>
         </div>

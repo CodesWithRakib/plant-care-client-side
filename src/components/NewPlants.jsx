@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import NewPlantCard from "./NewPlantCard";
 import Loading from "../pages/Loading";
-import { useNavigate } from "react-router";
+
+import NoPlants from "../components/NoPlants";
 
 const NewPlants = () => {
   // const newPlants = [
@@ -232,7 +233,7 @@ const NewPlants = () => {
   //   },
   // ];
   const [newPlants, setNewPlants] = useState([]);
-  const navigate = useNavigate();
+
   console.log(newPlants);
   useEffect(() => {
     fetch("http://localhost:5000/api/plants")
@@ -244,7 +245,7 @@ const NewPlants = () => {
   return (
     <div className="bg-green-50 dark:bg-zinc-800 dark:text-white text-zinc-900">
       <div className="text-center py-10 px-10">
-        <h1 className="text-5xl font-bold">New Plants</h1>
+        <h1 className="text-5xl font-bold poppins">New Plants</h1>
 
         <p className="mt-2 text-lg">
           Discover the latest additions to our plant collection.
@@ -253,18 +254,7 @@ const NewPlants = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-10">
         {newPlants.length === 0 ? (
-          <div className="flex flex-col items-center justify-center">
-            <h2 className="text-3xl font-bold text-center text-green-800 mb-6">
-              No New Plants Found
-            </h2>
-            <p className="text-center">Please add some new Plants</p>
-            <button
-              onClick={() => navigate("/add-plant")}
-              className="btn px-5 text-white bg-green-600 hover:bg-green-700 rounded-full"
-            >
-              Add plants
-            </button>
-          </div>
+          <NoPlants></NoPlants>
         ) : (
           newPlants.map((plant) => (
             <NewPlantCard key={plant._id} plant={plant} />
