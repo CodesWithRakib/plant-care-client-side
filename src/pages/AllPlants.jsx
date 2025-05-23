@@ -14,7 +14,7 @@ const AllPlants = () => {
     fetch("http://localhost:5000/api/plants")
       .then((res) => res.json())
       .then((data) => {
-        setPlants(data.data);
+        setPlants(data);
         setLoading(false);
       })
       .catch((err) => console.error("Error fetching plants:", err));

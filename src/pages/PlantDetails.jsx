@@ -4,7 +4,7 @@ import noImage from "/No_Image.jpg";
 import { format } from "date-fns";
 
 const PlantDetails = () => {
-  const { data } = useLoaderData();
+  const data = useLoaderData();
   const {
     image,
     plantName,

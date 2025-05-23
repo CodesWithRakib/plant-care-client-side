@@ -34,7 +34,7 @@ const AddPlant = () => {
       body: JSON.stringify(plantData),
     })
       .then((response) => {
-        if (response.ok) {
+        if (response) {
           console.log(response);
           toast.success("Plant added successfully!", {
             position: "top-center",

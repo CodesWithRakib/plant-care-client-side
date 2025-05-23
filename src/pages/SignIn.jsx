@@ -29,8 +29,6 @@ const SignIn = () => {
         setTimeout(() => {
           navigate(`${location.state ? location.state : "/"}`);
         }, 2000);
-
-        //  navigate(`${location.state ? location.state : "/"}`);
       })
       .catch((error) => {
         console.error(error);

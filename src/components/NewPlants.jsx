@@ -239,7 +239,7 @@ const NewPlants = () => {
     fetch("http://localhost:5000/api/plants")
       .then((response) => response.json())
       .then((data) => {
-        setNewPlants(data.data);
+        setNewPlants(data);
       });
   }, []);
   return (
@@ -253,10 +253,10 @@ const NewPlants = () => {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-10">
-        {newPlants.length === 0 ? (
+        {newPlants?.length === 0 ? (
           <NoPlants></NoPlants>
         ) : (
-          newPlants.map((plant) => (
+          newPlants?.map((plant) => (
             <NewPlantCard key={plant._id} plant={plant} />
           ))
         )}

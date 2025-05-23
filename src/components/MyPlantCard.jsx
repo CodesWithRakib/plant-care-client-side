@@ -35,8 +35,8 @@ const MyPlantCard = ({ plant }) => {
           .then((response) => response.json())
           .then((data) => {
             console.log(data);
-            if (data.message) {
-              toast.success(data.message, {
+            if (data.deletedCount > 0) {
+              toast.success("Plant deleted successfully", {
                 position: "top-center",
                 autoClose: 5000,
                 hideProgressBar: false,

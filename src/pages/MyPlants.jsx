@@ -6,13 +6,13 @@ import NoPlants from "../components/NoPlants";
 import Loading from "../pages/Loading";
 
 const MyPlants = () => {
-  const { data } = useLoaderData();
+  const data = useLoaderData();
   const { state } = useNavigation();
   console.log(state);
 
   const { user } = use(AuthContext);
-  const userAddedPlants = data.filter(
-    (plant) => plant.userEmail === user.email
+  const userAddedPlants = data?.filter(
+    (plant) => plant?.userEmail === user?.email
   );
 
   return state === "loading" ? (

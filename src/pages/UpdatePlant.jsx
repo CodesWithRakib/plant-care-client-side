@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useLoaderData } from "react-router";
-import { AuthContext } from "../auth/AuthProvider";
 import { toast, ToastContainer } from "react-toastify";
 
 const UpdatePlant = () => {
-  const { data } = useLoaderData();
+  const data = useLoaderData();
   const [lastWateredDate, setLastWateredDate] = useState(data?.lastWateredDate);
   const [nextWateringDate, setNextWateringDate] = useState(
     data?.nextWateringDate
@@ -55,8 +54,8 @@ const UpdatePlant = () => {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        if (data.status) {
-          toast.success(data.message, {
+        if (data.modifiedCount > 0) {
+          toast.success("Plant updated successfully!", {
             position: "top-center",
             autoClose: 5000,
             hideProgressBar: false,
@@ -70,7 +69,7 @@ const UpdatePlant = () => {
       })
       .catch((error) => {
         console.error(error);
-        toast.error(error.message, {
+        toast.error("Failed to update plant.", {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,
