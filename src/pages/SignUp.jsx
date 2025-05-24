@@ -130,7 +130,7 @@ const SignUp = () => {
   };
   return (
     <div className="flex items-center justify-center bg-green-50 dark:bg-zinc-800 dark:text-white">
-      <div className="flex flex-col w-full  max-w-lg p-6 rounded-md sm:p-10 dark:bg-zinc-900 bg-white dark:text-white mx-auto ">
+      <div className="flex flex-col w-full  max-w-lg p-6 rounded-md sm:p-10 h-screen dark:bg-zinc-900 bg-white dark:text-white mx-auto ">
         <div className="mb-8 text-center">
           <h1 className="my-3 text-4xl font-bold">Register Account</h1>
           <p className="text-sm dark:text-gray-400">

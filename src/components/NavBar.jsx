@@ -13,6 +13,7 @@ const NavBar = () => {
   const today = format(new Date(), "PP");
   const navigate = useNavigate();
   const { user, logOut } = use(AuthContext);
+  console.log(user);
 
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const toggleTheme = () => {
@@ -68,7 +69,7 @@ const NavBar = () => {
             <p className="text-sm font-thin">Care Your Plants</p>
           </div>
         </div>
-        <ul className="hidden sm:flex gap-5 items-center text-sm md:text-lg font-light">
+        <ul className="hidden md:flex gap-5 items-center text-sm md:text-lg font-light">
           <li>
             {" "}
             <NavLink
@@ -146,7 +147,22 @@ const NavBar = () => {
               </button>
             )}
           </div>
-          {user ? (
+          {!user ? (
+            <div className="flex gap-2 text-sm">
+              <NavLink
+                className="px-5 py-1 bg-green-500 text-white rounded-full hover:bg-green-600"
+                to="/login"
+              >
+                Login
+              </NavLink>
+              <NavLink
+                className="px-5 py-1 bg-green-500 text-white rounded-full hover:bg-green-600"
+                to="/register"
+              >
+                Register
+              </NavLink>
+            </div>
+          ) : (
             <div
               onClick={() => navigate("/profile")}
               className="relative group inline-block text-right"
@@ -170,27 +186,6 @@ const NavBar = () => {
                 </button>
               </div>
             </div>
-          ) : (
-            <>
-              {!user ? (
-                ""
-              ) : (
-                <div className="flex gap-2 text-sm">
-                  <NavLink
-                    className="px-5 py-1 bg-green-500 text-white rounded-full hover:bg-green-600"
-                    to="/login"
-                  >
-                    Login
-                  </NavLink>
-                  <NavLink
-                    className="px-5 py-1 bg-green-500 text-white rounded-full hover:bg-green-600"
-                    to="/register"
-                  >
-                    Register
-                  </NavLink>
-                </div>
-              )}
-            </>
           )}
         </div>
         {/* User Profile */}
