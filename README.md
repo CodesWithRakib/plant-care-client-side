@@ -29,7 +29,7 @@ Green Nest is a full-stack plant management application that helps users log, tr
 - **Backend:** Express.js, MongoDB,Cors , dotenv
 - **Authentication:** Firebase Auth
 - **Deployment:** Firebase (Client), Vercel (Server)
-- **Additional Packages:** Date-fns, React Toastify ,Sweetalert2 ,react-slick, slick-carousel,flowbite
+- **Additional Packages:** Date-fns, React Toastify ,Sweetalert2 ,react-slick, slick-carousel,flowbite,react-tooltip
 
 ---
 

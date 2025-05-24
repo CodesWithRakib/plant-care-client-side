@@ -6,6 +6,8 @@ import { IoSunnySharp } from "react-icons/io5";
 import { BsFillMoonStarsFill } from "react-icons/bs";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { format } from "date-fns";
+import "react-tooltip/dist/react-tooltip.css";
+import { Tooltip } from "react-tooltip";
 
 const NavBar = () => {
   const today = format(new Date(), "PP");
@@ -52,7 +54,7 @@ const NavBar = () => {
   };
   return (
     <>
-      <div className="flex justify-between gap-4 items-center bg-white dark:bg-zinc-800 dark:text-white text-zinc-800 p-4 poppins">
+      <div className="flex justify-between gap-4 items-center bg-white dark:bg-zinc-800 dark:text-white text-zinc-800 px-4 py-8 poppins">
         <div onClick={() => navigate("/")} className="flex gap-2 items-center">
           <figure>
             <img
@@ -70,43 +72,64 @@ const NavBar = () => {
           <li>
             {" "}
             <NavLink
+              id="tooltip"
               className={({ isActive }) => (isActive ? "text-green-600" : "")}
               to="/"
             >
               Home
             </NavLink>
+            <Tooltip anchorSelect="#tooltip" place="bottom">
+              {" "}
+              Go back to the homepage
+            </Tooltip>
           </li>
           <li>
             <NavLink
+              id="all-plants"
               className={({ isActive }) => (isActive ? "text-green-600" : "")}
               to={"/all-plants"}
             >
               All Plants
             </NavLink>
+            <Tooltip anchorSelect="#all-plants" place="bottom">
+              {" "}
+              View all plants
+            </Tooltip>
           </li>
           <li>
             {" "}
             <NavLink
+              id="my-plants"
               className={({ isActive }) => (isActive ? "text-green-600" : "")}
               to="/my-plants"
             >
               My Plants
             </NavLink>
+            <Tooltip anchorSelect="#my-plants" place="bottom">
+              {" "}
+              View and manage your added plants
+            </Tooltip>
           </li>
           <li>
             {" "}
             <NavLink
+              id="add-plant"
               className={({ isActive }) => (isActive ? "text-green-600" : "")}
               to="/add-plant"
             >
               Add Plant
             </NavLink>
+            <Tooltip anchorSelect="#add-plant" place="bottom">
+              {" "}
+              Add a new plant to your care list
+            </Tooltip>
           </li>
         </ul>
 
         <div className="flex gap-2 items-center justify-between">
           <div className="flex items-center gap-2">
             <p className="text-sm font-thin">{today}</p>
+
             {theme === "dark" ? (
               <button
                 onClick={toggleTheme}

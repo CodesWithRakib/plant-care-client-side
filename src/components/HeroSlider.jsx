@@ -23,12 +23,12 @@ const HeroSlider = ({ banner }) => {
             {description}
           </p>
           <div className="flex gap-4 mt-2">
-            <button className="btn px-5 text-white bg-green-600  hover:bg-green-700 rounded-full">
+            <a className="btn px-5 text-white bg-green-600  hover:bg-green-700 rounded-full ">
               Get Started
-            </button>
-            <button className="btn px-5 text-white bg-green-600 hover:bg-green-700 rounded-full">
+            </a>
+            <a className="btn px-5 text-white bg-green-600 hover:bg-green-700 rounded-full ">
               Explore More
-            </button>
+            </a>
           </div>
         </div>
       </div>
