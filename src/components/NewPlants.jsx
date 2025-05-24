@@ -234,9 +234,8 @@ const NewPlants = () => {
   // ];
   const [newPlants, setNewPlants] = useState([]);
 
-  console.log(newPlants);
   useEffect(() => {
-    fetch("http://localhost:5000/api/plants")
+    fetch("https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants")
       .then((response) => response.json())
       .then((data) => {
         setNewPlants(data);

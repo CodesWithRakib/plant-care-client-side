@@ -1,26 +1,36 @@
 import React, { useEffect, useState } from "react";
 import PlantCard from "../components/PlantCard";
-import { Link, useNavigation } from "react-router";
+import { Link } from "react-router";
 import NoPlants from "../components/NoPlants";
 import Loading from "../pages/Loading";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const AllPlants = () => {
   const [plants, setPlants] = useState([]);
   const [sortOption, setSortOption] = useState("");
   const [loading, setLoading] = useState(true);
-  const { state } = useNavigation();
-  console.log(state === "idle");
+
   useEffect(() => {
-    fetch("http://localhost:5000/api/plants")
+    fetch("https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants")
       .then((res) => res.json())
       .then((data) => {
         setPlants(data);
         setLoading(false);
       })
-      .catch((err) => console.error("Error fetching plants:", err));
+      .catch((err) =>
+        toast.error(`Error fetching plants: ${err?.message}`, {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        })
+      );
   }, []);
-
-  // console.log("Plants:", plants);
 
   const sortedPlants = [...plants].sort((a, b) => {
     if (sortOption === "nextWateringDate") {
@@ -33,8 +43,6 @@ const AllPlants = () => {
     }
     return 0;
   });
-
-  console.log("Sorted Plants:", sortedPlants);
 
   return loading ? (
     <Loading></Loading>
@@ -94,6 +102,7 @@ const AllPlants = () => {
               </tbody>
             </table>
           </div>
+          <ToastContainer></ToastContainer>
         </div>
       ) : (
         <NoPlants></NoPlants>

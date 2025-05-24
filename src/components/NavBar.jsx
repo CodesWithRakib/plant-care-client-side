@@ -4,6 +4,7 @@ import logo from "/logo.jpg";
 import { AuthContext } from "../auth/AuthProvider";
 import { IoSunnySharp } from "react-icons/io5";
 import { BsFillMoonStarsFill } from "react-icons/bs";
+import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const NavBar = () => {
   const { user, logOut } = use(AuthContext);
@@ -19,10 +20,30 @@ const NavBar = () => {
   const handleLogout = () => {
     logOut()
       .then(() => {
-        console.log("Logged out successfully");
+        toast.success("Log Out Success", {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       })
       .catch((error) => {
-        console.error("Error logging out:", error);
+        toast.error(`Error logging out: ${error?.message}`, {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+          transition: Bounce,
+        });
       });
   };
   return (
@@ -134,6 +155,7 @@ const NavBar = () => {
           </div>
         )}
       </div>
+      <ToastContainer></ToastContainer>
       {/* User Profile */}
     </div>
   );

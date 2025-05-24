@@ -70,7 +70,7 @@ const SignUp = () => {
     createUser(email, password)
       .then((res) => {
         const user = res.user;
-        console.log(user);
+
         setUser(user);
         toast.success("🦄 Sign Up Success !!", {
           position: "top-center",
@@ -87,10 +87,28 @@ const SignUp = () => {
         }
         updateUser({ displayName: name, photoURL })
           .then(() => {
-            console.log("User updated successfully");
+            toast.success("User Updated", {
+              position: "top-center",
+              autoClose: 4000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
           })
           .catch((error) => {
-            console.error("Error updating user:", error);
+            toast.error(`Error updating user: ${error?.message}`, {
+              position: "top-center",
+              autoClose: 4000,
+              hideProgressBar: false,
+              closeOnClick: false,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "colored",
+            });
           });
 
         setTimeout(() => {
@@ -98,7 +116,16 @@ const SignUp = () => {
         }, 2000);
       })
       .catch((error) => {
-        console.error(error);
+        toast.error(`Error creating user: ${error?.message}`, {
+          position: "top-center",
+          autoClose: 4000,
+          hideProgressBar: false,
+          closeOnClick: false,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "colored",
+        });
       });
   };
   return (

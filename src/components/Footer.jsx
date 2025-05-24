@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink } from "react-router";
+import { Link, NavLink } from "react-router";
 import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa";
 import logo from "/logo.jpg";
 
@@ -43,9 +43,18 @@ const Footer = () => {
         <nav>
           <h6 className="footer-title">Social</h6>
           <div className="grid grid-flow-col gap-4">
-            <FaFacebook className="text-3xl"></FaFacebook>
-            <FaInstagram className="text-3xl"></FaInstagram>
-            <FaTwitter className="text-3xl"></FaTwitter>
+            <Link to="https://www.facebook.com/CodesWithRakib/" target="_blank">
+              <FaFacebook className="text-3xl"></FaFacebook>
+            </Link>
+            <Link
+              to="https://www.instagram.com/codeswithrakib/"
+              target="_blank"
+            >
+              <FaInstagram className="text-3xl"></FaInstagram>
+            </Link>
+            <Link to="https://x.com/CodesWithRakib" target="_blank">
+              <FaTwitter className="text-3xl"></FaTwitter>
+            </Link>
           </div>
         </nav>
       </div>

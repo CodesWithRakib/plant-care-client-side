@@ -42,18 +42,18 @@ const UpdatePlant = () => {
       userEmail: formData.get("userEmail"),
     };
 
-    console.log(plantData);
-
-    fetch(`http://localhost:5000/api/plants/${data._id}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(plantData),
-    })
+    fetch(
+      `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${data._id}`,
+      {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(plantData),
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.modifiedCount > 0) {
           toast.success("Plant updated successfully!", {
             position: "top-center",
@@ -68,8 +68,7 @@ const UpdatePlant = () => {
         }
       })
       .catch((error) => {
-        console.error(error);
-        toast.error("Failed to update plant.", {
+        toast.error(`Error updating plant: ${error?.message}`, {
           position: "top-center",
           autoClose: 5000,
           hideProgressBar: false,

@@ -14,10 +14,10 @@ const PlantDetails = () => {
     category,
     description,
   } = data;
-  console.log(data);
+
   return (
     <div className="">
-      <div className="flex flex-col sn:flex-row gap-5 items-start justify-center py-10 px-5 bg-white dark:bg-zinc-900 dark:text-white">
+      <div className="flex flex-col sm:flex-row gap-5 items-start justify-center py-10 px-5 bg-white dark:bg-zinc-900 dark:text-white">
         <figure className="w-full sm:w-[40%]">
           <img
             src={image ? image : noImage}

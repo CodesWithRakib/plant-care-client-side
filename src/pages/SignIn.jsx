@@ -4,11 +4,11 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 
 const SignIn = () => {
-  const { logIn, logInWithGoogle, setUser, user } = useContext(AuthContext);
-  console.log(user);
+  const { logIn, logInWithGoogle, setUser } = useContext(AuthContext);
+
   const navigate = useNavigate();
   const location = useLocation();
-  console.log(location);
+
   const handleGoogleLogin = () => {
     logInWithGoogle()
       .then((res) => {
@@ -31,8 +31,7 @@ const SignIn = () => {
         }, 2000);
       })
       .catch((error) => {
-        console.error(error);
-        toast.error("🦄 Log In Failed !!", {
+        toast.error(`🦄 Log In Failed !! ${error?.message}`, {
           position: "top-center",
           autoClose: 4000,
           hideProgressBar: false,
@@ -50,12 +49,9 @@ const SignIn = () => {
     const form = e.target;
     const email = form.email.value;
     const password = form.password.value;
-    console.log(email, password);
 
     logIn(email, password)
-      .then((res) => {
-        const user = res.user;
-        console.log(user);
+      .then(() => {
         toast.success("🦄 Log In Success !!", {
           position: "top-center",
           autoClose: 4000,
@@ -73,8 +69,7 @@ const SignIn = () => {
         }, 2000);
       })
       .catch((error) => {
-        console.error(error);
-        toast.error("🦄 Log In Failed !!", {
+        toast.error(`🦄 Log In Failed !! ${error?.message}`, {
           position: "top-center",
           autoClose: 4000,
           hideProgressBar: false,

@@ -26,7 +26,7 @@ const AddPlant = () => {
       userEmail: formData.get("userEmail"),
     };
 
-    fetch("http://localhost:5000/api/plants", {
+    fetch("https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -35,7 +35,6 @@ const AddPlant = () => {
     })
       .then((response) => {
         if (response) {
-          console.log(response);
           toast.success("Plant added successfully!", {
             position: "top-center",
             autoClose: 2000,
@@ -51,8 +50,7 @@ const AddPlant = () => {
         }
       })
       .catch((error) => {
-        console.error("Error:", error);
-        toast.error("Error adding plant", {
+        toast.error(`Error adding plant: ${error?.message}`, {
           position: "top-center",
           autoClose: 2000,
           hideProgressBar: false,

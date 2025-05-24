@@ -8,7 +8,6 @@ import Loading from "../pages/Loading";
 const MyPlants = () => {
   const data = useLoaderData();
   const { state } = useNavigation();
-  console.log(state);
 
   const { user } = use(AuthContext);
   const userAddedPlants = data?.filter(
@@ -26,9 +25,9 @@ const MyPlants = () => {
       ) : (
         <div>
           <div className="flex flex-col gap-2 items-center justify-center">
-            <h1 className="text-2xl font-bold">My Plants</h1>
+            <h1 className="text-2xl font-bold dark:text-white">My Plants</h1>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5 p-5 items-center justify-center">
             {userAddedPlants.map((plant) => (
               <MyPlantCard key={plant._id} plant={plant}></MyPlantCard>
             ))}

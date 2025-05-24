@@ -52,8 +52,6 @@ const AuthProvider = ({ children }) => {
     };
   }, []);
 
-  console.log(user);
-
   const userData = {
     logIn,
     logOut,

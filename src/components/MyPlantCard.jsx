@@ -27,14 +27,15 @@ const MyPlantCard = ({ plant }) => {
       cancelButtonColor: "#d33",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
-      console.log(result.isConfirmed);
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/api/plants/${plant._id}`, {
-          method: "DELETE",
-        })
+        fetch(
+          `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${plant._id}`,
+          {
+            method: "DELETE",
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
-            console.log(data);
             if (data.deletedCount > 0) {
               toast.success("Plant deleted successfully", {
                 position: "top-center",
@@ -49,8 +50,7 @@ const MyPlantCard = ({ plant }) => {
             }
           })
           .catch((error) => {
-            console.error("Error deleting plant:", error);
-            toast.error("Error deleting plant", {
+            toast.error(`Error deleting plant: ${error?.message}`, {
               position: "top-center",
               autoClose: 5000,
               hideProgressBar: false,
@@ -71,13 +71,13 @@ const MyPlantCard = ({ plant }) => {
   };
   return (
     <div
-      class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow-sm 
+      className="w-full max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-sm 
     text-zinc-800
     "
     >
       <a href="#">
         <img
-          class="p-8 w-full h-80 rounded-t-lg"
+          className="p-8 w-full h-80 rounded-t-lg"
           src={image ? image : noImage}
           onError={(e) => {
             e.target.onerror = null; // prevents looping
@@ -86,9 +86,11 @@ const MyPlantCard = ({ plant }) => {
           alt="product image"
         />
       </a>
-      <div class="px-5 pb-5 flex flex-col gap-2">
+      <div className="px-5 pb-5 flex flex-col gap-2">
         <a href="#">
-          <h5 class="text-xl font-semibold tracking-tight  ">{plantName}</h5>
+          <h5 className="text-xl font-semibold tracking-tight  ">
+            {plantName}
+          </h5>
         </a>
         <div>
           <p className="text-sm">Watering Frequency: {wateringFrequency}</p>
@@ -98,17 +100,17 @@ const MyPlantCard = ({ plant }) => {
           </p>
           <p className="text-sm">Care Level: {careLevel}</p>
         </div>
-        <div class="flex items-center justify-between">
+        <div className="flex items-center justify-between">
           <Link
             to={`/update-plant/${plant._id}`}
-            class="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
           >
             <FaEdit size={20} />
           </Link>
           <button
             onClick={handleDelete}
             // to={`/delete-plant/${plant._id}`}
-            class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
           >
             <MdDelete size={20} />
           </button>

@@ -28,7 +28,10 @@ export const router = createBrowserRouter([
             <MyPlants></MyPlants>
           </PrivateRoute>
         ),
-        loader: () => fetch("http://localhost:5000/api/plants"),
+        loader: () =>
+          fetch(
+            "https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants"
+          ),
         hydrateFallbackElement: <Loading></Loading>,
       },
       {
@@ -47,7 +50,9 @@ export const router = createBrowserRouter([
         path: "/update-plant/:id",
         element: <UpdatePlant></UpdatePlant>,
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/api/plants/${params.id}`),
+          fetch(
+            `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${params.id}`
+          ),
         hydrateFallbackElement: <Loading></Loading>,
       },
 
@@ -59,7 +64,9 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/api/plants/${params.id}`),
+          fetch(
+            `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${params.id}`
+          ),
         hydrateFallbackElement: <Loading></Loading>,
       },
     ],
