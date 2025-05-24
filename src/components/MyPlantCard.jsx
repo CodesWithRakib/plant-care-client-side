@@ -71,13 +71,13 @@ const MyPlantCard = ({ plant }) => {
   };
   return (
     <div
-      className="w-full max-w-sm mx-auto bg-white border border-gray-200 rounded-lg shadow-sm 
+      className="w-full max-w-md mx-auto bg-white dark:bg-zinc-900 dark:text-white border border-gray-200 rounded-lg shadow-sm 
     text-zinc-800
     "
     >
       <a href="#">
         <img
-          className="p-8 w-full h-80 rounded-t-lg"
+          className=" w-full h-80 rounded-t-lg"
           src={image ? image : noImage}
           onError={(e) => {
             e.target.onerror = null; // prevents looping
@@ -86,19 +86,29 @@ const MyPlantCard = ({ plant }) => {
           alt="product image"
         />
       </a>
-      <div className="px-5 pb-5 flex flex-col gap-2">
+      <div className="px-5 py-5 flex flex-col gap-2">
         <a href="#">
-          <h5 className="text-xl font-semibold tracking-tight  ">
+          <h5 className="text-xl font-semibold tracking-tight text-green-500  ">
             {plantName}
           </h5>
         </a>
         <div>
-          <p className="text-sm">Watering Frequency: {wateringFrequency}</p>
-          <p>Last Watered Date: {format(lastWateredDate, "yyyy-MM-dd")}</p>
-          <p className="text-sm">
-            Next Watering Date: {format(nextWateringDate, "yyyy-MM-dd")}
+          <p className="text-sm ">
+            <span className="font-semibold"> Watering Frequency:</span>{" "}
+            {wateringFrequency}
           </p>
-          <p className="text-sm">Care Level: {careLevel}</p>
+          <p>
+            <span className="font-semibold">Last Watered Date:</span>{" "}
+            {format(lastWateredDate, "yyyy-MM-dd")}
+          </p>
+          <p className="text-sm">
+            <span className="font-semibold">Next Watering Date:</span>{" "}
+            {format(nextWateringDate, "yyyy-MM-dd")}
+          </p>
+          <p className="text-sm">
+            <span className="font-semibold">Care Level:</span>{" "}
+            <span className="text-green-600">{careLevel}</span>
+          </p>
         </div>
         <div className="flex items-center justify-between">
           <Link

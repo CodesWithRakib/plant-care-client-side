@@ -6,7 +6,7 @@ import logo from "/logo.jpg";
 const Footer = () => {
   return (
     <div className="bg-white  dark:bg-zinc-800 text-base-content dark:text-white py-10  poppins">
-      <ul className="flex gap-5 items-center  text-base sm:text-lg font-light justify-center ">
+      <ul className="flex gap-5 items-center  text-base text-xs sm:text-sm md:text-lg font-light justify-center px-5 ">
         <li>
           <NavLink to="/">Home</NavLink>
         </li>

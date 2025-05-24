@@ -46,7 +46,7 @@ const AddPlant = () => {
             theme: "light",
             transition: Bounce,
           });
-          // event.target.reset();
+          event.target.reset();
         }
       })
       .catch((error) => {

@@ -11,6 +11,7 @@ import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import PrivateRoute from "../auth/PrivateRoute";
 import Loading from "../pages/Loading";
+import UserProfile from "../pages/UserProfile";
 
 export const router = createBrowserRouter([
   {
@@ -45,6 +46,14 @@ export const router = createBrowserRouter([
       {
         path: "/all-plants",
         element: <AllPlants></AllPlants>,
+      },
+      {
+        path: "/profile",
+        element: (
+          <PrivateRoute>
+            <UserProfile></UserProfile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/update-plant/:id",

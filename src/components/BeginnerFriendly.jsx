@@ -178,7 +178,7 @@ const BeginnerFriendly = () => {
       <h2 className="text-3xl font-bold text-center text-green-700 dark:text-green-500 mb-6">
         🌱 Beginner-Friendly Plants
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
         {beginnerPlants.map((plant) => (
           <div
             key={plant.id}
@@ -189,13 +189,15 @@ const BeginnerFriendly = () => {
               alt={plant.name}
               className="w-full h-48 object-cover rounded"
             />
-            <h3 className="text-xl font-semibold mt-3 text-green-700 dark:text-green-500">
-              {plant.name}
-            </h3>
-            <p className="text-gray-600 dark:text-gray-400 text-sm">
-              {plant.description}
-            </p>
-            <ul className="mt-2 text-sm text-gray-700 dark:text-gray-400">
+            <div className="mt-4">
+              <h3 className="text-xl font-semibold mt-3 text-green-700 dark:text-green-500">
+                {plant.name}
+              </h3>
+              <p className="text-gray-600 dark:text-gray-400 text-sm">
+                {plant.description}
+              </p>
+            </div>
+            <ul className="mt-2 text-sm text-gray-700 dark:text-gray-400 py-5">
               <li>
                 <strong>Light:</strong> {plant.careTips.light}
               </li>
@@ -208,7 +210,7 @@ const BeginnerFriendly = () => {
               <li>
                 <strong>Humidity:</strong> {plant.careTips.humidity}
               </li>
-              <li>
+              <li className="py-5">
                 <strong>Special Features:</strong>{" "}
                 {plant.specialFeatures.join(", ")}
               </li>

@@ -123,7 +123,7 @@ const Hero = () => {
     slidesToScroll: 1,
   };
   return (
-    <div>
+    <div className="w-full">
       <Slider {...settings}>
         {banners.map((banner) => (
           <HeroSlider key={banner.id} banner={banner}></HeroSlider>

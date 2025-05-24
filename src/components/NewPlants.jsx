@@ -233,12 +233,14 @@ const NewPlants = () => {
   //   },
   // ];
   const [newPlants, setNewPlants] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetch("https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants")
       .then((response) => response.json())
       .then((data) => {
         setNewPlants(data);
+        setLoading(false);
       });
   }, []);
   return (
@@ -251,15 +253,19 @@ const NewPlants = () => {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 p-10">
-        {newPlants?.length === 0 ? (
-          <NoPlants></NoPlants>
-        ) : (
-          newPlants?.map((plant) => (
-            <NewPlantCard key={plant._id} plant={plant} />
-          ))
-        )}
-      </div>
+      {loading ? (
+        <Loading></Loading>
+      ) : (
+        <div className="grid grid-cols-1  sm:grid-cols-2 lg:grid-cols-3 gap-5 p-5 lg:p-10 ">
+          {newPlants?.length === 0 ? (
+            <NoPlants></NoPlants>
+          ) : (
+            newPlants?.map((plant) => (
+              <NewPlantCard key={plant._id} plant={plant} />
+            ))
+          )}
+        </div>
+      )}
     </div>
   );
 };

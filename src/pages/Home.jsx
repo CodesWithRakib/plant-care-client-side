@@ -5,16 +5,18 @@ import PlantCareMistakes from "../components/PlantCareMistakes";
 import BeginnerFriendly from "../components/BeginnerFriendly";
 import CustomerReviews from "../components/CustomerReviews";
 import Features from "../components/Features";
+import Accordion from "../components/Accordion";
 
 const Home = () => {
   return (
-    <div className="dark:bg-gray-900">
+    <div className="">
       <Hero></Hero>
       <NewPlants></NewPlants>
       <Features></Features>
       <PlantCareMistakes></PlantCareMistakes>
       <BeginnerFriendly></BeginnerFriendly>
       <CustomerReviews></CustomerReviews>
+      <Accordion></Accordion>
     </div>
   );
 };
