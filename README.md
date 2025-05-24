@@ -19,6 +19,7 @@ Green Nest is a full-stack plant management application that helps users log, tr
 - 🎨 **Fully Responsive Design** for mobile, tablet, and desktop
 - 🎥 **Interactive UI** using react and tailwindcss
 - 📧 **Personalized Data** saved per user with secure access
+- 🌐 **Share Your Plants** with friends and family
 - 🚫 Custom **404 Page** and route protection for private routes
 
 ---
