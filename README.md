@@ -66,39 +66,48 @@ client/
 ├── package-lock.json
 ├── src/
 │   ├── layouts/
+│   │   ├── Root.jsx
 │   ├── auth/
+│   │   ├── AuthProvider.jsx
+│   │   ├── PrivateRoute.jsx
 │   ├── firebase/
+│   │   ├── firebase.config.js
 │   ├── Routes/
+│   │   ├── routes.jsx
 │   ├── firebase/
 │   ├── assets/
 │   │   ├── cover.png
-│
 │   ├── index.css
 │   ├── main.jsx
 │   ├── components/
-│   │   ├── AddPlant.js
-│   │   ├── AllPlants.js
-│   │   ├── Banner.js
-│   │   ├── FAQs.js
-│   │   ├── Footer.js
-│   │   ├── Header.js
-│   │   ├── Home.js
-│   │   ├── NewPlants.js
-│   │   ├── Plant.js
-│   │   ├── PrivateRoute.js
-│   │   ├── UpdatePlant.js
-│   │   ├── UserProfile.js
-│   │   └── UserPlants.js
-│   ├── firebase.config.js
+│   │   ├── BeginnerFriendly.jsx
+│   │   ├── CustomerReviews.jsx
+│   │   ├── AllPlants.jsx
+│   │   ├── Hero.jsx
+│   │   ├── Accordion.jsx
+│   │   ├── Footer.jsx
+│   │   ├── Features.jsx
+│   │   ├── HeroSlider.jsx
+│   │   ├── NewPlants.jsx
+│   │   ├── NewPlantCard.jsx
+│   │   ├── NoPlants.jsx
+│   │   ├── MyPlantCard.jsx
+│   │   ├── UpdatePlant.jsx
+│   │   ├── PlantCard.jsx
+│   │   └── PlantCareMistake.jsx
 │   ├── pages/
-│   │   ├── ErrorPage.js
-│   │   ├── Login.js
-│   │   ├── Register.js
-│   │   └── SharedPlants.js
-│   ├── Routes/
-│   │   ├── PrivateRoute.js
-│   │   ├── routes.js
-│   │   └── userRoutes.js
+│   │   ├── ErrorPage.jsx
+│   │   ├── SignIn.jsx
+│   │   ├── SignUp.jsx
+│   │   └── AddPlant.jsx
+│   │   └── AllPlants.jsx
+│   │   └── Home.jsx
+│   │   └── Loading.jsx
+│   │   └── MyPlants.jsx
+│   │   └── PlantDetails.jsx
+│   │   └── UserProfile.jsx
+│   │   └── UpdatePlant.jsx
+
  server/
 ├── index.js
 ├── .env
@@ -107,6 +116,60 @@ client/
 └── package-lock.json
 
 ```
+
+---
+
+# Home Page
+
+![Home Page](https://i.ibb.co/7NNBW1Bw/green-nest-plant-care-tracker-web-app-all-plants-5.png)
+
+---
+
+# All Plants Page
+
+![All Plants Page](https://i.ibb.co/6RykVZsr/green-nest-plant-care-tracker-web-app-all-plants-4.png)
+
+---
+
+# My Plants Page
+
+![My Plants Page](https://i.ibb.co/Kpcw3tyL/green-nest-plant-care-tracker-web-app-all-plants-3.png)
+
+---
+
+# Add Plant Page
+
+![Add Plant Page](https://i.ibb.co/mVHRwkP2/green-nest-plant-care-tracker-web-app-all-plants-2.png)
+
+---
+
+# Plant Details Page
+
+![Plant Details Page](https://i.ibb.co/BVmw6wVN/green-nest-plant-care-tracker-web-app-all-plants-6.png)
+
+---
+
+# Update Plant Page
+
+![Update Plant Page](https://i.ibb.co/q3TkGDTf/localhost-5173-2.png)
+
+---
+
+# Login Page
+
+![Login Page](https://i.ibb.co/7J7PRwJb/green-nest-plant-care-tracker-web-app-all-plants-7.png)
+
+---
+
+# Sign Up Page
+
+![Sign Up Page](https://i.ibb.co/h1BGDJdB/green-nest-plant-care-tracker-web-app-all-plants-8.png)
+
+---
+
+# Error Page
+
+![Error Page](https://i.ibb.co/M5Bp8szS/localhost-5173-update-plant-682ef6925bec0472159d52fd-dfdsf.png)
 
 ## 🌟 Deployment Goals & Rules Met
 
