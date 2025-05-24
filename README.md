@@ -1,6 +1,6 @@
 # 🌿 Green Nest - Plant Care Tracker
 
-![Green Nest - Plant Care Tracker](https://github.com/Programming-Hero-Web-Course4/b11a10-client-side-CodesWithRakib/tree/main/src/assets/cover.png?raw=true)
+![Green Nest - Plant Care Tracker](https://i.ibb.co/DDwYm12Q/cover.png)
 Made with ❤️ by [Md.Rakib Islam](https://github.com/CodesWithRakib)
 **Live Website:** [Green Nest](https://green-nest-plant-care-tracker.web.app/)
 
@@ -127,4 +127,4 @@ Thank you for visiting the Green Nest Plant Care Tracker! We hope you find it us
 
 ## 🌟 Enjoy the Green Nest Plant Care Tracker! 🌱
 
-![Green Nest - Plant Care Tracker](https://github.com/Programming-Hero-Web-Course4/b11a10-client-side-CodesWithRakib/tree/main/src/assets/cover.png?raw=true)
+![Green Nest - Plant Care Tracker](https://i.ibb.co/DDwYm12Q/cover.png)
