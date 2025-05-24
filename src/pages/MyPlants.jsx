@@ -1,20 +1,29 @@
-import React, { use } from "react";
-import { Link, useLoaderData, useNavigation } from "react-router";
+import React, { use, useEffect } from "react";
+import { Link } from "react-router";
 import MyPlantCard from "../components/MyPlantCard";
 import { AuthContext } from "../auth/AuthProvider";
 import NoPlants from "../components/NoPlants";
 import Loading from "../pages/Loading";
 
 const MyPlants = () => {
-  const data = useLoaderData();
-  const { state } = useNavigation();
+  const [plants, setPlants] = React.useState([]);
+  const [loading, setLoading] = React.useState(true);
 
   const { user } = use(AuthContext);
-  const userAddedPlants = data?.filter(
+  const userAddedPlants = plants?.filter(
     (plant) => plant?.userEmail === user?.email
   );
 
-  return state === "loading" ? (
+  useEffect(() => {
+    fetch("https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants")
+      .then((res) => res.json())
+      .then((data) => {
+        setPlants(data);
+        setLoading(false);
+      });
+  }, [plants]);
+
+  return loading ? (
     <Loading></Loading>
   ) : userAddedPlants.length === 0 ? (
     <NoPlants></NoPlants>
