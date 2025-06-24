@@ -1,9 +1,9 @@
 import React from "react";
-
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
 import HeroSlider from "./HeroSlider";
+
 const Hero = () => {
   const banners = [
     {
@@ -16,6 +16,7 @@ const Hero = () => {
       image: "https://i.ibb.co/zhB4Cmjc/hero-7.jpg",
       link: "/tropical-plants",
       category: "indoor",
+      buttonText: "Explore Tropicals",
     },
     {
       id: 2,
@@ -27,6 +28,7 @@ const Hero = () => {
       image: "https://i.ibb.co/nNSfHt0p/hero-8.jpg",
       link: "/succulents",
       category: "succulents",
+      buttonText: "Discover Succulents",
     },
     {
       id: 3,
@@ -38,6 +40,7 @@ const Hero = () => {
       image: "https://i.ibb.co/Y4pvZKgC/hero-9.jpg",
       link: "/bonsai-guide",
       category: "bonsai",
+      buttonText: "Learn Bonsai",
     },
     {
       id: 4,
@@ -49,87 +52,54 @@ const Hero = () => {
       image: "https://i.ibb.co/0jzw1kYZ/hero-10.jpg",
       link: "/pet-friendly",
       category: "safety",
-    },
-    {
-      id: 5,
-      title: "Winter Care",
-      subHeading: "Beat the cold",
-      heading: "Winter-Proof Your Plants",
-      description: "How to protect your greens from frost and low humidity.",
-      image: "https://i.ibb.co/jkSvdJ3x/hero-1.jpg",
-      link: "/winter-care",
-      category: "seasonal",
-    },
-    {
-      id: 6,
-      title: "Air Purifiers",
-      subHeading: "Breathe easy",
-      heading: "Top Air-Cleaning Houseplants",
-      description:
-        "NASA-approved plants that filter toxins and boost your home’s air quality.",
-      image: "https://i.ibb.co/4RLJs821/hero-2.jpg",
-      link: "/air-purifying-plants",
-      category: "health",
-    },
-    {
-      id: 7,
-      title: "Rare Finds",
-      subHeading: "For the plant collector",
-      heading: "Exotic Plants Worth the Hype",
-      description: "Unique and rare varieties to elevate your plant game.",
-      image: "https://i.ibb.co/d0gZJzTY/hero-3.jpg",
-      link: "/rare-plants",
-      category: "exotic",
-    },
-    {
-      id: 8,
-      title: "Vertical Gardens",
-      subHeading: "Small space? No problem!",
-      heading: "Grow Up, Not Out",
-      description:
-        "Transform walls into lush green spaces with these vertical gardening ideas.",
-      image: "https://i.ibb.co/XxzmKV3f/hero-4.jpg",
-      link: "/vertical-gardens",
-      category: "design",
-    },
-    {
-      id: 9,
-      title: "Herb Haven",
-      subHeading: "Fresh flavors at your fingertips",
-      heading: "Grow Your Kitchen Garden",
-      description:
-        "The easiest herbs to grow indoors for year-round freshness.",
-      image: "https://i.ibb.co/jkSvdJ3x/hero-1.jpg",
-      link: "/herb-garden",
-      category: "edible",
-    },
-    {
-      id: 10,
-      title: "Blooming Bliss",
-      subHeading: "Color all year round",
-      heading: "Flowering Houseplants 101",
-      description:
-        "Brighten your home with plants that bloom indoors effortlessly.",
-      image: "https://i.ibb.co/nMc8LcLc/hero-6.jpg",
-      link: "/flowering-plants",
-      category: "flowers",
+      buttonText: "Pet-Friendly Picks",
     },
   ];
+
   const settings = {
     dots: true,
     infinite: true,
-    speed: 500,
+    speed: 1000,
     slidesToShow: 1,
     slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 6000,
+    pauseOnHover: true,
+    fade: true,
+    cssEase: "cubic-bezier(0.645, 0.045, 0.355, 1)",
+    arrows: false,
+    appendDots: (dots) => (
+      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
+        <ul className="flex space-x-2">{dots}</ul>
+      </div>
+    ),
+    customPaging: () => (
+      <div className="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all duration-300"></div>
+    ),
   };
+
   return (
-    <div className="w-full">
-      <Slider {...settings}>
+    <section className="relative overflow-hidden">
+      <Slider {...settings} className="hero-carousel">
         {banners.map((banner) => (
-          <HeroSlider key={banner.id} banner={banner}></HeroSlider>
+          <HeroSlider key={banner.id} banner={banner} />
         ))}
       </Slider>
-    </div>
+
+      {/* Custom navigation arrows */}
+      <style jsx global>{`
+        .hero-carousel .slick-dots li.slick-active div {
+          background: #4ade80;
+          width: 1.5rem;
+          border-radius: 0.75rem;
+        }
+        .hero-carousel .slick-dots li div {
+          width: 0.75rem;
+          height: 0.75rem;
+          transition: all 0.3s ease;
+        }
+      `}</style>
+    </section>
   );
 };
 

@@ -18,7 +18,6 @@ const PlantDetails = () => {
     userName,
     userEmail,
   } = data;
-  console.log(data);
 
   return (
     <div className="">

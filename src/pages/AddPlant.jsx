@@ -33,8 +33,9 @@ const AddPlant = () => {
       },
       body: JSON.stringify(plantData),
     })
-      .then((response) => {
-        if (response.insertedId) {
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.insertedId) {
           toast.success("Plant added successfully!", {
             position: "top-center",
             autoClose: 2000,
