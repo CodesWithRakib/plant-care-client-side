@@ -1,95 +1,128 @@
 import { createBrowserRouter } from "react-router";
 import Root from "../layouts/Root";
+import Dashboard from "../layouts/Dashboard";
+
 import Home from "../pages/Home";
-import MyPlants from "../pages/MyPlants";
-import AllPlants from "../pages/AllPlants";
-import AddPlant from "../pages/AddPlant";
-import PlantDetails from "../pages/PlantDetails";
 import ErrorPage from "../pages/ErrorPage";
-import UpdatePlant from "../pages/UpdatePlant";
 import SignIn from "../pages/SignIn";
 import SignUp from "../pages/SignUp";
 import PrivateRoute from "../auth/PrivateRoute";
 import Loading from "../pages/Loading";
-import UserProfile from "../pages/UserProfile";
+
+// Pages
+import MyPlants from "../pages/Dashboard/MyPlants";
+import AddPlant from "../pages/Dashboard/AddPlant";
+import AllPlants from "../pages/Dashboard/AllPlants";
+import PlantDetails from "../pages/PlantDetails";
+import UpdatePlant from "../pages/Dashboard/UpdatePlant";
+import UserProfile from "../pages/Dashboard/UserProfile";
+import DashboardOverview from "../pages/Dashboard/DashboardOverview"; // 👈 default dashboard page
+import AboutUs from "../pages/AboutUs";
 
 export const router = createBrowserRouter([
+  // Root layout for public routes
   {
     path: "/",
-    element: <Root></Root>,
+    element: <Root />,
+    errorElement: <ErrorPage />,
     children: [
       {
         index: true,
-        element: <Home></Home>,
-      },
-      {
-        path: "/my-plants",
-        element: (
-          <PrivateRoute>
-            <MyPlants></MyPlants>
-          </PrivateRoute>
-        ),
-        loader: () =>
-          fetch(
-            "https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants"
-          ),
-        hydrateFallbackElement: <Loading></Loading>,
-      },
-      {
-        path: "/add-plant",
-        element: (
-          <PrivateRoute>
-            <AddPlant></AddPlant>
-          </PrivateRoute>
-        ),
+        element: <Home />,
       },
       {
         path: "/all-plants",
-        element: <AllPlants></AllPlants>,
+        element: <AllPlants />,
+      },
+      {
+        path: "/about",
+        element: <AboutUs />,
       },
       {
         path: "/profile",
         element: (
           <PrivateRoute>
-            <UserProfile></UserProfile>
+            <UserProfile />
           </PrivateRoute>
         ),
       },
       {
         path: "/update-plant/:id",
-        element: <UpdatePlant></UpdatePlant>,
+        element: <UpdatePlant />,
         loader: ({ params }) =>
           fetch(
             `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${params.id}`
           ),
-        hydrateFallbackElement: <Loading></Loading>,
-      },
-
-      {
-        path: "plant-details/:id",
-        element: (
-          <PrivateRoute>
-            <PlantDetails></PlantDetails>
-          </PrivateRoute>
-        ),
-        loader: ({ params }) =>
-          fetch(
-            `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${params.id}`
-          ),
-        hydrateFallbackElement: <Loading></Loading>,
+        hydrateFallbackElement: <Loading />,
       },
     ],
   },
+
+  // Auth routes outside layouts
   {
     path: "/login",
-    element: <SignIn></SignIn>,
+    element: <SignIn />,
   },
   {
     path: "/register",
-    element: <SignUp></SignUp>,
+    element: <SignUp />,
   },
+
+  // Dashboard layout (Private)
+  {
+    path: "/dashboard",
+    element: (
+      <PrivateRoute>
+        <Dashboard />
+      </PrivateRoute>
+    ),
+    children: [
+      {
+        index: true,
+        element: (
+          <PrivateRoute>
+            <DashboardOverview />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/my-plants",
+        element: (
+          <PrivateRoute>
+            <MyPlants />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/all-plants",
+        element: (
+          <PrivateRoute>
+            <AllPlants />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/add-plant",
+        element: (
+          <PrivateRoute>
+            <AddPlant />
+          </PrivateRoute>
+        ),
+      },
+      {
+        path: "/dashboard/plant-details/:id",
+        element: (
+          <PrivateRoute>
+            <PlantDetails />
+          </PrivateRoute>
+        ),
+      },
+    ],
+  },
+
+  // Fallback error page
   {
     path: "*",
-    element: <ErrorPage></ErrorPage>,
+    element: <ErrorPage />,
   },
 ]);

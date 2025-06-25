@@ -1,10 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { NavLink, useNavigate } from "react-router";
 import logo from "/logo.jpg";
 import { AuthContext } from "../auth/AuthProvider";
 import { IoSunnySharp } from "react-icons/io5";
-import { BsFillMoonStarsFill, BsPlusCircle } from "react-icons/bs";
-import { FaHome, FaLeaf, FaUser } from "react-icons/fa";
+import { BsFillMoonStarsFill } from "react-icons/bs";
+import {
+  FaHome,
+  FaLeaf,
+  FaUser,
+  FaInfoCircle,
+  FaPhoneAlt,
+  FaLifeRing,
+  FaTachometerAlt,
+} from "react-icons/fa";
 import { Bounce, toast, ToastContainer } from "react-toastify";
 import { format } from "date-fns";
 import "react-tooltip/dist/react-tooltip.css";
@@ -13,30 +21,24 @@ import { Tooltip } from "react-tooltip";
 const NavBar = () => {
   const today = format(new Date(), "PP");
   const navigate = useNavigate();
-  const { user, logOut } = React.useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
 
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleTheme = () => {
-    setTheme(theme === "dark" ? "light" : "dark");
+    const newTheme = theme === "dark" ? "light" : "dark";
+    setTheme(newTheme);
   };
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-    document.querySelector("html").setAttribute("data-theme", theme);
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 10) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
-    };
-
+    const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
@@ -46,25 +48,16 @@ const NavBar = () => {
       .then(() => {
         toast.success("Logged out successfully", {
           position: "top-center",
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          autoClose: 3000,
           theme: "colored",
           transition: Bounce,
         });
+        navigate("/");
       })
       .catch((error) => {
-        toast.error(`Error logging out: ${error?.message}`, {
+        toast.error(error.message, {
           position: "top-center",
-          autoClose: 4000,
-          hideProgressBar: false,
-          closeOnClick: false,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
+          autoClose: 3000,
           theme: "colored",
           transition: Bounce,
         });
@@ -72,30 +65,14 @@ const NavBar = () => {
   };
 
   const navLinks = [
-    {
-      path: "/",
-      name: "Home",
-      icon: <FaHome className="text-lg" />,
-      tooltip: "Go back to the homepage",
-    },
-    {
-      path: "/all-plants",
-      name: "All Plants",
-      icon: <FaLeaf className="text-lg" />,
-      tooltip: "View all plants",
-    },
-    {
-      path: "/my-plants",
-      name: "My Plants",
-      icon: <FaUser className="text-lg" />,
-      tooltip: "View and manage your added plants",
-    },
-    {
-      path: "/add-plant",
-      name: "Add Plant",
-      icon: <BsPlusCircle className="text-lg" />,
-      tooltip: "Add a new plant to your care list",
-    },
+    { path: "/", name: "Home", icon: <FaHome /> },
+    { path: "/all-plants", name: "All Plants", icon: <FaLeaf /> },
+    { path: "/about", name: "About Us", icon: <FaInfoCircle /> },
+    { path: "/contact", name: "Contact", icon: <FaPhoneAlt /> },
+    { path: "/support", name: "Support", icon: <FaLifeRing /> },
+    ...(user
+      ? [{ path: "/dashboard", name: "Dashboard", icon: <FaTachometerAlt /> }]
+      : []),
   ];
 
   return (
@@ -103,101 +80,80 @@ const NavBar = () => {
       <nav
         className={`fixed w-full z-50 transition-all duration-300 ${
           isScrolled
-            ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-md"
-            : "bg-white dark:bg-gray-900"
-        } dark:text-white text-gray-800`}
+            ? "bg-green-100/95 dark:bg-green-950/95 backdrop-blur-sm shadow-md"
+            : "bg-green-100 dark:bg-green-950"
+        }`}
       >
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
-            {/* Logo and brand */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center h-16">
+            {/* Logo */}
             <div
               onClick={() => navigate("/")}
-              className="flex gap-3 items-center cursor-pointer"
+              className="flex items-center gap-3 cursor-pointer"
             >
               <img
                 src={logo}
                 alt="Green Nest Logo"
-                className="w-10 h-10 rounded-full border-2 border-green-500 dark:border-green-600"
+                className="w-10 h-10 rounded-full border-2 border-green-500 dark:border-green-400"
               />
               <div className="hidden sm:flex flex-col">
-                <h3 className="text-lg font-bold text-green-600 dark:text-green-400 pacifico">
+                <h3 className="text-lg font-bold text-green-600 dark:text-green-400">
                   Green Nest
                 </h3>
-                <p className="text-xs font-light text-gray-500 dark:text-gray-400">
+                <p className="text-xs text-gray-500 dark:text-gray-400">
                   Care Your Plants
                 </p>
               </div>
             </div>
 
-            {/* Desktop Navigation */}
-            <div className="hidden md:flex items-center space-x-1">
-              <ul className="flex space-x-4">
-                {navLinks.map((link) => (
-                  <li key={link.name}>
-                    <NavLink
-                      id={`tooltip-${link.name
-                        .toLowerCase()
-                        .replace(" ", "-")}`}
-                      className={({ isActive }) =>
-                        `flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                          isActive
-                            ? "text-green-600 dark:text-green-400 bg-green-50/50 dark:bg-gray-800/50"
-                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
-                        }`
-                      }
-                      to={link.path}
-                    >
-                      {link.icon}
-                      <span>{link.name}</span>
-                    </NavLink>
-                    <Tooltip
-                      anchorSelect={`#tooltip-${link.name
-                        .toLowerCase()
-                        .replace(" ", "-")}`}
-                      place="bottom"
-                    >
-                      {link.tooltip}
-                    </Tooltip>
-                  </li>
-                ))}
-              </ul>
+            {/* Desktop Nav */}
+            <div className="hidden md:flex items-center space-x-2">
+              {navLinks.map((link) => (
+                <NavLink
+                  key={link.name}
+                  to={link.path}
+                  className={({ isActive }) =>
+                    `flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                      isActive
+                        ? "text-green-700 dark:text-green-300 bg-green-200/60 dark:bg-green-800/50"
+                        : "text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-800"
+                    }`
+                  }
+                >
+                  {link.icon}
+                  {link.name}
+                </NavLink>
+              ))}
             </div>
 
-            {/* Right side controls */}
+            {/* Controls */}
             <div className="flex items-center gap-4">
-              <div className="hidden sm:flex items-center gap-4">
-                <p className="text-xs font-light text-gray-500 dark:text-gray-400">
-                  {today}
-                </p>
+              <span className="hidden sm:block text-xs text-gray-500 dark:text-gray-400">
+                {today}
+              </span>
 
-                <button
-                  onClick={toggleTheme}
-                  className={`p-2 rounded-full transition-colors ${
-                    theme === "dark"
-                      ? "bg-gray-700 text-yellow-300 hover:bg-gray-600"
-                      : "bg-gray-200 text-gray-700 hover:bg-gray-300"
-                  }`}
-                  aria-label="Toggle theme"
-                >
-                  {theme === "dark" ? (
-                    <BsFillMoonStarsFill />
-                  ) : (
-                    <IoSunnySharp />
-                  )}
-                </button>
-              </div>
+              <button
+                onClick={toggleTheme}
+                className={`p-2 rounded-full transition-colors ${
+                  theme === "dark"
+                    ? "bg-gray-700 text-yellow-300 hover:bg-gray-600"
+                    : "bg-gray-200 text-gray-700 hover:bg-gray-300"
+                }`}
+              >
+                {theme === "dark" ? <BsFillMoonStarsFill /> : <IoSunnySharp />}
+              </button>
 
               {!user ? (
                 <div className="hidden sm:flex gap-2">
                   <NavLink
-                    className="px-3 py-1.5 text-sm font-medium rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors"
                     to="/login"
+                    className="px-3 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 text-sm"
                   >
                     Login
                   </NavLink>
                   <NavLink
-                    className="px-3 py-1.5 text-sm font-medium rounded-md bg-white dark:bg-gray-800 border border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-gray-700 transition-colors"
                     to="/register"
+                    className="px-3 py-1.5 rounded-md border border-green-600 text-green-600 hover:bg-green-50 text-sm"
                   >
                     Register
                   </NavLink>
@@ -206,36 +162,35 @@ const NavBar = () => {
                 <div className="relative group">
                   <button
                     onClick={() => navigate("/profile")}
-                    className="flex items-center gap-2 focus:outline-none"
+                    className="flex items-center gap-2"
                   >
                     <img
-                      src={user?.photoURL}
-                      alt={user?.displayName}
-                      className="w-8 h-8 rounded-full border-2 border-green-500 dark:border-green-600"
+                      src={
+                        user?.photoURL ||
+                        "https://i.ibb.co/4Y8x5y0/default-user.png"
+                      }
+                      alt="User"
+                      className="w-8 h-8 rounded-full border-2 border-green-500 object-cover"
                     />
-                    <span className="hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-300">
-                      {user?.displayName || "User"}
+                    <span className="hidden md:inline text-sm text-gray-800 dark:text-gray-300">
+                      {user.displayName || "User"}
                     </span>
                   </button>
-
-                  <div className="absolute right-0 mt-2 w-48 origin-top-right bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none opacity-0 group-hover:opacity-100 transition-opacity duration-150 z-50">
-                    <div className="py-1">
-                      <button
-                        onClick={handleLogout}
-                        className="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
-                      >
-                        Sign out
-                      </button>
-                    </div>
+                  <div className="absolute right-0 mt-2 w-40 bg-white dark:bg-gray-800 rounded-md shadow-lg ring-1 ring-black/10 dark:ring-white/10 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+                    <button
+                      onClick={handleLogout}
+                      className="block w-full px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 text-left"
+                    >
+                      Sign out
+                    </button>
                   </div>
                 </div>
               )}
 
-              {/* Mobile menu button */}
+              {/* Mobile Toggle */}
               <button
                 onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="md:hidden p-2 rounded-md text-gray-500 dark:text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none"
-                aria-label="Toggle menu"
+                className="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white"
               >
                 <svg
                   className="h-6 w-6"
@@ -264,73 +219,51 @@ const NavBar = () => {
           </div>
         </div>
 
-        {/* Mobile menu */}
+        {/* Mobile Nav */}
         {isMenuOpen && (
-          <div className="md:hidden bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-700">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navLinks.map((link) => (
+          <div className="md:hidden bg-white dark:bg-gray-900 px-4 pt-3 pb-6 space-y-2 border-t border-gray-200 dark:border-gray-700">
+            {navLinks.map((link) => (
+              <NavLink
+                key={link.name}
+                to={link.path}
+                onClick={() => setIsMenuOpen(false)}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2.5 rounded-md text-base font-medium ${
+                    isActive
+                      ? "text-green-700 dark:text-green-300 bg-green-200/50 dark:bg-green-800/60"
+                      : "text-gray-700 dark:text-gray-300 hover:bg-green-50 dark:hover:bg-green-800"
+                  }`
+                }
+              >
+                {link.icon}
+                {link.name}
+              </NavLink>
+            ))}
+
+            {!user && (
+              <div className="flex flex-col gap-2 pt-4">
                 <NavLink
-                  key={link.name}
-                  to={link.path}
-                  className={({ isActive }) =>
-                    `flex items-center gap-3 px-3 py-2 rounded-md text-base font-medium ${
-                      isActive
-                        ? "text-green-600 dark:text-green-400 bg-green-50 dark:bg-gray-800"
-                        : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
-                    }`
-                  }
+                  to="/login"
                   onClick={() => setIsMenuOpen(false)}
+                  className="w-full text-center px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"
                 >
-                  {link.icon}
-                  {link.name}
+                  Login
                 </NavLink>
-              ))}
-            </div>
-            <div className="pt-4 pb-3 border-t border-gray-200 dark:border-gray-700">
-              {user ? (
-                <div className="flex items-center px-5">
-                  <div className="flex-shrink-0">
-                    <img
-                      src={user?.photoURL}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src =
-                          "https://i.ibb.co/gX1zvYF/Profile-Pic.jpg";
-                      }}
-                      alt={user?.displayName}
-                      className="h-10 w-10 rounded-full border-2 border-green-500 dark:border-green-600"
-                    />
-                  </div>
-                  <div className="ml-3">
-                    <div className="text-base font-medium text-gray-800 dark:text-white">
-                      {user?.displayName || "User"}
-                    </div>
-                  </div>
-                </div>
-              ) : (
-                <div className="flex gap-2 px-2">
-                  <NavLink
-                    to="/login"
-                    className="w-full px-4 py-2 text-center text-sm font-medium rounded-md bg-green-500 text-white hover:bg-green-600"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Login
-                  </NavLink>
-                  <NavLink
-                    to="/register"
-                    className="w-full px-4 py-2 text-center text-sm font-medium rounded-md bg-white dark:bg-gray-800 border border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-gray-700"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Register
-                  </NavLink>
-                </div>
-              )}
-            </div>
+                <NavLink
+                  to="/register"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full text-center px-4 py-2 border border-green-600 text-green-600 rounded-md hover:bg-green-50"
+                >
+                  Register
+                </NavLink>
+              </div>
+            )}
           </div>
         )}
       </nav>
-      {/* Add padding to the top of your page content to account for the fixed navbar */}
-      <div className="pt-16"></div>
+
+      {/* Spacer */}
+      <div className="pt-16" />
       <ToastContainer />
     </>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
@@ -7,7 +7,7 @@ import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
 import noImage from "/No_Image.jpg";
 
-const MyPlantCard = ({ plant }) => {
+const MyPlantCard = ({ plant, onDeleteSuccess }) => {
   const {
     _id,
     image,
@@ -17,6 +17,8 @@ const MyPlantCard = ({ plant }) => {
     wateringFrequency,
     lastWateredDate,
   } = plant;
+
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = () => {
     Swal.fire({
@@ -29,6 +31,7 @@ const MyPlantCard = ({ plant }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
+        setIsDeleting(true);
         fetch(
           `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${_id}`,
           {
@@ -43,6 +46,13 @@ const MyPlantCard = ({ plant }) => {
                 autoClose: 3000,
                 theme: "colored",
               });
+              if (onDeleteSuccess) onDeleteSuccess(_id);
+            } else {
+              toast.error("Failed to delete plant.", {
+                position: "top-center",
+                autoClose: 3000,
+                theme: "colored",
+              });
             }
           })
           .catch((err) => {
@@ -51,6 +61,9 @@ const MyPlantCard = ({ plant }) => {
               autoClose: 3000,
               theme: "colored",
             });
+          })
+          .finally(() => {
+            setIsDeleting(false);
           });
       }
     });
@@ -101,6 +114,7 @@ const MyPlantCard = ({ plant }) => {
             to={`/update-plant/${_id}`}
             className="flex items-center gap-1 text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md transition"
             title="Edit Plant"
+            aria-label={`Edit ${plantName}`}
           >
             <FaEdit />
             Edit
@@ -108,11 +122,17 @@ const MyPlantCard = ({ plant }) => {
 
           <button
             onClick={handleDelete}
-            className="flex items-center gap-1 text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md transition"
+            disabled={isDeleting}
+            className={`flex items-center gap-1 text-white px-4 py-2 rounded-md transition ${
+              isDeleting
+                ? "bg-red-400 cursor-not-allowed"
+                : "bg-red-600 hover:bg-red-700"
+            }`}
             title="Delete Plant"
+            aria-label={`Delete ${plantName}`}
           >
             <MdDelete />
-            Delete
+            {isDeleting ? "Deleting..." : "Delete"}
           </button>
         </div>
 
