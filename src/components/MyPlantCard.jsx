@@ -1,14 +1,15 @@
 import React from "react";
-import noImage from "/No_Image.jpg";
 import { Link } from "react-router";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
 import { toast, ToastContainer } from "react-toastify";
 import Swal from "sweetalert2";
+import noImage from "/No_Image.jpg";
 
 const MyPlantCard = ({ plant }) => {
   const {
+    _id,
     image,
     plantName,
     nextWateringDate,
@@ -20,112 +21,102 @@ const MyPlantCard = ({ plant }) => {
   const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: "This action cannot be undone!",
       icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
+      confirmButtonColor: "#22c55e",
+      cancelButtonColor: "#ef4444",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
         fetch(
-          `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${plant._id}`,
+          `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${_id}`,
           {
             method: "DELETE",
           }
         )
-          .then((response) => response.json())
+          .then((res) => res.json())
           .then((data) => {
             if (data.deletedCount > 0) {
-              toast.success("Plant deleted successfully", {
+              toast.success("Plant deleted successfully!", {
                 position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
+                autoClose: 3000,
+                theme: "colored",
               });
             }
           })
-          .catch((error) => {
-            toast.error(`Error deleting plant: ${error?.message}`, {
+          .catch((err) => {
+            toast.error(`Failed to delete plant: ${err.message}`, {
               position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: true,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
+              autoClose: 3000,
+              theme: "colored",
             });
           });
-        // Swal.fire({
-        //   title: "Deleted!",
-        //   text: "Your file has been deleted.",
-        //   icon: "success",
-        // });
       }
     });
   };
+
   return (
-    <div
-      className="w-full max-w-md mx-auto bg-white dark:bg-zinc-900 dark:text-white border border-gray-200 rounded-lg shadow-sm 
-    text-zinc-800
-    "
-    >
-      <a href="#">
-        <img
-          className=" w-full h-80 rounded-t-lg"
-          src={image ? image : noImage}
-          onError={(e) => {
-            e.target.onerror = null; // prevents looping
-            e.target.src = noImage;
-          }}
-          alt="product image"
-        />
-      </a>
-      <div className="px-5 py-5 flex flex-col gap-2">
-        <a href="#">
-          <h5 className="text-xl font-semibold tracking-tight text-green-500  ">
-            {plantName}
-          </h5>
-        </a>
-        <div>
-          <p className="text-sm ">
-            <span className="font-semibold"> Watering Frequency:</span>{" "}
-            {wateringFrequency}
+    <div className="w-full max-w-md mx-auto border border-zinc-200 dark:border-zinc-700 rounded-lg shadow-md bg-white dark:bg-zinc-900 text-zinc-800 dark:text-white overflow-hidden transition hover:shadow-lg">
+      <img
+        src={image || noImage}
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = noImage;
+        }}
+        alt={plantName}
+        className="w-full h-64 object-cover"
+      />
+
+      <div className="px-5 py-4 space-y-2">
+        <h2 className="text-2xl font-bold text-green-600">{plantName}</h2>
+
+        <div className="text-sm space-y-1">
+          <p>
+            <span className="font-semibold">Watering Frequency:</span>{" "}
+            {wateringFrequency || "N/A"}
           </p>
           <p>
-            <span className="font-semibold">Last Watered Date:</span>{" "}
-            {format(lastWateredDate, "yyyy-MM-dd")}
+            <span className="font-semibold">Last Watered:</span>{" "}
+            {lastWateredDate
+              ? format(new Date(lastWateredDate), "yyyy-MM-dd")
+              : "N/A"}
           </p>
-          <p className="text-sm">
-            <span className="font-semibold">Next Watering Date:</span>{" "}
-            {format(nextWateringDate, "yyyy-MM-dd")}
+          <p>
+            <span className="font-semibold">Next Watering:</span>{" "}
+            {nextWateringDate
+              ? format(new Date(nextWateringDate), "yyyy-MM-dd")
+              : "N/A"}
           </p>
-          <p className="text-sm">
+          <p>
             <span className="font-semibold">Care Level:</span>{" "}
-            <span className="text-green-600">{careLevel}</span>
+            <span className="text-green-500 capitalize">
+              {careLevel || "N/A"}
+            </span>
           </p>
         </div>
-        <div className="flex items-center justify-between">
+
+        <div className="flex justify-between items-center mt-4">
           <Link
-            to={`/update-plant/${plant._id}`}
-            className="text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            to={`/update-plant/${_id}`}
+            className="flex items-center gap-1 text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md transition"
+            title="Edit Plant"
           >
-            <FaEdit size={20} />
+            <FaEdit />
+            Edit
           </Link>
+
           <button
             onClick={handleDelete}
-            // to={`/delete-plant/${plant._id}`}
-            className="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center "
+            className="flex items-center gap-1 text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md transition"
+            title="Delete Plant"
           >
-            <MdDelete size={20} />
+            <MdDelete />
+            Delete
           </button>
         </div>
-        <ToastContainer></ToastContainer>
+
+        <ToastContainer />
       </div>
     </div>
   );

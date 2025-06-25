@@ -17,6 +17,7 @@ const NavBar = () => {
 
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleTheme = () => {
     setTheme(theme === "dark" ? "light" : "dark");
@@ -26,6 +27,19 @@ const NavBar = () => {
     localStorage.setItem("theme", theme);
     document.querySelector("html").setAttribute("data-theme", theme);
   }, [theme]);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 10) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleLogout = () => {
     logOut()
@@ -86,9 +100,15 @@ const NavBar = () => {
 
   return (
     <>
-      <nav className="bg-white dark:bg-gray-900 dark:text-white text-gray-800 shadow-sm dark:shadow-gray-800/50">
-        <div className=" px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-20 items-center">
+      <nav
+        className={`fixed w-full z-50 transition-all duration-300 ${
+          isScrolled
+            ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-sm shadow-md"
+            : "bg-white dark:bg-gray-900"
+        } dark:text-white text-gray-800`}
+      >
+        <div className="px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16 items-center">
             {/* Logo and brand */}
             <div
               onClick={() => navigate("/")}
@@ -97,10 +117,10 @@ const NavBar = () => {
               <img
                 src={logo}
                 alt="Green Nest Logo"
-                className="w-12 h-12 rounded-full border-2 border-green-500 dark:border-green-600"
+                className="w-10 h-10 rounded-full border-2 border-green-500 dark:border-green-600"
               />
               <div className="hidden sm:flex flex-col">
-                <h3 className="text-xl font-bold text-green-600 dark:text-green-400 pacifico">
+                <h3 className="text-lg font-bold text-green-600 dark:text-green-400 pacifico">
                   Green Nest
                 </h3>
                 <p className="text-xs font-light text-gray-500 dark:text-gray-400">
@@ -111,7 +131,7 @@ const NavBar = () => {
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center space-x-1">
-              <ul className="flex space-x-6">
+              <ul className="flex space-x-4">
                 {navLinks.map((link) => (
                   <li key={link.name}>
                     <NavLink
@@ -121,8 +141,8 @@ const NavBar = () => {
                       className={({ isActive }) =>
                         `flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                           isActive
-                            ? "text-green-600 dark:text-green-400 bg-green-50 dark:bg-gray-800"
-                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
+                            ? "text-green-600 dark:text-green-400 bg-green-50/50 dark:bg-gray-800/50"
+                            : "text-gray-700 dark:text-gray-300 hover:bg-gray-100/50 dark:hover:bg-gray-800/50"
                         }`
                       }
                       to={link.path}
@@ -170,13 +190,13 @@ const NavBar = () => {
               {!user ? (
                 <div className="hidden sm:flex gap-2">
                   <NavLink
-                    className="px-4 py-2 text-sm font-medium rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors"
+                    className="px-3 py-1.5 text-sm font-medium rounded-md bg-green-500 text-white hover:bg-green-600 transition-colors"
                     to="/login"
                   >
                     Login
                   </NavLink>
                   <NavLink
-                    className="px-4 py-2 text-sm font-medium rounded-md bg-white dark:bg-gray-800 border border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-gray-700 transition-colors"
+                    className="px-3 py-1.5 text-sm font-medium rounded-md bg-white dark:bg-gray-800 border border-green-500 text-green-500 hover:bg-green-50 dark:hover:bg-gray-700 transition-colors"
                     to="/register"
                   >
                     Register
@@ -191,7 +211,7 @@ const NavBar = () => {
                     <img
                       src={user?.photoURL}
                       alt={user?.displayName}
-                      className="w-10 h-10 rounded-full border-2 border-green-500 dark:border-green-600"
+                      className="w-8 h-8 rounded-full border-2 border-green-500 dark:border-green-600"
                     />
                     <span className="hidden md:inline text-sm font-medium text-gray-700 dark:text-gray-300">
                       {user?.displayName || "User"}
@@ -272,6 +292,11 @@ const NavBar = () => {
                   <div className="flex-shrink-0">
                     <img
                       src={user?.photoURL}
+                      onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src =
+                          "https://i.ibb.co/gX1zvYF/Profile-Pic.jpg";
+                      }}
                       alt={user?.displayName}
                       className="h-10 w-10 rounded-full border-2 border-green-500 dark:border-green-600"
                     />
@@ -304,6 +329,8 @@ const NavBar = () => {
           </div>
         )}
       </nav>
+      {/* Add padding to the top of your page content to account for the fixed navbar */}
+      <div className="pt-16"></div>
       <ToastContainer />
     </>
   );

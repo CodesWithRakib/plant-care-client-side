@@ -5,6 +5,7 @@ import noImage from "/No_Image.jpg";
 
 const PlantCard = ({ plant }) => {
   const {
+    _id,
     image,
     plantName,
     nextWateringDate,
@@ -12,36 +13,52 @@ const PlantCard = ({ plant }) => {
     wateringFrequency,
     category,
   } = plant;
+
+  const formattedDate = nextWateringDate
+    ? format(new Date(nextWateringDate), "MMMM d, yyyy")
+    : "N/A";
+
   return (
-    <tr className="bg-white border-b dark:bg-zinc-900 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-      <td className="p-4">
+    <tr className="bg-white border-b dark:bg-zinc-900 dark:border-zinc-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-zinc-700 transition-colors duration-200">
+      <td className="p-4 w-36">
         <img
-          src={image ? image : noImage}
+          src={image || noImage}
           onError={(e) => {
-            e.target.onerror = null; // prevents looping
+            e.target.onerror = null;
             e.target.src = noImage;
           }}
-          className="w-full h-40 max-h-full bg-cover rounded-lg"
           alt={plantName}
+          title={plantName}
+          className="w-full h-28 object-cover rounded-md border border-zinc-200 dark:border-zinc-700"
         />
       </td>
-      <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-        {plantName}
+
+      <td className="px-6 py-4 font-medium text-gray-900 dark:text-white capitalize">
+        {plantName || "Unknown"}
       </td>
-      <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-        {category}
+
+      <td className="px-6 py-4 capitalize text-gray-800 dark:text-gray-200">
+        {category || "N/A"}
       </td>
-      <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-        {wateringFrequency}
+
+      <td className="px-6 py-4 text-gray-800 dark:text-gray-200">
+        {wateringFrequency || "N/A"}
       </td>
-      <td className="px-6 py-4">{careLevel}</td>
-      <td className="px-6 py-4 font-semibold text-gray-900 dark:text-white">
-        {format(new Date(nextWateringDate), "MMMM d, yyyy")}
+
+      <td className="px-6 py-4">
+        <span className="inline-block px-2 py-1 text-xs font-semibold rounded bg-green-100 text-green-800 dark:bg-green-800 dark:text-green-100 capitalize">
+          {careLevel || "N/A"}
+        </span>
       </td>
+
+      <td className="px-6 py-4 text-gray-900 dark:text-white">
+        {formattedDate}
+      </td>
+
       <td className="px-6 py-4">
         <Link
-          to={`/plant-details/${plant._id}`}
-          className="font-medium text-red-600 dark:text-red-500 hover:underline"
+          to={`/plant-details/${_id}`}
+          className="text-blue-600 dark:text-blue-400 hover:underline font-medium"
         >
           View Details
         </Link>

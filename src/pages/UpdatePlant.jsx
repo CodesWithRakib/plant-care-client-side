@@ -2,214 +2,236 @@ import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useLoaderData } from "react-router";
 import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "react-datepicker/dist/react-datepicker.css";
 
 const UpdatePlant = () => {
-  const data = useLoaderData();
-  const [lastWateredDate, setLastWateredDate] = useState(data?.lastWateredDate);
-  const [nextWateringDate, setNextWateringDate] = useState(
-    data?.nextWateringDate
-  );
+  const plantData = useLoaderData();
+  const [formData, setFormData] = useState({
+    image: plantData?.image || "",
+    plantName: plantData?.plantName || "",
+    category: plantData?.category || "succulent",
+    description: plantData?.description || "",
+    careLevel: plantData?.careLevel || "easy",
+    lastWateredDate: plantData?.lastWateredDate
+      ? new Date(plantData.lastWateredDate)
+      : new Date(),
+    nextWateringDate: plantData?.nextWateringDate
+      ? new Date(plantData.nextWateringDate)
+      : new Date(),
+    healthStatus: plantData?.healthStatus || "healthy",
+    wateringFrequency: plantData?.wateringFrequency || "",
+    userName: plantData?.userName || "",
+    userEmail: plantData?.userEmail || "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const {
-    image,
-    plantName,
-    category,
-    description,
-    careLevel,
-    userName,
-    wateringFrequency,
-    healthStatus,
-    userEmail,
-  } = data;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const handleUpdatePlant = (event) => {
-    event.preventDefault();
+  const handleDateChange = (date, field) => {
+    setFormData((prev) => ({ ...prev, [field]: date }));
+  };
 
-    const form = event.target;
-    const formData = new FormData(form);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-    const plantData = {
-      image: formData.get("image"),
-      plantName: formData.get("plantName"),
-      category: formData.get("category"),
-      description: formData.get("description"),
-      careLevel: formData.get("careLevel"),
-      lastWateredDate: formData.get("lastWateredDate"),
-      nextWateringDate: formData.get("nextWateringDate"),
-      healthStatus: formData.get("healthStatus"),
-      wateringFrequency: formData.get("wateringFrequency"),
-      userName: formData.get("userName"),
-      userEmail: formData.get("userEmail"),
-    };
-
-    fetch(
-      `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${data._id}`,
-      {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(plantData),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.modifiedCount > 0) {
-          toast.success("Plant updated successfully!", {
-            position: "top-center",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "light",
-          });
+    try {
+      const response = await fetch(
+        `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${plantData._id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...formData,
+            lastWateredDate: formData.lastWateredDate.toISOString(),
+            nextWateringDate: formData.nextWateringDate.toISOString(),
+          }),
         }
-      })
-      .catch((error) => {
-        toast.error(`Error updating plant: ${error?.message}`, {
+      );
+
+      const data = await response.json();
+
+      if (data.modifiedCount > 0) {
+        toast.success("🌱 Plant updated successfully!", {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
           draggable: true,
           progress: undefined,
-          theme: "light",
+          theme: "colored",
         });
+      } else {
+        throw new Error(data.message || "Failed to update plant");
+      }
+    } catch (error) {
+      toast.error(`❌ Error updating plant: ${error.message}`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
       });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
+
   return (
-    <div className="bg-green-50 dark:bg-zinc-800 ">
-      <div className="flex flex-col w-full max-w-lg p-6 rounded-md sm:p-10 bg-white text-gray-600 dark:bg-zinc-900 dark:text-white mx-auto">
+    <div className="min-h-screen py-8 bg-green-50 dark:bg-zinc-900 transition-colors duration-300">
+      <div className="w-full max-w-2xl p-6 mx-auto rounded-lg shadow-md bg-white dark:bg-zinc-950 dark:shadow-zinc-700/50 transition-colors duration-300">
         <div className="mb-8 text-center">
-          <h1 className="my-3 text-4xl font-bold">Update Your Plant</h1>
-          <p className="text-sm dark:text-gray-600">
-            Fill in the details below to update your plant.
+          <h1 className="text-3xl font-bold text-green-600 dark:text-green-400 mb-2 transition-colors duration-300">
+            Update Your Plant
+          </h1>
+          <p className="text-gray-600 dark:text-gray-300 transition-colors duration-300">
+            Keep your plant information up to date
           </p>
         </div>
-        <form
-          onSubmit={handleUpdatePlant}
-          noValidate=""
-          action=""
-          className="space-y-12"
-        >
-          <div className="space-y-4">
+
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Plant Name */}
             <div>
-              <label htmlFor="name" className="block mb-2 text-sm">
+              <label
+                htmlFor="plantName"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
                 Plant Name
               </label>
               <input
                 type="text"
+                id="plantName"
                 name="plantName"
-                id="name"
-                defaultValue={plantName}
-                placeholder="Leroy Jenkins"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                value={formData.plantName}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-300"
+                required
               />
             </div>
+
+            {/* Image URL */}
             <div>
-              <label htmlFor="image" className="block mb-2 text-sm">
+              <label
+                htmlFor="image"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
                 Image URL
               </label>
               <input
-                type="text"
-                name="image"
-                defaultValue={image}
+                type="url"
                 id="image"
-                placeholder="https://example.com/image.jpg"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                name="image"
+                value={formData.image}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-300"
+                required
               />
             </div>
+
+            {/* Category */}
             <div>
-              <div className="flex justify-between mb-2">
-                <label htmlFor="category" className="text-sm">
-                  Category
-                </label>
-              </div>
+              <label
+                htmlFor="category"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
+                Category
+              </label>
               <select
-                name="category"
                 id="category"
-                defaultValue={category}
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
               >
                 <option value="succulent">Succulent</option>
                 <option value="flowering">Flowering</option>
                 <option value="fern">Fern</option>
+                <option value="cactus">Cactus</option>
               </select>
             </div>
 
+            {/* Care Level */}
             <div>
-              <label htmlFor="description" className="block mb-2 text-sm">
-                Description
-              </label>
-              <input
-                defaultValue={description}
-                type="text"
-                name="description"
-                id="description"
-                placeholder="A beautiful succulent plant."
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
-              />
-            </div>
-            <div>
-              <label htmlFor="careLevel" className="block mb-2 text-sm">
-                Care Instructions
+              <label
+                htmlFor="careLevel"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
+                Care Level
               </label>
               <select
-                defaultValue={careLevel}
-                name="careLevel"
                 id="careLevel"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                name="careLevel"
+                value={formData.careLevel}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
               >
-                <option value="easy">easy</option>
-                <option value="moderate">moderate</option>
-                <option value="difficult">difficult</option>
+                <option value="easy">Easy</option>
+                <option value="moderate">Moderate</option>
+                <option value="difficult">Difficult</option>
               </select>
             </div>
-            <div>
-              <label htmlFor="lastWateringDate" className="block mb-2 text-sm">
-                Last Watering Date
-              </label>
 
+            {/* Last Watered Date */}
+            <div>
+              <label
+                htmlFor="lastWateredDate"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
+                Last Watered Date
+              </label>
               <DatePicker
-                selected={lastWateredDate}
-                onChange={(date) => setLastWateredDate(date)}
-                dateFormat="yyyy/MM/dd"
-                name="lastWateredDate"
                 id="lastWateredDate"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
-                wrapperClassName="w-full"
-                placeholderText="Select a date"
+                selected={formData.lastWateredDate}
+                onChange={(date) => handleDateChange(date, "lastWateredDate")}
+                dateFormat="MMMM d, yyyy"
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                maxDate={new Date()}
+                required
               />
             </div>
 
+            {/* Next Watering Date */}
             <div>
-              <label htmlFor="nextWateringDate" className="block mb-2 text-sm">
+              <label
+                htmlFor="nextWateringDate"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
                 Next Watering Date
               </label>
               <DatePicker
-                selected={nextWateringDate}
-                onChange={(date) => setNextWateringDate(date)}
-                dateFormat="yyyy/MM/dd"
-                name="nextWateringDate"
                 id="nextWateringDate"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
-                wrapperClassName="w-full"
-                placeholderText="Select a date"
+                selected={formData.nextWateringDate}
+                onChange={(date) => handleDateChange(date, "nextWateringDate")}
+                dateFormat="MMMM d, yyyy"
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                minDate={new Date()}
+                required
               />
             </div>
 
+            {/* Health Status */}
             <div>
-              <label htmlFor="healthStatus" className="block mb-2 text-sm">
+              <label
+                htmlFor="healthStatus"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
                 Health Status
               </label>
               <select
-                defaultValue={healthStatus}
-                name="healthStatus"
                 id="healthStatus"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                name="healthStatus"
+                value={formData.healthStatus}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
               >
                 <option value="healthy">Healthy</option>
                 <option value="average">Average</option>
@@ -217,59 +239,115 @@ const UpdatePlant = () => {
                 <option value="dying">Dying</option>
               </select>
             </div>
+
+            {/* Watering Frequency */}
             <div>
-              <label htmlFor="wateringFrequency" className="block mb-2 text-sm">
+              <label
+                htmlFor="wateringFrequency"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
                 Watering Frequency
               </label>
               <input
-                defaultValue={wateringFrequency}
                 type="text"
-                name="wateringFrequency"
                 id="wateringFrequency"
-                placeholder="Every 2 weeks"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                name="wateringFrequency"
+                value={formData.wateringFrequency}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-300"
+                required
               />
             </div>
+          </div>
+
+          {/* Description */}
+          <div>
+            <label
+              htmlFor="description"
+              className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+            >
+              Description
+            </label>
+            <textarea
+              id="description"
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              rows="4"
+              className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-300"
+              required
+            />
+          </div>
+
+          {/* User Info */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="userName" className="block mb-2 text-sm">
-                User Name
+              <label
+                htmlFor="userName"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
+                Your Name
               </label>
               <input
                 type="text"
-                name="userName"
-                defaultValue={userName}
                 id="userName"
-                placeholder="Enter your name"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                name="userName"
+                value={formData.userName}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 dark:text-white cursor-not-allowed transition-colors duration-300"
+                readOnly
+                required
               />
             </div>
             <div>
-              <label htmlFor="userEmail" className="block mb-2 text-sm">
-                User Email
+              <label
+                htmlFor="userEmail"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              >
+                Your Email
               </label>
               <input
                 type="email"
-                name="userEmail"
-                defaultValue={userEmail}
                 id="userEmail"
-                placeholder="Enter your email"
-                className="w-full px-3 py-2 border rounded-md dark:border-gray-300 dark:bg-gray-50 dark:text-gray-800"
+                name="userEmail"
+                value={formData.userEmail}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 dark:text-white cursor-not-allowed transition-colors duration-300"
+                readOnly
+                required
               />
             </div>
           </div>
-          <div className="space-y-2">
-            <div>
-              <button
-                type="submit"
-                className="w-full px-8 py-3 font-semibold rounded-md bg-green-500 text-white"
-              >
-                Update Plant
-              </button>
-            </div>
+
+          {/* Submit Button */}
+          <div className="pt-4">
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={`w-full px-6 py-3 font-semibold rounded-md transition-colors duration-300 ${
+                isSubmitting
+                  ? "bg-green-400 dark:bg-green-600 cursor-not-allowed"
+                  : "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800"
+              } text-white`}
+            >
+              {isSubmitting ? "Updating..." : "Update Plant"}
+            </button>
           </div>
         </form>
-        <ToastContainer></ToastContainer>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        className="mt-12"
+      />
     </div>
   );
 };

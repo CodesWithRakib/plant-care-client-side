@@ -8,7 +8,7 @@ const Root = () => {
   return (
     <div className="open-sans">
       <NavBar></NavBar>
-      <div className=" bg-green-50 dark:bg-zinc-800">
+      <div className=" bg-green-50 dark:bg-zinc-900">
         <Outlet></Outlet>
       </div>
       <Footer></Footer>
