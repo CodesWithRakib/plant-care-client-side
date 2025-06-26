@@ -12,10 +12,14 @@ import {
   FiPlay,
   FiExternalLink,
 } from "react-icons/fi";
+import useTitle from "../hooks/useTitle";
 
 const Support = () => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+
+  const title = "Green Nest - Support";
+  useTitle(title);
 
   // FAQ categories
   const faqCategories = [

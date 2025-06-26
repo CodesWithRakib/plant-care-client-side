@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaWater, FaLeaf } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { format } from "date-fns";
-import { toast, ToastContainer } from "react-toastify";
+import { format, isAfter } from "date-fns";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 import noImage from "/No_Image.jpg";
 
 const MyPlantCard = ({ plant, onDeleteSuccess }) => {
@@ -15,20 +15,24 @@ const MyPlantCard = ({ plant, onDeleteSuccess }) => {
     nextWateringDate,
     careLevel,
     wateringFrequency,
-    lastWateredDate,
   } = plant;
 
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = () => {
     Swal.fire({
-      title: "Are you sure?",
-      text: "This action cannot be undone!",
+      title: "Delete this plant?",
+      text: "You won't be able to recover it later.",
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#22c55e",
       cancelButtonColor: "#ef4444",
-      confirmButtonText: "Yes, delete it!",
+      confirmButtonText: "Yes, delete it",
+      background: "#f3f4f6",
+      color: "#111827",
+      customClass: {
+        popup: "dark:bg-gray-800 dark:text-white",
+      },
     }).then((result) => {
       if (result.isConfirmed) {
         setIsDeleting(true);
@@ -38,105 +42,110 @@ const MyPlantCard = ({ plant, onDeleteSuccess }) => {
             method: "DELETE",
           }
         )
-          .then((res) => res.json())
+          .then((res) => {
+            if (!res.ok) throw new Error("Network response was not ok");
+            return res.json();
+          })
           .then((data) => {
             if (data.deletedCount > 0) {
-              toast.success("Plant deleted successfully!", {
-                position: "top-center",
-                autoClose: 3000,
-                theme: "colored",
-              });
-              if (onDeleteSuccess) onDeleteSuccess(_id);
+              toast.success(`${plantName} deleted successfully!`);
+              onDeleteSuccess?.(_id);
             } else {
-              toast.error("Failed to delete plant.", {
-                position: "top-center",
-                autoClose: 3000,
-                theme: "colored",
-              });
+              throw new Error("No plant was deleted");
             }
           })
           .catch((err) => {
-            toast.error(`Failed to delete plant: ${err.message}`, {
-              position: "top-center",
-              autoClose: 3000,
-              theme: "colored",
-            });
+            toast.error(`Failed to delete plant: ${err.message}`);
           })
-          .finally(() => {
-            setIsDeleting(false);
-          });
+          .finally(() => setIsDeleting(false));
       }
     });
   };
 
+  const needsWatering =
+    nextWateringDate && isAfter(new Date(), new Date(nextWateringDate));
+
   return (
-    <div className="w-full max-w-md mx-auto border border-zinc-200 dark:border-zinc-700 rounded-lg shadow-md bg-white dark:bg-zinc-900 text-zinc-800 dark:text-white overflow-hidden transition hover:shadow-lg">
-      <img
-        src={image || noImage}
-        onError={(e) => {
-          e.target.onerror = null;
-          e.target.src = noImage;
-        }}
-        alt={plantName}
-        className="w-full h-64 object-cover"
-      />
+    <div className="w-full max-w-sm mx-auto bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md overflow-hidden transition hover:shadow-lg hover:scale-[1.01]">
+      {/* Image */}
+      <div className="relative">
+        <img
+          src={image || noImage}
+          onError={(e) => (e.target.src = noImage)}
+          alt={plantName}
+          className="w-full h-48 object-cover"
+          loading="lazy"
+        />
+        {needsWatering && (
+          <div className="absolute top-2 right-2 bg-red-500 dark:bg-red-600 text-white text-xs px-2 py-1 rounded-full flex items-center">
+            <FaWater className="mr-1" /> Needs Water
+          </div>
+        )}
+      </div>
 
-      <div className="px-5 py-4 space-y-2">
-        <h2 className="text-2xl font-bold text-green-600">{plantName}</h2>
+      {/* Info */}
+      <div className="p-4">
+        <h2 className="text-xl font-bold text-green-600 dark:text-green-400 mb-2">
+          {plantName}
+        </h2>
 
-        <div className="text-sm space-y-1">
-          <p>
-            <span className="font-semibold">Watering Frequency:</span>{" "}
-            {wateringFrequency || "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Last Watered:</span>{" "}
-            {lastWateredDate
-              ? format(new Date(lastWateredDate), "yyyy-MM-dd")
-              : "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Next Watering:</span>{" "}
-            {nextWateringDate
-              ? format(new Date(nextWateringDate), "yyyy-MM-dd")
-              : "N/A"}
-          </p>
-          <p>
-            <span className="font-semibold">Care Level:</span>{" "}
-            <span className="text-green-500 capitalize">
-              {careLevel || "N/A"}
+        <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+          <div className="flex items-center gap-2">
+            <FaWater className="text-blue-500 dark:text-blue-400" />
+            <span>
+              <strong>Water:</strong> {wateringFrequency || "N/A"}
             </span>
-          </p>
+          </div>
+
+          <div>
+            <strong>Next:</strong>{" "}
+            <span
+              className={
+                needsWatering
+                  ? "text-red-500 dark:text-red-400 font-semibold"
+                  : ""
+              }
+            >
+              {nextWateringDate
+                ? format(new Date(nextWateringDate), "MMM d, yyyy")
+                : "N/A"}
+            </span>
+          </div>
+
+          <div className="flex items-center gap-2">
+            <FaLeaf className="text-green-500 dark:text-green-400" />
+            <span>
+              <strong>Care:</strong>{" "}
+              {careLevel
+                ? careLevel.charAt(0).toUpperCase() + careLevel.slice(1)
+                : "N/A"}
+            </span>
+          </div>
         </div>
 
-        <div className="flex justify-between items-center mt-4">
+        {/* Actions */}
+        <div className="flex gap-2 mt-4">
           <Link
             to={`/update-plant/${_id}`}
-            className="flex items-center gap-1 text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-md transition"
-            title="Edit Plant"
-            aria-label={`Edit ${plantName}`}
+            className="flex-1 flex items-center justify-center gap-2 bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800 text-white px-4 py-2 rounded-md text-sm"
           >
             <FaEdit />
-            Edit
+            <span>Edit</span>
           </Link>
 
           <button
             onClick={handleDelete}
             disabled={isDeleting}
-            className={`flex items-center gap-1 text-white px-4 py-2 rounded-md transition ${
+            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm ${
               isDeleting
-                ? "bg-red-400 cursor-not-allowed"
-                : "bg-red-600 hover:bg-red-700"
+                ? "bg-red-400 dark:bg-red-500 cursor-not-allowed text-white"
+                : "bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-800 text-white"
             }`}
-            title="Delete Plant"
-            aria-label={`Delete ${plantName}`}
           >
             <MdDelete />
-            {isDeleting ? "Deleting..." : "Delete"}
+            <span>{isDeleting ? "Deleting..." : "Delete"}</span>
           </button>
         </div>
-
-        <ToastContainer />
       </div>
     </div>
   );

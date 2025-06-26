@@ -1,8 +1,11 @@
 import React from "react";
 import { useNavigate } from "react-router";
+import useTitle from "../hooks/useTitle";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
+  const title = "Green Nest - 404 Not Found";
+  useTitle(title);
 
   return (
     <div

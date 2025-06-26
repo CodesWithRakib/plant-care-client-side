@@ -9,10 +9,13 @@ import {
   FaHeartbeat,
   FaInfoCircle,
 } from "react-icons/fa";
+import useTitle from "../hooks/useTitle";
 
 const PlantDetails = () => {
   const data = useLoaderData();
   const navigate = useNavigate();
+  const title = `Green Nest - ${data.plantName || "Plant Details"}`;
+  useTitle(title);
 
   const {
     _id,

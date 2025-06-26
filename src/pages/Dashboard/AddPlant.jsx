@@ -1,15 +1,18 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../auth/AuthProvider";
-import { Bounce, toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast, { Toaster } from "react-hot-toast";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
+import useTitle from "../../hooks/useTitle";
 
 const AddPlant = () => {
   const { user } = useContext(AuthContext);
   const [lastWateredDate, setLastWateredDate] = useState(new Date());
   const [nextWateringDate, setNextWateringDate] = useState(new Date());
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const title = "Green Nest - Add Plant";
+  useTitle(title);
 
   const handleAddPlant = async (event) => {
     event.preventDefault();
@@ -44,11 +47,13 @@ const AddPlant = () => {
       const data = await response.json();
 
       if (data.insertedId) {
-        toast.success("✅ Plant added successfully!", {
+        toast.success("Plant added successfully!", {
           position: "top-center",
-          autoClose: 2000,
-          transition: Bounce,
-          theme: "colored",
+          duration: 2000,
+          style: {
+            background: "#16a34a",
+            color: "#fff",
+          },
         });
         event.target.reset();
         setLastWateredDate(new Date());
@@ -57,11 +62,13 @@ const AddPlant = () => {
         throw new Error(data.message || "Failed to add plant");
       }
     } catch (error) {
-      toast.error(`❌ Failed to add plant: ${error?.message}`, {
+      toast.error(`Failed to add plant: ${error?.message}`, {
         position: "top-center",
-        autoClose: 2000,
-        transition: Bounce,
-        theme: "colored",
+        duration: 2000,
+        style: {
+          background: "#dc2626",
+          color: "#fff",
+        },
       });
     } finally {
       setIsSubmitting(false);
@@ -69,8 +76,9 @@ const AddPlant = () => {
   };
 
   return (
-    <div className="min-h-full bg-gray-50 dark:bg-zinc-800 transition-colors duration-300">
-      <div className="max-w-4xl w-full mx-auto p-6 bg-white dark:bg-zinc-900 rounded-lg shadow-md dark:shadow-zinc-700 transition-all duration-300">
+    <div className="min-h-screen bg-gray-50 dark:bg-zinc-800 transition-colors duration-300">
+      <Toaster />
+      <div className=" w-full  p-6 bg-white dark:bg-zinc-900 rounded-lg shadow-md dark:shadow-zinc-700 transition-all duration-300">
         <div className="mb-8 text-center">
           <h1 className="text-4xl font-bold mb-2 text-green-600 dark:text-green-400">
             Add a New Plant
@@ -303,8 +311,6 @@ const AddPlant = () => {
             </button>
           </div>
         </form>
-
-        <ToastContainer />
       </div>
     </div>
   );

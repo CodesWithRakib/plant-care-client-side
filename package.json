@@ -11,11 +11,11 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.1.7",
+    "@tanstack/react-table": "^8.21.3",
     "chart.js": "^4.5.0",
     "date-fns": "^4.1.0",
     "dotenv": "^16.5.0",
     "firebase": "^11.7.3",
-    "flowbite": "^3.1.2",
     "lucide-react": "^0.523.0",
     "motion": "^12.19.1",
     "react": "^19.1.0",

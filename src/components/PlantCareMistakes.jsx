@@ -74,7 +74,7 @@ const PlantCareMistakes = () => {
     hidden: { opacity: 0 },
     show: {
       opacity: 1,
-      transition: { staggerChildren: 0.1 },
+      transition: { staggerChildren: 0.12 },
     },
   };
 
@@ -110,18 +110,18 @@ const PlantCareMistakes = () => {
             <motion.div
               key={i}
               variants={item}
-              whileHover={{ y: -6, boxShadow: "0 10px 15px rgba(0,0,0,0.1)" }}
-              className={`bg-white dark:bg-zinc-800 rounded-xl shadow-sm border-l-8 ${mistake.color} p-6 transition-shadow duration-300 cursor-pointer flex flex-col`}
+              whileHover={{ y: -6, boxShadow: "0 12px 20px rgba(0,0,0,0.12)" }}
+              className={`bg-white dark:bg-zinc-800 rounded-xl shadow-sm border-l-8 ${mistake.color} p-6 transition-shadow duration-300 cursor-pointer flex flex-col min-h-[320px]`}
             >
               <div className="flex items-start gap-5">
-                <div className="p-3 rounded-full bg-gray-100 dark:bg-zinc-700 flex items-center justify-center">
+                <div className="p-3 rounded-full bg-gray-100 dark:bg-zinc-700 flex items-center justify-center flex-shrink-0">
                   {mistake.icon}
                 </div>
                 <div className="flex flex-col">
                   <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-3">
                     {mistake.title}
                   </h3>
-                  <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">
+                  <p className="text-gray-700 dark:text-gray-300 mb-5 leading-relaxed flex-grow">
                     {mistake.description}
                   </p>
                   <div className="bg-green-100 dark:bg-green-900/40 p-3 rounded-md border border-green-200 dark:border-green-700">

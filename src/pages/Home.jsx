@@ -6,8 +6,11 @@ import BeginnerFriendly from "../components/BeginnerFriendly";
 import CustomerReviews from "../components/CustomerReviews";
 import Features from "../components/Features";
 import Accordion from "../components/Accordion";
+import useTitle from "../hooks/useTitle";
 
 const Home = () => {
+  const title = "Green Nest - Home";
+  useTitle(title);
   return (
     <div className="">
       <Hero></Hero>

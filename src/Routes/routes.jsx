@@ -20,9 +20,10 @@ import DashboardOverview from "../pages/Dashboard/DashboardOverview"; // 👈 de
 import AboutUs from "../pages/AboutUs";
 import Contact from "../pages/Contact";
 import Support from "../pages/Support";
+import PrivacyPolicy from "../pages/Privacy";
+import TermsOfService from "../pages/Terms";
 
 export const router = createBrowserRouter([
-  // Root layout for public routes
   {
     path: "/",
     element: <Root />,
@@ -56,6 +57,15 @@ export const router = createBrowserRouter([
           </PrivateRoute>
         ),
       },
+      {
+        path: "/privacy",
+        element: <PrivacyPolicy />,
+      },
+      {
+        path: "/terms",
+        element: <TermsOfService />,
+      },
+
       {
         path: "/update-plant/:id",
         element: <UpdatePlant />,

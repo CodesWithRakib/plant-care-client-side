@@ -10,6 +10,7 @@ import {
   FaLock,
   FaImage,
 } from "react-icons/fa";
+import useTitle from "../hooks/useTitle";
 
 const SignUp = () => {
   const { createUser, updateUser, setUser } = useContext(AuthContext);
@@ -18,6 +19,8 @@ const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const title = "Green Nest - Sign Up";
+  useTitle(title);
   const handleSignUp = async (e) => {
     e.preventDefault();
     setIsLoading(true);

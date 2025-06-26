@@ -3,14 +3,17 @@ import { FiUsers, FiCode, FiHeart } from "react-icons/fi";
 import teamImage from "../assets/team.jpg"; // Replace with your team image
 import plantImage from "../assets/plant.jpg"; // Replace with plant-related image
 import { FaLeaf } from "react-icons/fa";
+import useTitle from "../hooks/useTitle";
 
 const AboutUs = () => {
+  const title = "GreenNest Dashboard - About Us";
+  useTitle(title);
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Hero Section */}
       <div className="text-center mb-16">
         <h1 className="text-4xl font-bold text-green-600 dark:text-green-400 mb-4">
-          About GreenThumb Dashboard
+          About GreenNest Dashboard
         </h1>
         <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
           Cultivating the future of plant management through innovative
@@ -33,7 +36,7 @@ const AboutUs = () => {
               Our Mission
             </h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-6">
-              At GreenThumb, we're revolutionizing how plant enthusiasts and
+              At GreenNest, we're revolutionizing how plant enthusiasts and
               professionals track, manage, and understand their plant
               collections. Our dashboard provides powerful tools to help you
               nurture your plants and expand your botanical knowledge.
@@ -134,7 +137,7 @@ const AboutUs = () => {
         </h2>
         <p className="text-gray-600 dark:text-gray-300 mb-6 max-w-2xl mx-auto">
           Join thousands of plant enthusiasts and professionals who trust
-          GreenThumb Dashboard to manage their plant collections.
+          GreenNest Dashboard to manage their plant collections.
         </p>
         <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
           Get Started

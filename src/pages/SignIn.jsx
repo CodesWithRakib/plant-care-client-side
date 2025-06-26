@@ -10,6 +10,7 @@ import {
   FaEyeSlash,
 } from "react-icons/fa";
 import { FcGoogle } from "react-icons/fc";
+import useTitle from "../hooks/useTitle";
 
 const SignIn = () => {
   const { logIn, logInWithGoogle, setUser } = useContext(AuthContext);
@@ -18,6 +19,9 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
+
+  const title = "Green Nest - Sign In";
+  useTitle(title);
 
   const handleGoogleLogin = async () => {
     setIsGoogleLoading(true);

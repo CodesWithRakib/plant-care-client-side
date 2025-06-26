@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, NavLink } from "react-router";
-import { FaFacebook, FaInstagram, FaTwitter, FaLeaf } from "react-icons/fa";
+import {
+  FaFacebook,
+  FaInstagram,
+  FaTwitter,
+  FaLinkedin,
+  FaLeaf,
+} from "react-icons/fa";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import logo from "/logo.jpg";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
+  const [email, setEmail] = useState("");
+
+  const navLinkClass = ({ isActive }) =>
+    isActive
+      ? "text-green-600 dark:text-green-400 font-medium"
+      : "hover:text-green-600 dark:hover:text-green-400 transition-colors";
+
+  // Simple newsletter submit handler
+  const handleNewsletterSubmit = (e) => {
+    e.preventDefault();
+    if (!email) {
+      alert("Please enter your email.");
+      return;
+    }
+    // You can add your newsletter API call here
+    alert(`Thank you for subscribing with ${email}!`);
+    setEmail("");
+  };
 
   return (
     <footer className="bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-300 border-t border-gray-200 dark:border-zinc-700">
@@ -42,38 +66,22 @@ const Footer = () => {
             </h4>
             <ul className="space-y-2">
               <li>
-                <NavLink
-                  to="/"
-                  className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
-                  activeClassName="text-green-600 dark:text-green-400 font-medium"
-                >
+                <NavLink to="/" className={navLinkClass}>
                   Home
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/all-plants"
-                  className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
-                  activeClassName="text-green-600 dark:text-green-400 font-medium"
-                >
+                <NavLink to="/all-plants" className={navLinkClass}>
                   All Plants
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/my-plants"
-                  className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
-                  activeClassName="text-green-600 dark:text-green-400 font-medium"
-                >
+                <NavLink to="/my-plants" className={navLinkClass}>
                   My Plants
                 </NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/add-plant"
-                  className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
-                  activeClassName="text-green-600 dark:text-green-400 font-medium"
-                >
+                <NavLink to="/add-plant" className={navLinkClass}>
                   Add Plant
                 </NavLink>
               </li>
@@ -97,64 +105,88 @@ const Footer = () => {
               <li className="flex items-start gap-3">
                 <MdLocationOn className="text-green-600 dark:text-green-500 mt-1" />
                 <span>
-                  House 12, Road 1<br />
+                  House 12, Road 1
+                  <br />
                   Dhaka, Bangladesh
                 </span>
               </li>
             </ul>
           </div>
 
-          {/* Social Links */}
+          {/* Social Links + Newsletter */}
           <div>
             <h4 className="text-lg font-semibold mb-4 text-gray-900 dark:text-white">
               Follow Us
             </h4>
-            <div className="flex gap-4">
-              <Link
-                to="https://www.facebook.com/CodesWithRakib/"
+            <div className="flex gap-4 mb-6">
+              <a
+                href="https://www.facebook.com/CodesWithRakib/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 aria-label="Facebook"
               >
                 <FaFacebook className="text-xl" />
-              </Link>
-              <Link
-                to="https://www.instagram.com/codeswithrakib/"
+              </a>
+              <a
+                href="https://www.instagram.com/codeswithrakib/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 aria-label="Instagram"
               >
                 <FaInstagram className="text-xl" />
-              </Link>
-              <Link
-                to="https://x.com/CodesWithRakib"
+              </a>
+              <a
+                href="https://x.com/CodesWithRakib"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 aria-label="Twitter"
               >
                 <FaTwitter className="text-xl" />
-              </Link>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/codeswithrakib/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-colors"
+                aria-label="LinkedIn"
+              >
+                <FaLinkedin className="text-xl" />
+              </a>
             </div>
 
-            {/* Newsletter Signup (Optional) */}
-            <div className="mt-6">
-              <h5 className="text-sm font-medium mb-2">
-                Subscribe to our newsletter
-              </h5>
+            {/* Newsletter Signup */}
+            <form onSubmit={handleNewsletterSubmit} className="mt-2">
+              <label htmlFor="newsletter-email" className="sr-only">
+                Email address
+              </label>
               <div className="flex">
                 <input
+                  id="newsletter-email"
                   type="email"
                   placeholder="Your email"
-                  className="px-3 py-2 text-sm border border-gray-300 dark:border-zinc-600 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-green-500 dark:bg-zinc-800 w-full"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="px-3 py-2 text-sm border border-gray-300 dark:border-zinc-600 rounded-l-lg focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 w-full"
+                  aria-required="true"
+                  aria-describedby="newsletter-help"
                 />
-                <button className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white px-4 py-2 rounded-r-lg text-sm transition-colors">
+                <button
+                  type="submit"
+                  className="bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white px-4 py-2 rounded-r-lg text-sm transition-colors"
+                >
                   Join
                 </button>
               </div>
-            </div>
+              <p
+                id="newsletter-help"
+                className="text-xs text-gray-500 dark:text-gray-400 mt-1"
+              >
+                We respect your privacy.
+              </p>
+            </form>
           </div>
         </div>
 
@@ -164,14 +196,14 @@ const Footer = () => {
             &copy; {currentYear} Green Nest. All rights reserved.
             <span className="mx-2">•</span>
             <Link
-              to="/privacy"
+              to="/privacy-policy"
               className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
             >
               Privacy Policy
             </Link>
             <span className="mx-2">•</span>
             <Link
-              to="/terms"
+              to="/terms-of-service"
               className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
             >
               Terms of Service

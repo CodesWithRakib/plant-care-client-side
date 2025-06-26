@@ -7,6 +7,9 @@ import PlantCategoryChart from "./OverView/PlantCategoryChart";
 import RecentPlantsTable from "./OverView/RecentPlantsTable";
 import ErrorAlert from "./ErrorAlert";
 import Loading from "../Loading";
+import useTitle from "../../hooks/useTitle";
+import { format } from "date-fns";
+import toast from "react-hot-toast";
 
 const DashboardOverview = () => {
   const { user } = useContext(AuthContext);
@@ -21,24 +24,20 @@ const DashboardOverview = () => {
     recentItems: [],
   });
 
+  useTitle("Green Nest - Dashboard Overview");
+
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const response = await fetch(
+        const res = await fetch(
           "https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants"
         );
+        if (!res.ok) throw new Error("Failed to fetch data");
+        const data = await res.json();
 
-        if (!response.ok) {
-          throw new Error("Failed to fetch data");
-        }
-
-        const data = await response.json();
-
-        // Filter plants owned by the logged-in user
         const userItems = data.filter((item) => item.userEmail === user?.email);
 
-        // Calculate category counts
         const categories = data.reduce((acc, item) => {
           acc[item.category] = (acc[item.category] || 0) + 1;
           return acc;
@@ -51,7 +50,7 @@ const DashboardOverview = () => {
           recentItems: data.slice(0, 5),
         });
       } catch (err) {
-        setError(err.message || "Unknown error");
+        setError(err.message || "Unknown error occurred");
       } finally {
         setLoading(false);
       }
@@ -65,17 +64,17 @@ const DashboardOverview = () => {
 
   return (
     <div className="space-y-8">
-      {/* Welcome and last updated */}
-      <div className="flex justify-between items-center">
+      {/* Welcome Message */}
+      <div className="flex justify-between items-center flex-wrap gap-3">
         <h2 className="text-3xl font-bold text-green-600 dark:text-green-400">
           Welcome back, {user?.displayName || "User"}!
         </h2>
         <p className="text-gray-500 dark:text-gray-400">
-          Last updated: {new Date().toLocaleDateString()}
+          Last updated: {format(new Date(), "PPpp")}
         </p>
       </div>
 
-      {/* Stats Cards */}
+      {/* Stat Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
           title="Total Plants"
@@ -113,7 +112,7 @@ const DashboardOverview = () => {
         />
       </div>
 
-      {/* Charts and Quick Actions */}
+      {/* Chart and Quick Actions */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
           <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
@@ -121,35 +120,94 @@ const DashboardOverview = () => {
           </h3>
           <PlantCategoryChart categories={stats.categories} />
         </div>
-
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
-          <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
+        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-700">
+          <h3 className="text-2xl font-bold mb-6 text-gray-800 dark:text-white flex items-center">
+            <span className="bg-green-100 dark:bg-green-900/30 text-green-600 dark:text-green-400 p-2 rounded-lg mr-3">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                />
+              </svg>
+            </span>
             Quick Actions
           </h3>
-          <div className="space-y-3">
+          <div className="space-y-4">
             <button
               onClick={() => navigate("/dashboard/add-plant")}
-              className="w-full bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded-lg transition"
+              className="w-full flex items-center justify-between bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white py-3 px-5 rounded-xl transition-all duration-300 shadow hover:shadow-md transform hover:-translate-y-0.5"
             >
-              Add New Plant
+              <span className="font-medium">Add New Plant</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
             </button>
+
             <button
               onClick={() => navigate("/dashboard/all-plants")}
-              className="w-full bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-lg transition"
+              className="w-full flex items-center justify-between bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white py-3 px-5 rounded-xl transition-all duration-300 shadow hover:shadow-md transform hover:-translate-y-0.5"
             >
-              View All Plants
+              <span className="font-medium">View All Plants</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
             </button>
+
             <button
-              onClick={() => alert("Manage Categories feature coming soon!")}
-              className="w-full bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded-lg transition"
+              onClick={() => toast.success("Feature coming soon!")}
+              className="w-full flex items-center justify-between bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white py-3 px-5 rounded-xl transition-all duration-300 shadow hover:shadow-md transform hover:-translate-y-0.5"
             >
-              Manage Categories
+              <span className="font-medium">Manage Categories</span>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                />
+              </svg>
             </button>
           </div>
         </div>
       </div>
 
-      {/* Recent Plants Table */}
+      {/* Recent Plants */}
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
         <h3 className="text-xl font-semibold mb-4 text-gray-800 dark:text-white">
           Recently Added Plants

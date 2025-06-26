@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 import DatePicker from "react-datepicker";
 import { useLoaderData } from "react-router";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import toast from "react-hot-toast";
 import "react-datepicker/dist/react-datepicker.css";
 
 const UpdatePlant = () => {
@@ -58,20 +57,12 @@ const UpdatePlant = () => {
       const data = await response.json();
 
       if (data.modifiedCount > 0) {
-        toast.success("🌱 Plant updated successfully!", {
-          position: "top-center",
-          autoClose: 3000,
-          theme: "colored",
-        });
+        toast.success("🌱 Plant updated successfully!");
       } else {
         throw new Error(data.message || "Failed to update plant");
       }
     } catch (error) {
-      toast.error(`❌ Error updating plant: ${error.message}`, {
-        position: "top-center",
-        autoClose: 5000,
-        theme: "colored",
-      });
+      toast.error(`❌ Error updating plant: ${error.message}`);
     } finally {
       setIsSubmitting(false);
     }
@@ -91,11 +82,10 @@ const UpdatePlant = () => {
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Plant Name */}
             <div>
               <label
                 htmlFor="plantName"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Plant Name
               </label>
@@ -105,16 +95,15 @@ const UpdatePlant = () => {
                 name="plantName"
                 value={formData.plantName}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
                 required
               />
             </div>
 
-            {/* Image URL */}
             <div>
               <label
                 htmlFor="image"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Image URL
               </label>
@@ -124,16 +113,15 @@ const UpdatePlant = () => {
                 name="image"
                 value={formData.image}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
                 required
               />
             </div>
 
-            {/* Category */}
             <div>
               <label
                 htmlFor="category"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Category
               </label>
@@ -142,7 +130,7 @@ const UpdatePlant = () => {
                 name="category"
                 value={formData.category}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
               >
                 <option value="succulent">Succulent</option>
                 <option value="flowering">Flowering</option>
@@ -151,11 +139,10 @@ const UpdatePlant = () => {
               </select>
             </div>
 
-            {/* Care Level */}
             <div>
               <label
                 htmlFor="careLevel"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Care Level
               </label>
@@ -164,7 +151,7 @@ const UpdatePlant = () => {
                 name="careLevel"
                 value={formData.careLevel}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
               >
                 <option value="easy">Easy</option>
                 <option value="moderate">Moderate</option>
@@ -172,11 +159,10 @@ const UpdatePlant = () => {
               </select>
             </div>
 
-            {/* Last Watered Date */}
             <div>
               <label
                 htmlFor="lastWateredDate"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Last Watered Date
               </label>
@@ -185,17 +171,16 @@ const UpdatePlant = () => {
                 selected={formData.lastWateredDate}
                 onChange={(date) => handleDateChange(date, "lastWateredDate")}
                 dateFormat="MMMM d, yyyy"
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
                 maxDate={new Date()}
                 required
               />
             </div>
 
-            {/* Next Watering Date */}
             <div>
               <label
                 htmlFor="nextWateringDate"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Next Watering Date
               </label>
@@ -204,17 +189,16 @@ const UpdatePlant = () => {
                 selected={formData.nextWateringDate}
                 onChange={(date) => handleDateChange(date, "nextWateringDate")}
                 dateFormat="MMMM d, yyyy"
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
                 minDate={new Date()}
                 required
               />
             </div>
 
-            {/* Health Status */}
             <div>
               <label
                 htmlFor="healthStatus"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Health Status
               </label>
@@ -223,7 +207,7 @@ const UpdatePlant = () => {
                 name="healthStatus"
                 value={formData.healthStatus}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
               >
                 <option value="healthy">Healthy</option>
                 <option value="average">Average</option>
@@ -232,11 +216,10 @@ const UpdatePlant = () => {
               </select>
             </div>
 
-            {/* Watering Frequency */}
             <div>
               <label
                 htmlFor="wateringFrequency"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Watering Frequency
               </label>
@@ -246,17 +229,16 @@ const UpdatePlant = () => {
                 name="wateringFrequency"
                 value={formData.wateringFrequency}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
                 required
               />
             </div>
           </div>
 
-          {/* Description */}
           <div>
             <label
               htmlFor="description"
-              className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+              className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
             >
               Description
             </label>
@@ -266,17 +248,16 @@ const UpdatePlant = () => {
               value={formData.description}
               onChange={handleChange}
               rows="4"
-              className="w-full px-4 py-2 border rounded-md focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-zinc-800 dark:border-zinc-700 dark:text-white dark:placeholder-gray-400 transition-colors duration-300"
+              className="w-full px-4 py-2 border rounded-md dark:bg-zinc-800 dark:border-zinc-700 dark:text-white"
               required
             />
           </div>
 
-          {/* User Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label
                 htmlFor="userName"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Your Name
               </label>
@@ -286,14 +267,14 @@ const UpdatePlant = () => {
                 name="userName"
                 value={formData.userName}
                 readOnly
-                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 dark:text-white cursor-not-allowed transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 dark:text-white cursor-not-allowed"
                 required
               />
             </div>
             <div>
               <label
                 htmlFor="userEmail"
-                className="block mb-2 font-medium text-gray-700 dark:text-gray-300 transition-colors duration-300"
+                className="block mb-2 font-medium text-gray-700 dark:text-gray-300"
               >
                 Your Email
               </label>
@@ -303,42 +284,27 @@ const UpdatePlant = () => {
                 name="userEmail"
                 value={formData.userEmail}
                 readOnly
-                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 dark:text-white cursor-not-allowed transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 dark:text-white cursor-not-allowed"
                 required
               />
             </div>
           </div>
 
-          {/* Submit Button */}
           <div className="pt-4">
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`w-full px-6 py-3 font-semibold rounded-md transition-colors duration-300 ${
+              className={`w-full px-6 py-3 font-semibold rounded-md text-white ${
                 isSubmitting
                   ? "bg-green-400 dark:bg-green-600 cursor-not-allowed"
                   : "bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-800"
-              } text-white`}
+              }`}
             >
               {isSubmitting ? "Updating..." : "Update Plant"}
             </button>
           </div>
         </form>
       </div>
-
-      <ToastContainer
-        position="top-center"
-        autoClose={5000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="colored"
-        className="mt-8"
-      />
     </div>
   );
 };

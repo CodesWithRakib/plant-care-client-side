@@ -35,7 +35,7 @@ const NavBar = () => {
 
   useEffect(() => {
     localStorage.setItem("theme", theme);
-    document.documentElement.classList.toggle("dark", theme === "dark");
+    document.documentElement.setAttribute("data-theme", theme);
   }, [theme]);
 
   useEffect(() => {
@@ -128,11 +128,11 @@ const NavBar = () => {
                 alt="Green Nest Logo"
                 className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-green-500 dark:border-green-400"
               />
-              <div className="hidden sm:flex flex-col leading-tight">
+              <div className="hidden xl:flex flex-col leading-tight">
                 <h3 className="text-lg font-bold text-green-600 dark:text-green-400 leading-snug">
                   Green Nest
                 </h3>
-                <p className="text-sm text-gray-500 dark:text-gray-400 leading-snug">
+                <p className="text-sm hidden xl:block text-gray-500 dark:text-gray-400 leading-snug">
                   Care Your Plants
                 </p>
               </div>

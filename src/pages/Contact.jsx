@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi";
 import contactImage from "../assets/contact.jpg";
 import { FaLeaf } from "react-icons/fa";
+import useTitle from "../hooks/useTitle";
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -12,6 +13,8 @@ const Contact = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
+  const title = "Green Nest - Contact Us";
+  useTitle(title);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));

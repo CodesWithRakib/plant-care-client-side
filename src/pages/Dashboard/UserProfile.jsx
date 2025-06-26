@@ -11,6 +11,7 @@ import { Bounce, toast, ToastContainer } from "react-toastify";
 import { AuthContext } from "../../auth/AuthProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { FaSave } from "react-icons/fa";
+import useTitle from "../../hooks/useTitle";
 
 const UserProfile = () => {
   const { logOut, user, updateUser } = useContext(AuthContext);
@@ -24,7 +25,8 @@ const UserProfile = () => {
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [tempPhotoUrl, setTempPhotoUrl] = useState("");
 
-  console.log(user);
+  const title = `Green Nest - ${displayName || "User Profile"}`;
+  useTitle(title);
   const handleLogout = async () => {
     try {
       await logOut();

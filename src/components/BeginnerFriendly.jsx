@@ -173,11 +173,13 @@ const BeginnerFriendly = () => {
                 expandedCard === plant.id ? "ring-2 ring-green-500" : ""
               }`}
             >
+              {/* Image and Header */}
               <div className="relative">
                 <img
                   src={plant.image}
                   alt={plant.name}
                   className="w-full h-48 object-cover rounded-t-xl"
+                  loading="lazy"
                 />
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-xl">
                   <h3 className="text-xl font-bold text-white">{plant.name}</h3>
@@ -192,6 +194,7 @@ const BeginnerFriendly = () => {
                 )}
               </div>
 
+              {/* Content */}
               <div className="p-5 flex flex-col flex-grow">
                 <p className="text-gray-700 dark:text-gray-300 mb-5 flex-grow">
                   {plant.description}
@@ -220,6 +223,7 @@ const BeginnerFriendly = () => {
                   />
                 </div>
 
+                {/* Expandable Section */}
                 {expandedCard === plant.id && (
                   <motion.div
                     initial={{ opacity: 0, height: 0 }}
@@ -245,6 +249,7 @@ const BeginnerFriendly = () => {
                   </motion.div>
                 )}
 
+                {/* Toggle Button */}
                 <button
                   onClick={() => toggleExpand(plant.id)}
                   aria-expanded={expandedCard === plant.id}
