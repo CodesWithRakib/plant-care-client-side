@@ -32,22 +32,17 @@ const NewPlants = () => {
     };
 
     fetchPlants();
-
-    // Cleanup function
-    return () => {
-      // Cancel any ongoing requests if component unmounts
-    };
   }, []);
 
   return (
-    <section className="bg-green-50 dark:bg-zinc-800 py-12">
+    <section className="bg-green-50 dark:bg-zinc-900 py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-green-700 dark:text-green-400 poppins">
+          <h2 className="text-4xl md:text-5xl font-bold text-green-800 dark:text-green-400 poppins">
             New Arrivals
           </h2>
-          <p className="mt-3 text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
+          <p className="mt-3 text-lg text-gray-700 dark:text-gray-300 max-w-2xl mx-auto">
             Discover our latest plant additions and bring fresh greenery into
             your space
           </p>
@@ -55,15 +50,22 @@ const NewPlants = () => {
 
         {/* Content Section */}
         {loading ? (
-          <Loading />
+          <div aria-live="polite">
+            <Loading />
+          </div>
         ) : error ? (
-          <div className="text-center py-10">
-            <p className="text-red-500 dark:text-red-400 mb-4">
-              Failed to load plants: {error}
+          <div
+            aria-live="polite"
+            className="text-center py-10"
+            role="alert"
+            tabIndex={-1}
+          >
+            <p className="text-red-600 dark:text-red-500 mb-4 text-lg flex items-center justify-center gap-2">
+              <span aria-hidden="true">❌</span> Failed to load plants: {error}
             </p>
             <button
               onClick={() => window.location.reload()}
-              className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors"
+              className="px-6 py-2 bg-green-700 hover:bg-green-800 text-white rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2"
             >
               Retry
             </button>

@@ -59,47 +59,109 @@ const Hero = () => {
   const settings = {
     dots: true,
     infinite: true,
-    speed: 1000,
+    speed: 1200,
     slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 6000,
+    autoplaySpeed: 7000,
     pauseOnHover: true,
     fade: true,
-    cssEase: "cubic-bezier(0.645, 0.045, 0.355, 1)",
-    arrows: false,
+    cssEase: "ease-in-out",
+    arrows: true,
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
     appendDots: (dots) => (
-      <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2">
-        <ul className="flex space-x-2">{dots}</ul>
+      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-30">
+        <ul className="flex space-x-3">{dots}</ul>
       </div>
     ),
     customPaging: () => (
-      <div className="w-3 h-3 rounded-full bg-white/50 hover:bg-white transition-all duration-300"></div>
+      <div className="w-4 h-4 rounded-full bg-white/40 hover:bg-white transition"></div>
     ),
   };
 
   return (
-    <section className="relative overflow-hidden">
-      <Slider {...settings} className="hero-carousel">
+    <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden select-none">
+      <Slider {...settings} className="h-full">
         {banners.map((banner) => (
           <HeroSlider key={banner.id} banner={banner} />
         ))}
       </Slider>
-
-      {/* Custom navigation arrows */}
-      <style jsx global>{`
-        .hero-carousel .slick-dots li.slick-active div {
-          background: #4ade80;
-          width: 1.5rem;
-          border-radius: 0.75rem;
-        }
-        .hero-carousel .slick-dots li div {
-          width: 0.75rem;
-          height: 0.75rem;
-          transition: all 0.3s ease;
-        }
-      `}</style>
     </section>
+  );
+};
+
+// Arrows with smaller width & height (from your first liked version),
+// positioned and centered vertically on left/right sides
+const SampleNextArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <button
+      aria-label="Next slide"
+      className={`${className} !bg-green-600 !bg-opacity-70 !hover:bg-opacity-90 !p-1.5 !rounded-full !text-white !shadow-lg !transition`}
+      style={{
+        ...style,
+        zIndex: 40,
+        right: "1rem",
+        top: "50%",
+        transform: "translateY(-50%)",
+        width: "1.5rem",
+        height: "1.5rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      onClick={onClick}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  );
+};
+
+const SamplePrevArrow = (props) => {
+  const { className, style, onClick } = props;
+  return (
+    <button
+      aria-label="Previous slide"
+      className={`${className} !bg-green-600 !bg-opacity-70 !hover:bg-opacity-90 !p-1.5 !rounded-full !text-white !shadow-lg !transition`}
+      style={{
+        ...style,
+        zIndex: 40,
+        left: "1rem",
+        top: "50%",
+        transform: "translateY(-50%)",
+        width: "1.5rem",
+        height: "1.5rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+      onClick={onClick}
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        className="h-4 w-4"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+        strokeWidth={2}
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M15 19l-7-7 7-7"
+        />
+      </svg>
+    </button>
   );
 };
 

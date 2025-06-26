@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from "../../auth/AuthProvider";
 import { Bounce, toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "react-datepicker/dist/react-datepicker.css";
 import DatePicker from "react-datepicker";
 
@@ -68,13 +69,13 @@ const AddPlant = () => {
   };
 
   return (
-    <div className="min-h-full  bg-transparent dark:bg-transparent">
-      <div className="max-w-4xl w-full mx-auto p-6 bg-white dark:bg-zinc-900 rounded-lg shadow-md dark:shadow-zinc-700 transition-colors duration-300 overflow-auto">
+    <div className="min-h-full bg-gray-50 dark:bg-zinc-800 transition-colors duration-300">
+      <div className="max-w-4xl w-full mx-auto p-6 bg-white dark:bg-zinc-900 rounded-lg shadow-md dark:shadow-zinc-700 transition-all duration-300">
         <div className="mb-8 text-center">
-          <h1 className="text-4xl font-bold mb-2 text-green-600 dark:text-green-400 transition-colors duration-300">
+          <h1 className="text-4xl font-bold mb-2 text-green-600 dark:text-green-400">
             Add a New Plant
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 transition-colors duration-300">
+          <p className="text-gray-600 dark:text-gray-400">
             Fill in the form below to add your plant to the tracker.
           </p>
         </div>
@@ -83,43 +84,52 @@ const AddPlant = () => {
           <div className="grid md:grid-cols-2 gap-6">
             {/* Plant Name */}
             <div>
-              <label htmlFor="plantName" className="block mb-1 font-medium">
+              <label
+                htmlFor="plantName"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
+              >
                 Plant Name
               </label>
               <input
                 id="plantName"
-                required
                 name="plantName"
+                required
                 placeholder="Aloe Vera"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
               />
             </div>
 
             {/* Image URL */}
             <div>
-              <label htmlFor="image" className="block mb-1 font-medium">
+              <label
+                htmlFor="image"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
+              >
                 Image URL
               </label>
               <input
                 id="image"
-                required
                 name="image"
                 type="url"
+                required
                 placeholder="https://example.com/image.jpg"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
               />
             </div>
 
             {/* Category */}
             <div>
-              <label htmlFor="category" className="block mb-1 font-medium">
+              <label
+                htmlFor="category"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
+              >
                 Category
               </label>
               <select
                 id="category"
                 name="category"
                 required
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
               >
                 <option value="">Select a category</option>
                 <option value="succulent">Succulent</option>
@@ -132,14 +142,17 @@ const AddPlant = () => {
 
             {/* Care Level */}
             <div>
-              <label htmlFor="careLevel" className="block mb-1 font-medium">
+              <label
+                htmlFor="careLevel"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
+              >
                 Care Level
               </label>
               <select
                 id="careLevel"
                 name="careLevel"
                 required
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
               >
                 <option value="">Select care level</option>
                 <option value="easy">Easy</option>
@@ -152,29 +165,32 @@ const AddPlant = () => {
             <div>
               <label
                 htmlFor="wateringFrequency"
-                className="block mb-1 font-medium"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
               >
                 Watering Frequency
               </label>
               <input
                 id="wateringFrequency"
-                required
                 name="wateringFrequency"
+                required
                 placeholder="Every 7 days"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
               />
             </div>
 
             {/* Health Status */}
             <div>
-              <label htmlFor="healthStatus" className="block mb-1 font-medium">
+              <label
+                htmlFor="healthStatus"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
+              >
                 Health Status
               </label>
               <select
                 id="healthStatus"
                 name="healthStatus"
                 required
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
               >
                 <option value="">Select health status</option>
                 <option value="healthy">Healthy</option>
@@ -188,7 +204,7 @@ const AddPlant = () => {
             <div>
               <label
                 htmlFor="lastWateredDate"
-                className="block mb-1 font-medium"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
               >
                 Last Watered Date
               </label>
@@ -197,9 +213,9 @@ const AddPlant = () => {
                 selected={lastWateredDate}
                 onChange={(date) => setLastWateredDate(date)}
                 dateFormat="yyyy/MM/dd"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
-                required
                 maxDate={new Date()}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
               />
             </div>
 
@@ -207,7 +223,7 @@ const AddPlant = () => {
             <div>
               <label
                 htmlFor="nextWateringDate"
-                className="block mb-1 font-medium"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
               >
                 Next Watering Date
               </label>
@@ -216,31 +232,37 @@ const AddPlant = () => {
                 selected={nextWateringDate}
                 onChange={(date) => setNextWateringDate(date)}
                 dateFormat="yyyy/MM/dd"
-                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white transition-colors duration-300"
-                required
                 minDate={new Date()}
+                required
+                className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
               />
             </div>
           </div>
 
           {/* Description */}
           <div>
-            <label htmlFor="description" className="block mb-1 font-medium">
+            <label
+              htmlFor="description"
+              className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
+            >
               Description
             </label>
             <textarea
               id="description"
               name="description"
-              placeholder="Brief details about the plant..."
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-zinc-800 dark:border-zinc-700 dark:text-white h-24 resize-none transition-colors duration-300"
               required
+              placeholder="Brief details about the plant..."
+              className="w-full px-4 py-2 border rounded-md h-24 resize-none focus:outline-none focus:ring-2 focus:ring-green-500 bg-white dark:bg-zinc-800 border-gray-300 dark:border-zinc-700 text-gray-900 dark:text-white"
             />
           </div>
 
-          {/* User Info (ReadOnly) */}
+          {/* User Info */}
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label htmlFor="userName" className="block mb-1 font-medium">
+              <label
+                htmlFor="userName"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
+              >
                 Your Name
               </label>
               <input
@@ -248,12 +270,14 @@ const AddPlant = () => {
                 name="userName"
                 defaultValue={user?.displayName}
                 readOnly
-                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 dark:border-zinc-600 cursor-not-allowed transition-colors duration-300"
-                required
+                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 border-gray-300 dark:border-zinc-600 cursor-not-allowed text-gray-900 dark:text-white"
               />
             </div>
             <div>
-              <label htmlFor="userEmail" className="block mb-1 font-medium">
+              <label
+                htmlFor="userEmail"
+                className="block mb-1 font-medium text-gray-800 dark:text-gray-200"
+              >
                 Your Email
               </label>
               <input
@@ -261,8 +285,7 @@ const AddPlant = () => {
                 name="userEmail"
                 defaultValue={user?.email}
                 readOnly
-                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 dark:border-zinc-600 cursor-not-allowed transition-colors duration-300"
-                required
+                className="w-full px-4 py-2 border rounded-md bg-gray-100 dark:bg-zinc-700 border-gray-300 dark:border-zinc-600 cursor-not-allowed text-gray-900 dark:text-white"
               />
             </div>
           </div>
@@ -272,7 +295,7 @@ const AddPlant = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className={`bg-green-600 hover:bg-green-700 text-white font-semibold px-8 py-3 rounded-md transition duration-300 ${
+              className={`bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white font-semibold px-8 py-3 rounded-md transition duration-300 ${
                 isSubmitting ? "opacity-70 cursor-not-allowed" : ""
               }`}
             >

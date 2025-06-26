@@ -43,7 +43,7 @@ const Accordion = () => {
   };
 
   return (
-    <section className="py-16 px-4 sm:px-6 bg-green-50 dark:bg-zinc-800/50">
+    <section className="py-16 px-4 sm:px-6 bg-green-50 dark:bg-zinc-900 transition-colors duration-500">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -65,11 +65,11 @@ const Accordion = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
-              className="overflow-hidden"
+              className="overflow-hidden rounded-lg"
             >
               <button
                 onClick={() => toggleAccordion(index)}
-                className={`w-full flex items-center justify-between p-5 text-left rounded-lg transition-all ${
+                className={`w-full flex items-center justify-between p-5 text-left rounded-lg transition-colors duration-300 ${
                   activeIndex === index
                     ? "bg-green-600 text-white dark:bg-green-700"
                     : "bg-white dark:bg-zinc-900 hover:bg-green-50 dark:hover:bg-zinc-700/50"
@@ -88,7 +88,7 @@ const Accordion = () => {
                 )}
               </button>
 
-              <AnimatePresence>
+              <AnimatePresence initial={false}>
                 {activeIndex === index && (
                   <motion.div
                     id={`faq-content-${index}`}

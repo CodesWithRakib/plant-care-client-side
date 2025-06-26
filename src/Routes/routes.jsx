@@ -18,6 +18,8 @@ import UpdatePlant from "../pages/Dashboard/UpdatePlant";
 import UserProfile from "../pages/Dashboard/UserProfile";
 import DashboardOverview from "../pages/Dashboard/DashboardOverview"; // 👈 default dashboard page
 import AboutUs from "../pages/AboutUs";
+import Contact from "../pages/Contact";
+import Support from "../pages/Support";
 
 export const router = createBrowserRouter([
   // Root layout for public routes
@@ -37,6 +39,14 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <AboutUs />,
+      },
+      {
+        path: "/contact",
+        element: <Contact />,
+      },
+      {
+        path: "/support",
+        element: <Support />,
       },
       {
         path: "/profile",
