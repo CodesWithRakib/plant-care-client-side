@@ -25,9 +25,6 @@ const NavBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
-  // State for full page height overlay
-  const [overlayHeight, setOverlayHeight] = useState(window.innerHeight);
-
   const toggleTheme = () => {
     const newTheme = theme === "dark" ? "light" : "dark";
     setTheme(newTheme);
@@ -42,26 +39,6 @@ const NavBar = () => {
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Update overlay height to cover entire scrollable page on load, resize, and scroll
-  useEffect(() => {
-    const updateHeight = () => {
-      const fullHeight = Math.max(
-        document.documentElement.scrollHeight,
-        window.innerHeight
-      );
-      setOverlayHeight(fullHeight);
-    };
-
-    updateHeight();
-    window.addEventListener("resize", updateHeight);
-    window.addEventListener("scroll", updateHeight);
-
-    return () => {
-      window.removeEventListener("resize", updateHeight);
-      window.removeEventListener("scroll", updateHeight);
-    };
   }, []);
 
   const handleLogout = () => {
@@ -128,13 +105,10 @@ const NavBar = () => {
                 alt="Green Nest Logo"
                 className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-green-500 dark:border-green-400"
               />
-              <div className="hidden xl:flex flex-col leading-tight">
+              <div className="hidden sm:flex flex-col leading-tight">
                 <h3 className="text-lg font-bold text-green-600 dark:text-green-400 leading-snug">
                   Green Nest
                 </h3>
-                <p className="text-sm hidden xl:block text-gray-500 dark:text-gray-400 leading-snug">
-                  Care Your Plants
-                </p>
               </div>
             </div>
 
@@ -267,10 +241,9 @@ const NavBar = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu Backdrop and Sliding Panel */}
+      {/* Mobile Menu */}
       <div
-        style={{ height: overlayHeight }}
-        className={`lg:hidden fixed top-0 left-0 w-full z-[9999] bg-black/50 backdrop-blur-md transition-opacity duration-300 ${
+        className={`lg:hidden fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity duration-300 ${
           isMenuOpen
             ? "opacity-100 visible"
             : "opacity-0 invisible pointer-events-none"
@@ -279,7 +252,7 @@ const NavBar = () => {
         aria-hidden={!isMenuOpen}
       >
         <div
-          className="absolute top-0 right-0 w-3/4 max-w-xs max-h-[100vh] overflow-y-auto bg-white dark:bg-gray-900 shadow-lg p-4 flex flex-col"
+          className="absolute top-0 right-0 w-4/5 max-w-xs h-full bg-white dark:bg-gray-900 shadow-lg p-4 flex flex-col overflow-y-auto"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex justify-between items-center mb-4">
@@ -314,7 +287,7 @@ const NavBar = () => {
             </button>
           </div>
 
-          <nav className="flex-1 overflow-y-auto">
+          <nav className="flex-1">
             {navLinks.map((link) => (
               <NavLink
                 key={link.name}
