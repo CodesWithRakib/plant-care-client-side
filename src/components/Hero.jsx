@@ -81,7 +81,7 @@ const Hero = () => {
   };
 
   return (
-    <section className="relative w-full h-[80vh] md:h-[90vh] overflow-hidden select-none">
+    <section className="relative w-full h-[60vh] md:h-[70vh] overflow-hidden select-none">
       <Slider {...settings} className="h-full">
         {banners.map((banner) => (
           <HeroSlider key={banner.id} banner={banner} />

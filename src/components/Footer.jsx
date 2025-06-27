@@ -9,6 +9,7 @@ import {
 } from "react-icons/fa";
 import { MdEmail, MdPhone, MdLocationOn } from "react-icons/md";
 import logo from "/logo.jpg";
+import toast from "react-hot-toast";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -19,15 +20,22 @@ const Footer = () => {
       ? "text-green-600 dark:text-green-400 font-medium"
       : "hover:text-green-600 dark:hover:text-green-400 transition-colors";
 
-  // Simple newsletter submit handler
+  // Basic email regex for validation
+  const isValidEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+  // Newsletter submit handler with email format check
   const handleNewsletterSubmit = (e) => {
     e.preventDefault();
     if (!email) {
-      alert("Please enter your email.");
+      toast.error("Please enter your email.");
+      return;
+    }
+    if (!isValidEmail(email)) {
+      toast.error("Please enter a valid email address.");
       return;
     }
     // You can add your newsletter API call here
-    alert(`Thank you for subscribing with ${email}!`);
+    toast.success(`Thank you for subscribing with ${email}!`);
     setEmail("");
   };
 
@@ -76,12 +84,12 @@ const Footer = () => {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/my-plants" className={navLinkClass}>
+                <NavLink to="/dashboard/my-plants" className={navLinkClass}>
                   My Plants
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/add-plant" className={navLinkClass}>
+                <NavLink to="/dashboard/add-plant" className={navLinkClass}>
                   Add Plant
                 </NavLink>
               </li>
@@ -122,7 +130,7 @@ const Footer = () => {
               <a
                 href="https://www.facebook.com/CodesWithRakib/"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 aria-label="Facebook"
               >
@@ -131,7 +139,7 @@ const Footer = () => {
               <a
                 href="https://www.instagram.com/codeswithrakib/"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 aria-label="Instagram"
               >
@@ -140,7 +148,7 @@ const Footer = () => {
               <a
                 href="https://x.com/CodesWithRakib"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 aria-label="Twitter"
               >
@@ -149,7 +157,7 @@ const Footer = () => {
               <a
                 href="https://www.linkedin.com/in/codeswithrakib/"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="nofollow noopener noreferrer"
                 className="p-2 bg-gray-100 dark:bg-zinc-800 rounded-full text-gray-700 dark:text-gray-300 hover:bg-green-100 dark:hover:bg-green-900/30 hover:text-green-600 dark:hover:text-green-400 transition-colors"
                 aria-label="LinkedIn"
               >

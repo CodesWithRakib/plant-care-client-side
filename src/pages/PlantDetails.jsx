@@ -14,7 +14,7 @@ import useTitle from "../hooks/useTitle";
 const PlantDetails = () => {
   const data = useLoaderData();
   const navigate = useNavigate();
-  const title = `Green Nest - ${data.plantName || "Plant Details"}`;
+  const title = `Green Nest - ${data?.plantName || "Plant Details"}`;
   useTitle(title);
 
   const {
@@ -30,20 +30,18 @@ const PlantDetails = () => {
     lastWateredDate,
     userName,
     userEmail,
-  } = data;
+  } = data || {};
 
   const handleEdit = () => {
     navigate(`/update-plant/${_id}`);
   };
 
-  // Calculate days until next watering
-  const daysUntilWatering = nextWateringDate
-    ? Math.ceil(
-        (new Date(nextWateringDate) - new Date()) / (1000 * 60 * 60 * 24)
-      )
-    : null;
+  const daysUntilWatering =
+    nextWateringDate &&
+    Math.ceil(
+      (new Date(nextWateringDate) - new Date()) / (1000 * 60 * 60 * 24)
+    );
 
-  // Health status color mapping
   const healthColors = {
     healthy: "text-green-500",
     average: "text-yellow-500",
@@ -51,7 +49,6 @@ const PlantDetails = () => {
     dying: "text-red-500",
   };
 
-  // Care level icons
   const careLevelIcons = {
     easy: "🌱",
     moderate: "🌿",
@@ -81,47 +78,32 @@ const PlantDetails = () => {
                   e.target.onerror = null;
                   e.target.src = noImage;
                 }}
-                alt={plantName}
+                alt={plantName || "Plant Image"}
                 className="w-full h-96 object-cover rounded-lg shadow-xl border dark:border-zinc-700"
               />
               <div className="absolute bottom-4 left-4 bg-black bg-opacity-70 text-white px-3 py-1 rounded-full text-sm">
-                {category?.toUpperCase()}
+                {category?.toUpperCase() || "UNCATEGORIZED"}
               </div>
             </div>
 
             {/* Quick Stats */}
             <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow text-center">
-                <div className="text-green-500 text-2xl mb-1">
-                  <FaWater />
-                </div>
-                <p className="font-medium">Watering</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300">
-                  {wateringFrequency || "N/A"}
-                </p>
-              </div>
-              <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow text-center">
-                <div className="text-green-500 text-2xl mb-1">
-                  {careLevelIcons[careLevel] || "🌱"}
-                </div>
-                <p className="font-medium">Care Level</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300 capitalize">
-                  {careLevel || "N/A"}
-                </p>
-              </div>
-              <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow text-center">
-                <div
-                  className={`text-2xl mb-1 ${
-                    healthColors[healthStatus] || "text-green-500"
-                  }`}
-                >
-                  <FaHeartbeat />
-                </div>
-                <p className="font-medium">Health</p>
-                <p className="text-sm text-gray-600 dark:text-gray-300 capitalize">
-                  {healthStatus || "Healthy"}
-                </p>
-              </div>
+              <StatBox
+                icon={<FaWater />}
+                label="Watering"
+                value={wateringFrequency || "N/A"}
+              />
+              <StatBox
+                icon={careLevelIcons[careLevel] || "🌱"}
+                label="Care Level"
+                value={careLevel || "N/A"}
+              />
+              <StatBox
+                icon={<FaHeartbeat />}
+                label="Health"
+                value={healthStatus || "Healthy"}
+                colorClass={healthColors[healthStatus] || "text-green-500"}
+              />
             </div>
           </div>
 
@@ -129,7 +111,7 @@ const PlantDetails = () => {
           <div className="w-full lg:w-1/2 space-y-6">
             <div>
               <h1 className="text-4xl font-bold text-green-600 dark:text-green-400">
-                {plantName?.toUpperCase()}
+                {plantName?.toUpperCase() || "UNKNOWN PLANT"}
               </h1>
               <p className="text-gray-600 dark:text-gray-400 mt-2">
                 Added by {userName || "Unknown"}
@@ -142,37 +124,40 @@ const PlantDetails = () => {
                 <FaWater className="text-blue-500" /> Watering Information
               </h2>
               <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="font-medium">Last Watered:</span>
-                  <span className="text-gray-600 dark:text-gray-300">
-                    {lastWateredDate
+                <InfoRow
+                  label="Last Watered"
+                  value={
+                    lastWateredDate
                       ? format(new Date(lastWateredDate), "MMMM d, yyyy")
-                      : "Not recorded"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">Next Watering:</span>
-                  <span className="text-green-500 font-medium">
-                    {nextWateringDate
+                      : "Not recorded"
+                  }
+                />
+                <InfoRow
+                  label="Next Watering"
+                  value={
+                    nextWateringDate
                       ? format(new Date(nextWateringDate), "MMMM d, yyyy")
-                      : "Not scheduled"}
-                  </span>
-                </div>
-                {daysUntilWatering && (
-                  <div className="flex justify-between">
-                    <span className="font-medium">Days Until Watering:</span>
-                    <span
-                      className={
-                        daysUntilWatering <= 3
-                          ? "text-red-500 font-bold"
-                          : "text-green-500"
-                      }
-                    >
-                      {daysUntilWatering} day
-                      {daysUntilWatering !== 1 ? "s" : ""}
-                      {daysUntilWatering <= 3 && " ⚠️"}
-                    </span>
-                  </div>
+                      : "Not scheduled"
+                  }
+                  valueClass="text-green-500 font-medium"
+                />
+                {daysUntilWatering > 0 && (
+                  <InfoRow
+                    label="Days Until Watering"
+                    value={
+                      <span
+                        className={
+                          daysUntilWatering <= 3
+                            ? "text-red-500 font-bold"
+                            : "text-green-500"
+                        }
+                      >
+                        {daysUntilWatering} day
+                        {daysUntilWatering !== 1 ? "s" : ""}{" "}
+                        {daysUntilWatering <= 3 && "⚠️"}
+                      </span>
+                    }
+                  />
                 )}
               </div>
             </div>
@@ -183,28 +168,15 @@ const PlantDetails = () => {
                 <FaLeaf className="text-green-500" /> Plant Details
               </h2>
               <div className="space-y-3">
-                <div className="flex justify-between">
-                  <span className="font-medium">Category:</span>
-                  <span className="text-gray-600 dark:text-gray-300 capitalize">
-                    {category || "N/A"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">Care Level:</span>
-                  <span className="text-gray-600 dark:text-gray-300 capitalize">
-                    {careLevel || "N/A"}
-                  </span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="font-medium">Health Status:</span>
-                  <span
-                    className={`capitalize ${
-                      healthColors[healthStatus] || "text-green-500"
-                    }`}
-                  >
-                    {healthStatus || "Healthy"}
-                  </span>
-                </div>
+                <InfoRow label="Category" value={category} />
+                <InfoRow label="Care Level" value={careLevel} />
+                <InfoRow
+                  label="Health Status"
+                  value={healthStatus}
+                  valueClass={
+                    healthColors[healthStatus] || "text-green-500 capitalize"
+                  }
+                />
               </div>
             </div>
 
@@ -242,6 +214,7 @@ const PlantDetails = () => {
               </div>
             </div>
 
+            {/* Navigation Buttons */}
             <div className="flex flex-wrap gap-4 pt-4">
               <Link
                 to="/all-plants"
@@ -264,3 +237,23 @@ const PlantDetails = () => {
 };
 
 export default PlantDetails;
+
+// 🔧 Reusable Helper Components
+const StatBox = ({ icon, label, value, colorClass = "text-green-500" }) => (
+  <div className="bg-white dark:bg-zinc-800 p-4 rounded-lg shadow text-center">
+    <div className={`text-2xl mb-1 ${colorClass}`}>{icon}</div>
+    <p className="font-medium">{label}</p>
+    <p className="text-sm text-gray-600 dark:text-gray-300">{value}</p>
+  </div>
+);
+
+const InfoRow = ({
+  label,
+  value,
+  valueClass = "text-gray-600 dark:text-gray-300 capitalize",
+}) => (
+  <div className="flex justify-between">
+    <span className="font-medium">{label}:</span>
+    <span className={valueClass}>{value || "N/A"}</span>
+  </div>
+);

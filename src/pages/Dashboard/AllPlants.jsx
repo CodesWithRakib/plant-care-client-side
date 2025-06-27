@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
+import { useNavigate } from "react-router";
 import PlantCard from "../../components/PlantCard";
 import NoPlants from "../../components/NoPlants";
 import Loading from "../Loading";
@@ -14,6 +15,10 @@ const AllPlants = () => {
   const [plants, setPlants] = useState([]);
   const [loading, setLoading] = useState(true);
   const [viewMode, setViewMode] = useState("card");
+  const [sortBy, setSortBy] = useState("plantName");
+  const [filterCategory, setFilterCategory] = useState("all");
+
+  const navigate = useNavigate();
 
   useTitle("Green Nest - All Plants");
 
@@ -30,6 +35,35 @@ const AllPlants = () => {
       });
   }, []);
 
+  // Get all unique categories from plants
+  const categories = useMemo(() => {
+    const cats = plants.map((p) => p.category);
+    return ["all", ...Array.from(new Set(cats))];
+  }, [plants]);
+
+  // Filter plants by selected category
+  const filteredPlants = useMemo(() => {
+    if (filterCategory === "all") return plants;
+    return plants.filter((plant) => plant.category === filterCategory);
+  }, [plants, filterCategory]);
+
+  // Sort plants based on sortBy
+  const sortedPlants = useMemo(() => {
+    return [...filteredPlants].sort((a, b) => {
+      if (sortBy === "plantName") {
+        return a.plantName.localeCompare(b.plantName);
+      }
+      if (sortBy === "wateringFrequency") {
+        return a.wateringFrequency.localeCompare(b.wateringFrequency);
+      }
+      if (sortBy === "careLevel") {
+        return a.careLevel.localeCompare(b.careLevel);
+      }
+      return 0;
+    });
+  }, [filteredPlants, sortBy]);
+
+  // Table columns setup
   const columns = useMemo(
     () => [
       {
@@ -81,7 +115,7 @@ const AllPlants = () => {
   );
 
   const table = useReactTable({
-    data: plants,
+    data: sortedPlants,
     columns,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -95,41 +129,88 @@ const AllPlants = () => {
         All Plants
       </h1>
 
-      <div className="flex justify-end mb-6 items-center gap-3">
-        <span className="font-medium text-zinc-800 dark:text-zinc-200">
-          View:
-        </span>
-        <div className="inline-flex rounded-md shadow-sm border border-zinc-300 dark:border-zinc-600 overflow-hidden">
-          <button
-            onClick={() => setViewMode("card")}
-            className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium transition ${
-              viewMode === "card"
-                ? "bg-green-600 text-white"
-                : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700"
-            }`}
+      {/* Sorting and Filtering Controls */}
+      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+        <div className="flex items-center gap-2">
+          <label
+            htmlFor="filter-category"
+            className="font-medium text-zinc-800 dark:text-zinc-200"
           >
-            <LayoutGrid size={18} />
-            <span className="hidden sm:inline">Card</span>
-          </button>
+            Filter by Category:
+          </label>
+          <select
+            id="filter-category"
+            value={filterCategory}
+            onChange={(e) => setFilterCategory(e.target.value)}
+            className="border border-gray-300 dark:border-zinc-600 rounded px-3 py-1.5 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            {categories.map((cat) => (
+              <option key={cat} value={cat}>
+                {cat === "all"
+                  ? "All"
+                  : cat.charAt(0).toUpperCase() + cat.slice(1)}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <button
-            onClick={() => setViewMode("table")}
-            className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium transition ${
-              viewMode === "table"
-                ? "bg-green-600 text-white"
-                : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700"
-            }`}
+        <div className="flex items-center gap-2">
+          <label
+            htmlFor="sort-by"
+            className="font-medium text-zinc-800 dark:text-zinc-200"
           >
-            <Table size={18} />
-            <span className="hidden sm:inline">Table</span>
-          </button>
+            Sort by:
+          </label>
+          <select
+            id="sort-by"
+            value={sortBy}
+            onChange={(e) => setSortBy(e.target.value)}
+            className="border border-gray-300 dark:border-zinc-600 rounded px-3 py-1.5 bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 focus:outline-none focus:ring-2 focus:ring-green-500"
+          >
+            <option value="plantName">Name (A-Z)</option>
+            <option value="wateringFrequency">Watering Frequency</option>
+            <option value="careLevel">Care Level</option>
+          </select>
+        </div>
+
+        <div className="flex justify-end items-center gap-3">
+          <span className="font-medium text-zinc-800 dark:text-zinc-200">
+            View:
+          </span>
+          <div className="inline-flex rounded-md shadow-sm border border-zinc-300 dark:border-zinc-600 overflow-hidden">
+            <button
+              onClick={() => setViewMode("card")}
+              className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium transition ${
+                viewMode === "card"
+                  ? "bg-green-600 text-white"
+                  : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+              }`}
+              aria-label="View cards"
+            >
+              <LayoutGrid size={18} />
+              <span className="hidden sm:inline">Card</span>
+            </button>
+
+            <button
+              onClick={() => setViewMode("table")}
+              className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium transition ${
+                viewMode === "table"
+                  ? "bg-green-600 text-white"
+                  : "bg-white dark:bg-zinc-800 text-zinc-700 dark:text-zinc-200 hover:bg-zinc-100 dark:hover:bg-zinc-700"
+              }`}
+              aria-label="View table"
+            >
+              <Table size={18} />
+              <span className="hidden sm:inline">Table</span>
+            </button>
+          </div>
         </div>
       </div>
 
       {/* View Modes */}
       {viewMode === "card" ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-6">
-          {plants.map((plant) => (
+          {sortedPlants.map((plant) => (
             <PlantCard key={plant._id} plant={plant} />
           ))}
         </div>

@@ -6,7 +6,12 @@ import {
   GiPlantRoots,
   GiDogBowl,
 } from "react-icons/gi";
-import { FaLeaf, FaRegSnowflake } from "react-icons/fa";
+import {
+  FaLeaf,
+  FaRegSnowflake,
+  FaChevronDown,
+  FaChevronUp,
+} from "react-icons/fa";
 
 const BeginnerFriendly = () => {
   const [expandedCard, setExpandedCard] = useState(null);
@@ -132,14 +137,26 @@ const BeginnerFriendly = () => {
     setExpandedCard(expandedCard === id ? null : id);
   };
 
-  const CareTip = ({ icon, title, value }) => (
-    <div className="flex items-center gap-3 py-2">
-      <div className="text-green-600 dark:text-green-400 text-xl">{icon}</div>
+  const CareTip = ({ icon, title, value, compact = false }) => (
+    <div className={`flex items-start ${compact ? "gap-2" : "gap-3"}`}>
+      <div className={`${compact ? "text-sm mt-0.5" : "text-base"}`}>
+        {icon}
+      </div>
       <div>
-        <p className="font-semibold text-gray-800 dark:text-gray-300">
+        <p
+          className={`font-medium ${
+            compact ? "text-xs" : "text-sm"
+          } text-gray-700 dark:text-gray-300`}
+        >
           {title}
         </p>
-        <p className="text-gray-600 dark:text-gray-400">{value}</p>
+        <p
+          className={`${
+            compact ? "text-xs" : "text-sm"
+          } text-gray-500 dark:text-gray-400`}
+        >
+          {value}
+        </p>
       </div>
     </div>
   );
@@ -161,101 +178,136 @@ const BeginnerFriendly = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {beginnerPlants.map((plant) => (
             <motion.div
               key={plant.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3 }}
-              whileHover={{ y: -6, boxShadow: "0 10px 15px rgba(0,0,0,0.12)" }}
-              className={`bg-white dark:bg-zinc-800 rounded-xl shadow-md overflow-hidden transition-shadow duration-300 flex flex-col ${
+              whileHover={{ y: -5 }}
+              className={`bg-white dark:bg-zinc-800 rounded-xl shadow-sm hover:shadow-md overflow-hidden transition-all duration-300 flex flex-col h-full ${
                 expandedCard === plant.id ? "ring-2 ring-green-500" : ""
               }`}
             >
               {/* Image and Header */}
-              <div className="relative">
+              <div className="relative h-48">
                 <img
                   src={plant.image}
                   alt={plant.name}
-                  className="w-full h-48 object-cover rounded-t-xl"
+                  className="w-full h-full object-cover"
                   loading="lazy"
                 />
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-4 rounded-b-xl">
-                  <h3 className="text-xl font-bold text-white">{plant.name}</h3>
-                  <p className="text-sm text-green-300 italic">
-                    {plant.scientificName}
-                  </p>
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
+                  <h3 className="text-lg font-bold text-white">{plant.name}</h3>
+                  <div className="flex justify-between items-end">
+                    <p className="text-xs text-green-200 italic">
+                      {plant.scientificName}
+                    </p>
+                    <span className="text-xs bg-green-600/80 text-white px-2 py-1 rounded">
+                      {plant.difficulty}
+                    </span>
+                  </div>
                 </div>
                 {plant.nickname && (
-                  <span className="absolute top-3 right-3 bg-green-600 text-white text-xs font-semibold px-3 py-1 rounded-full select-none shadow-md">
+                  <span className="absolute top-3 right-3 bg-green-600/90 text-white text-xs font-medium px-2.5 py-1 rounded-full shadow-sm">
                     {plant.nickname}
                   </span>
                 )}
               </div>
 
-              {/* Content */}
-              <div className="p-5 flex flex-col flex-grow">
-                <p className="text-gray-700 dark:text-gray-300 mb-5 flex-grow">
-                  {plant.description}
-                </p>
+              {/* Card Content */}
+              <div className="p-4 flex flex-col flex-grow">
+                <div className="flex-grow">
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-3 mb-4">
+                    {plant.description}
+                  </p>
 
-                <div className="space-y-3 mb-3">
-                  <CareTip
-                    icon={<GiSunflower />}
-                    title="Light"
-                    value={plant.careTips.light}
-                  />
-                  <CareTip
-                    icon={<GiWateringCan />}
-                    title="Water"
-                    value={plant.careTips.watering}
-                  />
-                  <CareTip
-                    icon={<FaRegSnowflake />}
-                    title="Humidity"
-                    value={plant.careTips.humidity}
-                  />
-                  <CareTip
-                    icon={<GiDogBowl />}
-                    title="Pet Safety"
-                    value={plant.petWarning}
-                  />
+                  <div className="space-y-2.5 mb-4">
+                    <CareTip
+                      icon={<GiSunflower className="text-yellow-500" />}
+                      title="Light"
+                      value={plant.careTips.light}
+                      compact
+                    />
+                    <CareTip
+                      icon={<GiWateringCan className="text-blue-500" />}
+                      title="Water"
+                      value={plant.careTips.watering}
+                      compact
+                    />
+                    <CareTip
+                      icon={
+                        <GiDogBowl
+                          className={
+                            plant.petWarning === "Pet-safe"
+                              ? "text-green-500"
+                              : "text-red-400"
+                          }
+                        />
+                      }
+                      title="Pet Safety"
+                      value={plant.petWarning}
+                      compact
+                    />
+                  </div>
+
+                  {/* Expandable Section */}
+                  {expandedCard === plant.id && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: "auto" }}
+                      exit={{ opacity: 0, height: 0 }}
+                      transition={{ duration: 0.2 }}
+                      className="overflow-hidden"
+                    >
+                      <div className="border-t border-gray-100 dark:border-zinc-700 pt-3 space-y-3">
+                        <div>
+                          <h4 className="font-medium text-sm text-green-600 dark:text-green-400 mb-1 flex items-center gap-1.5">
+                            <FaLeaf className="text-xs" /> Special Features
+                          </h4>
+                          <ul className="list-disc pl-4 space-y-1 text-xs text-gray-600 dark:text-gray-400">
+                            {plant.specialFeatures.map((feature, i) => (
+                              <li key={i}>{feature}</li>
+                            ))}
+                          </ul>
+                        </div>
+
+                        <div>
+                          <h4 className="font-medium text-sm text-green-600 dark:text-green-400 mb-1 flex items-center gap-1.5">
+                            <GiPlantRoots className="text-xs" /> Pro Tip
+                          </h4>
+                          <p className="text-xs text-gray-600 dark:text-gray-400">
+                            {plant.careTips.commonMistake}
+                          </p>
+                        </div>
+
+                        <CareTip
+                          icon={<FaRegSnowflake className="text-cyan-400" />}
+                          title="Humidity"
+                          value={plant.careTips.humidity}
+                          compact
+                        />
+                      </div>
+                    </motion.div>
+                  )}
                 </div>
-
-                {/* Expandable Section */}
-                {expandedCard === plant.id && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    transition={{ duration: 0.3 }}
-                    className="border-t border-gray-200 dark:border-zinc-700 pt-4 mt-4"
-                  >
-                    <h4 className="font-semibold text-green-600 dark:text-green-400 mb-2 flex items-center gap-2">
-                      <FaLeaf /> Special Features
-                    </h4>
-                    <ul className="list-disc pl-5 space-y-1 text-sm text-gray-600 dark:text-gray-400">
-                      {plant.specialFeatures.map((feature, i) => (
-                        <li key={i}>{feature}</li>
-                      ))}
-                    </ul>
-
-                    <h4 className="font-semibold text-green-600 dark:text-green-400 mt-4 mb-2 flex items-center gap-2">
-                      <GiPlantRoots /> Pro Tip
-                    </h4>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {plant.careTips.commonMistake}
-                    </p>
-                  </motion.div>
-                )}
 
                 {/* Toggle Button */}
                 <button
                   onClick={() => toggleExpand(plant.id)}
                   aria-expanded={expandedCard === plant.id}
-                  className="mt-5 w-full py-2 text-sm font-semibold text-green-700 dark:text-green-400 hover:bg-green-100 dark:hover:bg-zinc-700 rounded-lg border border-green-600 dark:border-green-500 transition-colors"
+                  className="mt-4 w-full py-2 text-xs font-medium text-green-700 dark:text-green-400 hover:bg-green-50 dark:hover:bg-zinc-700/50 rounded-md border border-green-200 dark:border-green-700 transition-colors flex items-center justify-center gap-1"
                 >
-                  {expandedCard === plant.id ? "Show Less" : "Show More"}
+                  {expandedCard === plant.id ? (
+                    <>
+                      <FaChevronUp className="text-xs" /> Show Less
+                    </>
+                  ) : (
+                    <>
+                      <FaChevronDown className="text-xs" /> Show More
+                    </>
+                  )}
                 </button>
               </div>
             </motion.div>

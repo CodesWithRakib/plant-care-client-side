@@ -13,11 +13,12 @@ import {
   FiExternalLink,
 } from "react-icons/fi";
 import useTitle from "../hooks/useTitle";
+import { useNavigate } from "react-router";
 
 const Support = () => {
   const [activeCategory, setActiveCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
-
+  const navigate = useNavigate();
   const title = "Green Nest - Support";
   useTitle(title);
 
@@ -208,10 +209,10 @@ const Support = () => {
                     Email Us
                   </h4>
                   <a
-                    href="mailto:support@greenthumb.app"
+                    href="mailto:support@greennest.app"
                     className="text-sm text-green-600 dark:text-green-400 hover:underline"
                   >
-                    support@greenthumb.app
+                    support@greennest.app
                   </a>
                   <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                     Typically responds within 24 hours
@@ -249,7 +250,7 @@ const Support = () => {
             <ul className="space-y-3">
               <li>
                 <a
-                  href="#"
+                  href="/contact"
                   className="flex items-center text-green-600 dark:text-green-400 hover:underline text-sm sm:text-base"
                 >
                   <FiZap className="mr-2 flex-shrink-0" />
@@ -259,7 +260,7 @@ const Support = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/contact"
                   className="flex items-center text-green-600 dark:text-green-400 hover:underline text-sm sm:text-base"
                 >
                   <FiLifeBuoy className="mr-2 flex-shrink-0" />
@@ -269,7 +270,7 @@ const Support = () => {
               </li>
               <li>
                 <a
-                  href="#"
+                  href="/contact"
                   className="flex items-center text-green-600 dark:text-green-400 hover:underline text-sm sm:text-base"
                 >
                   <FiUser className="mr-2 flex-shrink-0" />
@@ -289,7 +290,10 @@ const Support = () => {
               Connect with other plant enthusiasts and get answers from our
               community.
             </p>
-            <button className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition flex items-center justify-center">
+            <button
+              onClick={() => navigate("/forum")}
+              className="w-full bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-lg transition flex items-center justify-center"
+            >
               <FiMessageSquare className="mr-2" />
               Visit Community Forum
             </button>

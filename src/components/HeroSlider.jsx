@@ -12,7 +12,7 @@ const HeroSlider = ({ banner }) => {
         style={{
           backgroundImage: `linear-gradient(to right, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.3) 100%), url(${image})`,
         }}
-        className="flex items-center justify-start h-[70vh] min-h-[500px] md:h-[80vh] bg-cover bg-center bg-no-repeat"
+        className="flex items-center justify-start  min-h-[500px] h-[60vh] md:h-[70vh] bg-cover bg-center bg-no-repeat"
       >
         {/* Content Container */}
         <div className="container mx-auto px-6 md:px-12 lg:px-24">
@@ -40,7 +40,7 @@ const HeroSlider = ({ banner }) => {
             {/* Buttons */}
             <div className="flex flex-wrap gap-4 pt-2">
               <Link
-                to={link}
+                to="/all-plants"
                 className="px-6 py-3 bg-green-600 hover:bg-green-700 dark:bg-green-700 dark:hover:bg-green-600 text-white font-medium rounded-full transition-all duration-300 transform hover:scale-105"
               >
                 {buttonText || "Get Started"}

@@ -71,8 +71,11 @@ const MyPlantCard = ({ plant, onDeleteSuccess }) => {
       <div className="relative">
         <img
           src={image || noImage}
-          onError={(e) => (e.target.src = noImage)}
-          alt={plantName}
+          alt={plantName || "Plant Image"}
+          onError={(e) => {
+            e.target.onerror = null;
+            e.target.src = noImage;
+          }}
           className="w-full h-48 object-cover"
           loading="lazy"
         />
@@ -86,7 +89,7 @@ const MyPlantCard = ({ plant, onDeleteSuccess }) => {
       {/* Info */}
       <div className="p-4">
         <h2 className="text-xl font-bold text-green-600 dark:text-green-400 mb-2">
-          {plantName}
+          {plantName || "Unnamed Plant"}
         </h2>
 
         <div className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
@@ -97,18 +100,21 @@ const MyPlantCard = ({ plant, onDeleteSuccess }) => {
             </span>
           </div>
 
-          <div>
-            <strong>Next:</strong>{" "}
-            <span
-              className={
-                needsWatering
-                  ? "text-red-500 dark:text-red-400 font-semibold"
-                  : ""
-              }
-            >
-              {nextWateringDate
-                ? format(new Date(nextWateringDate), "MMM d, yyyy")
-                : "N/A"}
+          <div className="flex items-center gap-2">
+            <FaWater className="text-blue-500 dark:text-blue-400" />
+            <span>
+              <strong>Next:</strong>{" "}
+              <span
+                className={
+                  needsWatering
+                    ? "text-red-500 dark:text-red-400 font-semibold"
+                    : ""
+                }
+              >
+                {nextWateringDate
+                  ? format(new Date(nextWateringDate), "MMM d, yyyy")
+                  : "N/A"}
+              </span>
             </span>
           </div>
 

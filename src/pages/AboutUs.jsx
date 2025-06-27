@@ -4,10 +4,16 @@ import teamImage from "../assets/team.jpg"; // Replace with your team image
 import plantImage from "../assets/plant.jpg"; // Replace with plant-related image
 import { FaLeaf } from "react-icons/fa";
 import useTitle from "../hooks/useTitle";
+import { Hand } from "lucide-react";
+import { useNavigate } from "react-router";
 
 const AboutUs = () => {
   const title = "GreenNest Dashboard - About Us";
   useTitle(title);
+  const navigate = useNavigate();
+  const HandleGetStarted = () => {
+    navigate("/contact");
+  };
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       {/* Hero Section */}
@@ -139,7 +145,10 @@ const AboutUs = () => {
           Join thousands of plant enthusiasts and professionals who trust
           GreenNest Dashboard to manage their plant collections.
         </p>
-        <button className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300">
+        <button
+          onClick={HandleGetStarted}
+          className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-lg transition duration-300"
+        >
           Get Started
         </button>
       </div>

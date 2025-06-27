@@ -7,6 +7,7 @@ import {
 } from "@tanstack/react-table";
 import { FiEye, FiEdit, FiTrash2 } from "react-icons/fi";
 import { Link } from "react-router";
+import toast from "react-hot-toast";
 
 const RecentPlantsTable = ({ plants }) => {
   const columns = React.useMemo(
@@ -83,21 +84,21 @@ const RecentPlantsTable = ({ plants }) => {
           return (
             <div className="flex justify-end gap-3 text-lg">
               <Link
-                to={`/dashboard/plants/${plant._id}`}
+                to={`/dashboard/plant-details/${plant._id}`}
                 title="View Details"
                 className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 <FiEye />
               </Link>
               <Link
-                to={`/dashboard/plants/${plant._id}/edit`}
+                to={`/dashboard/update-plant/${plant._id}`}
                 title="Edit Plant"
                 className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300"
               >
                 <FiEdit />
               </Link>
               <button
-                onClick={() => alert(`Delete ${plant.plantName}`)}
+                onClick={() => toast.success(`Delete ${plant.plantName}`)}
                 title="Delete Plant"
                 className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
               >
@@ -218,7 +219,7 @@ const RecentPlantsTable = ({ plants }) => {
                 <FiEdit className="inline mr-1" /> Edit
               </Link>
               <button
-                onClick={() => alert(`Delete ${plant.plantName}`)}
+                onClick={() => toast.success(` ${plant.plantName} deleted`)}
                 className="text-red-500 hover:text-red-700 dark:text-red-400 dark:hover:text-red-300"
               >
                 <FiTrash2 className="inline mr-1" /> Delete

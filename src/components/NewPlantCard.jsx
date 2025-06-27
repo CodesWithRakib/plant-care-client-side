@@ -20,7 +20,7 @@ const NewPlantCard = ({ plant }) => {
           decoding="async"
         />
         {plant.category && (
-          <span className="absolute top-3 left-3 px-3 py-1 text-xs font-medium bg-green-600/90 text-white rounded-full shadow-sm">
+          <span className="absolute top-3 left-3 px-2 py-0.5 text-xs font-medium bg-green-600/90 text-white rounded-full shadow-sm">
             {plant.category}
           </span>
         )}
@@ -53,10 +53,10 @@ const NewPlantCard = ({ plant }) => {
 
           <Link
             to={`/plant-details/${plant._id}`}
-            className="inline-flex items-center gap-2 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 px-4 py-2 rounded-full shadow-sm hover:shadow-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
+            className="inline-flex items-center gap-2 text-sm font-medium text-white bg-gradient-to-r from-green-600 to-green-500 hover:from-green-700 hover:to-green-600 px-2 py-0.5 rounded-full shadow-sm hover:shadow-md transition duration-200 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2 dark:focus:ring-offset-zinc-900"
             aria-label={`View details of ${plant.plantName || "this plant"}`}
           >
-            Details <FiArrowRight className="h-4 w-4" />
+            See More <FiArrowRight className="h-4 w-4" />
           </Link>
         </div>
       </div>

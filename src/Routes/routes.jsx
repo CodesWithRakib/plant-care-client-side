@@ -22,6 +22,8 @@ import Contact from "../pages/Contact";
 import Support from "../pages/Support";
 import PrivacyPolicy from "../pages/Privacy";
 import TermsOfService from "../pages/Terms";
+import Forum from "../pages/Forum";
+import NewTopic from "../pages/NewTopic";
 
 export const router = createBrowserRouter([
   {
@@ -40,6 +42,18 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <AboutUs />,
+      },
+      {
+        path: "/plant-details/:id",
+        element: (
+          <PrivateRoute>
+            <PlantDetails />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${params.id}`
+          ),
       },
       {
         path: "/contact",
@@ -65,15 +79,17 @@ export const router = createBrowserRouter([
         path: "/terms",
         element: <TermsOfService />,
       },
-
       {
-        path: "/update-plant/:id",
-        element: <UpdatePlant />,
-        loader: ({ params }) =>
-          fetch(
-            `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${params.id}`
-          ),
-        hydrateFallbackElement: <Loading />,
+        path: "/forum",
+        element: <Forum />,
+      },
+      {
+        path: "/forum/new-topic",
+        element: (
+          <PrivateRoute>
+            <NewTopic />
+          </PrivateRoute>
+        ),
       },
     ],
   },
@@ -130,12 +146,29 @@ export const router = createBrowserRouter([
         ),
       },
       {
+        path: "/dashboard/update-plant/:id",
+        element: (
+          <PrivateRoute>
+            <UpdatePlant />
+          </PrivateRoute>
+        ),
+        loader: ({ params }) =>
+          fetch(
+            `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${params.id}`
+          ),
+        hydrateFallbackElement: <Loading />,
+      },
+      {
         path: "/dashboard/plant-details/:id",
         element: (
           <PrivateRoute>
             <PlantDetails />
           </PrivateRoute>
         ),
+        loader: ({ params }) =>
+          fetch(
+            `https://b11a10-server-side-codes-with-rakib.vercel.app/api/plants/${params.id}`
+          ),
       },
     ],
   },

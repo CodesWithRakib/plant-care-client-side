@@ -3,6 +3,8 @@ import { FiMail, FiPhone, FiMapPin, FiSend } from "react-icons/fi";
 import contactImage from "../assets/contact.jpg";
 import { FaLeaf } from "react-icons/fa";
 import useTitle from "../hooks/useTitle";
+import { BsFacebook, BsInstagram, BsTwitter } from "react-icons/bs";
+import toast from "react-hot-toast";
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -26,7 +28,7 @@ const Contact = () => {
 
     // Simulate form submission
     setTimeout(() => {
-      console.log("Form submitted:", formData);
+      toast.success("Form submitted successfully!");
       setIsSubmitting(false);
       setSubmitSuccess(true);
       setFormData({ name: "", email: "", message: "" });
@@ -243,16 +245,33 @@ const Contact = () => {
                 Follow Our Growth
               </h3>
               <div className="flex space-x-4">
-                {["Instagram", "Twitter", "Facebook"].map((social) => (
-                  <a
-                    key={social}
-                    href="#"
-                    className="bg-green-50 dark:bg-gray-700 hover:bg-green-100 dark:hover:bg-gray-600 p-3 rounded-lg transition"
-                  >
-                    <span className="sr-only">{social}</span>
-                    <div className="h-5 w-5 bg-gray-300 dark:bg-gray-500 rounded-full"></div>
-                  </a>
-                ))}
+                <a
+                  href="https://www.instagram.com/codeswithrakib/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-50 dark:bg-gray-700 hover:bg-green-100 dark:hover:bg-gray-600 p-3 rounded-lg transition"
+                >
+                  <span className="sr-only">Instagram</span>
+                  <BsInstagram className="h-5 w-5 text-green-600 dark:text-white" />
+                </a>
+                <a
+                  href="https://x.com/codeswithrakib/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-50 dark:bg-gray-700 hover:bg-green-100 dark:hover:bg-gray-600 p-3 rounded-lg transition"
+                >
+                  <span className="sr-only">TwitterX</span>
+                  <BsTwitter className="h-5 w-5 text-green-600 dark:text-white" />
+                </a>
+                <a
+                  href="https://www.facebook.com/codeswithrakib/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-green-50 dark:bg-gray-700 hover:bg-green-100 dark:hover:bg-gray-600 p-3 rounded-lg transition"
+                >
+                  <span className="sr-only">Facebook</span>
+                  <BsFacebook className="h-5 w-5 text-green-600 dark:text-white" />
+                </a>
               </div>
             </div>
           </div>
