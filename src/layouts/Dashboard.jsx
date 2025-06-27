@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth < 1024;
+      const mobile = window.innerWidth < 768;
       setIsMobile(mobile);
       if (!mobile) setIsMobileMenuOpen(false);
     };
@@ -179,7 +179,13 @@ const Dashboard = () => {
         )}
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto h-full bg-white dark:bg-zinc-900">
+        <main
+          className={`flex-1 overflow-y-auto h-full transition-all duration-300 ${
+            isMobile && isMobileMenuOpen
+              ? "pointer-events-none blur-sm"
+              : "pointer-events-auto"
+          } bg-white dark:bg-zinc-900`}
+        >
           <div className="max-w-[1400px] mx-auto p-4 sm:p-6">
             <Outlet />
           </div>
