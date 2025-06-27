@@ -10,6 +10,8 @@ import {
   flexRender,
 } from "@tanstack/react-table";
 import { LayoutGrid, Table } from "lucide-react";
+import { FiEdit, FiEye } from "react-icons/fi";
+import { format } from "date-fns";
 
 const AllPlants = () => {
   const [plants, setPlants] = useState([]);
@@ -107,8 +109,10 @@ const AllPlants = () => {
       {
         accessorKey: "nextWateringDate",
         header: "Next Watering",
-        cell: ({ row }) =>
-          new Date(row.original.nextWateringDate).toLocaleDateString(),
+        cell: ({ row }) => {
+          const date = row.original.nextWateringDate;
+          return date ? format(new Date(date), "PPP") : "N/A"; // e.g., Jan 1, 2025
+        },
       },
     ],
     []
@@ -130,7 +134,7 @@ const AllPlants = () => {
       </h1>
 
       {/* Sorting and Filtering Controls */}
-      <div className="flex flex-col sm:flex-row justify-between items-center mb-6 gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div className="flex items-center gap-2">
           <label
             htmlFor="filter-category"
@@ -219,7 +223,7 @@ const AllPlants = () => {
           {/* Desktop Table */}
           <div className="hidden md:block w-full rounded-lg shadow-md overflow-hidden">
             <div className="overflow-auto max-h-[500px]">
-              <table className="min-w-full overflow-x-auto text-sm text-left bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
+              <table className="min-w-full text-sm text-left bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
                 <thead className="text-xs uppercase bg-green-100 dark:bg-zinc-800 dark:text-gray-300 sticky top-0 z-10">
                   {table.getHeaderGroups().map((headerGroup) => (
                     <tr key={headerGroup.id}>
@@ -235,6 +239,7 @@ const AllPlants = () => {
                           )}
                         </th>
                       ))}
+                      <th className="px-6 py-4 whitespace-nowrap">Actions</th>
                     </tr>
                   ))}
                 </thead>
@@ -255,13 +260,39 @@ const AllPlants = () => {
                           )}
                         </td>
                       ))}
+                      <td className="px-6 py-3 whitespace-nowrap flex gap-2">
+                        {/* View Details Button */}
+                        <button
+                          onClick={() =>
+                            navigate(
+                              `/dashboard/plant-details/${row.original._id}`
+                            )
+                          }
+                          className="p-2 rounded-md bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 transition"
+                          title="View Details"
+                        >
+                          <FiEye size={16} />
+                        </button>
+
+                        {/* Edit Button */}
+                        <button
+                          onClick={() =>
+                            navigate(
+                              `/dashboard/update-plant/${row.original._id}`
+                            )
+                          }
+                          className="p-2 rounded-md bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700 transition"
+                          title="Edit"
+                        >
+                          <FiEdit size={16} />
+                        </button>
+                      </td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
           </div>
-
           {/* Mobile Table */}
           <div className="md:hidden w-full rounded-lg shadow-md overflow-x-auto">
             <table className="min-w-[700px] text-sm text-left bg-white dark:bg-zinc-900 text-gray-700 dark:text-gray-200">
@@ -280,6 +311,7 @@ const AllPlants = () => {
                         )}
                       </th>
                     ))}
+                    <th className="px-6 py-4 whitespace-nowrap">Actions</th>
                   </tr>
                 ))}
               </thead>
@@ -297,6 +329,33 @@ const AllPlants = () => {
                         )}
                       </td>
                     ))}
+                    <td className="px-6 py-3 whitespace-nowrap flex gap-2">
+                      {/* View Details Button */}
+                      <button
+                        onClick={() =>
+                          navigate(
+                            `/dashboard/plant-details/${row.original._id}`
+                          )
+                        }
+                        className="p-2 rounded-md bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900 dark:text-green-200 dark:hover:bg-green-800 transition"
+                        title="View Details"
+                      >
+                        <FiEye size={16} />
+                      </button>
+
+                      {/* Edit Button */}
+                      <button
+                        onClick={() =>
+                          navigate(
+                            `/dashboard/update-plant/${row.original._id}`
+                          )
+                        }
+                        className="p-2 rounded-md bg-zinc-100 text-zinc-700 hover:bg-zinc-200 dark:bg-zinc-800 dark:text-zinc-100 dark:hover:bg-zinc-700 transition"
+                        title="Edit"
+                      >
+                        <FiEdit size={16} />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

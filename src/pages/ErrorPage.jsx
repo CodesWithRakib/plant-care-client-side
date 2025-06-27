@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router";
 import { FiArrowLeft, FiHome, FiFrown } from "react-icons/fi";
 import useTitle from "../hooks/useTitle";
@@ -6,6 +6,11 @@ import useTitle from "../hooks/useTitle";
 const ErrorPage = () => {
   const navigate = useNavigate();
   useTitle("Green Nest - Page Not Found");
+
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    document.documentElement.setAttribute("data-theme", theme);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-950 to-gray-800 flex items-center justify-center px-4 py-10">

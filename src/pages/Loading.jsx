@@ -1,6 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 const Loading = () => {
+  useEffect(() => {
+    const theme = localStorage.getItem("theme");
+    document.documentElement.setAttribute("data-theme", theme);
+  }, []);
   return (
     <div className="flex flex-col items-center justify-center h-screen bg-white dark:bg-zinc-900 text-zinc-800 dark:text-white transition-colors">
       {/* Spinner */}

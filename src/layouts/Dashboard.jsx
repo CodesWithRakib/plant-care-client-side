@@ -38,7 +38,7 @@ const Dashboard = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const sidebarWidth = collapsed ? "w-16" : "w-64";
+  const sidebarWidth = collapsed ? "w-16" : "w-64 ";
 
   return (
     <div className="h-screen flex overflow-hidden bg-gray-50 dark:bg-zinc-900 text-gray-800 dark:text-gray-100">

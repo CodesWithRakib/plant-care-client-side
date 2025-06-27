@@ -204,14 +204,14 @@ const Footer = () => {
             &copy; {currentYear} Green Nest. All rights reserved.
             <span className="mx-2">•</span>
             <Link
-              to="/privacy-policy"
+              to="/privacy"
               className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
             >
               Privacy Policy
             </Link>
             <span className="mx-2">•</span>
             <Link
-              to="/terms-of-service"
+              to="/terms"
               className="hover:text-green-600 dark:hover:text-green-400 transition-colors"
             >
               Terms of Service
