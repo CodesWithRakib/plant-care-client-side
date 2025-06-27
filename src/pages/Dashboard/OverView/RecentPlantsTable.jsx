@@ -207,13 +207,13 @@ const RecentPlantsTable = ({ plants }) => {
 
             <div className="mt-3 flex justify-end gap-4 text-sm">
               <Link
-                to={`/dashboard/plants/${plant._id}`}
+                to={`/dashboard/plant-details/${plant._id}`}
                 className="text-blue-500 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300"
               >
                 <FiEye className="inline mr-1" /> View
               </Link>
               <Link
-                to={`/dashboard/plants/${plant._id}/edit`}
+                to={`/dashboard/update-plant/${plant._id}`}
                 className="text-green-500 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300"
               >
                 <FiEdit className="inline mr-1" /> Edit

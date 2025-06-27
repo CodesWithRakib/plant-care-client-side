@@ -30,7 +30,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      const mobile = window.innerWidth < 768;
+      const mobile = window.innerWidth < 1024;
       setIsMobile(mobile);
       if (!mobile) setIsMobileMenuOpen(false);
     };
@@ -64,7 +64,7 @@ const Dashboard = () => {
       {/* Mobile Overlay */}
       {isMobile && isMobileMenuOpen && (
         <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40"
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm transition-all duration-300"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
